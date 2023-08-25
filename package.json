@@ -37,7 +37,8 @@
     "@kikiutils/tsconfigs": "^0.0.1",
     "@types/node": "^20.5.6",
     "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "type-fest": "^4.2.0"
   },
   "keywords": [
     "build",

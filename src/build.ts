@@ -4,8 +4,9 @@ import { resolve } from 'path';
 import rollup, { ModuleFormat, OutputOptions, Plugin } from 'rollup';
 import del from 'rollup-plugin-delete';
 import { minify } from 'rollup-plugin-esbuild';
-import externals from 'rollup-plugin-node-externals5';
 import ts from 'rollup-plugin-ts';
+
+import { getPackageJson } from './utils';
 
 export type BuildType = 'node' | 'package';
 
@@ -40,6 +41,13 @@ const defaultPackageOutputOptions = {
 };
 
 export const build = async (buildConfig: BuildConfig) => {
+	// Check package.json type and get node externals plugin.
+	const packageJson = await getPackageJson();
+	let nodeExternalsPlugin = null;
+	if (packageJson?.type === 'module') nodeExternalsPlugin = (await import('rollup-plugin-node-externals')).default;
+	else nodeExternalsPlugin = (await import('rollup-plugin-node-externals5')).default;
+
+	// Process options and plugins
 	const dist = resolve(buildConfig.dist);
 	const inputFile = resolve(buildConfig.input);
 	const output: OutputOptions = {
@@ -50,7 +58,7 @@ export const build = async (buildConfig: BuildConfig) => {
 	const plugins = [
 		rollupPluginJson(),
 		ts(),
-		externals()
+		nodeExternalsPlugin()
 	];
 
 	if (buildConfig.clean) plugins.unshift(del({ targets: dist }));
@@ -67,6 +75,7 @@ export const build = async (buildConfig: BuildConfig) => {
 		plugins
 	};
 
+	// Process extra config
 	try {
 		const extraConfigPath = resolve(buildConfig.extraConfig);
 		const extraConfig: ExtraConfig = (await import(extraConfigPath)).default;
@@ -76,6 +85,7 @@ export const build = async (buildConfig: BuildConfig) => {
 		rollupOptions.plugins.unshift(...(extraConfig.plugins?.before || []));
 	} catch (error) { }
 
+	// Build
 	const builder = await rollup.rollup(rollupOptions);
 	await builder.write(rollupOptions.output as OutputOptions);
 	await builder.close();
