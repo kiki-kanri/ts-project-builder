@@ -1,7 +1,7 @@
 import strip from '@rollup/plugin-strip';
 import rollupPluginJson from '@rollup/plugin-json';
 import { resolve } from 'path';
-import rollup, { ModuleFormat, OutputOptions } from 'rollup';
+import rollup, { ModuleFormat, OutputOptions, Plugin } from 'rollup';
 import del from 'rollup-plugin-delete';
 import { minify } from 'rollup-plugin-esbuild';
 import externals from 'rollup-plugin-node-externals5';
@@ -12,12 +12,21 @@ export type BuildType = 'node' | 'package';
 export interface BuildConfig {
 	clean: boolean;
 	dist: string;
+	extraConfig: string;
 	format: ModuleFormat;
 	input: string;
 	minify: boolean;
 	preserveModules: boolean;
 	strip: boolean;
 	type: BuildType;
+}
+
+export interface ExtraConfig {
+	output: Pick<OutputOptions, 'banner' | 'footer'>;
+	plugins?: {
+		after?: Plugin[];
+		before?: Plugin[];
+	}
 }
 
 const defaultPackageOutputOptions = {
@@ -52,10 +61,21 @@ export const build = async (buildConfig: BuildConfig) => {
 		output.preserveModules = buildConfig.preserveModules;
 	}
 
-	const builder = await rollup.rollup({
+	const rollupOptions = {
 		input: inputFile,
+		output,
 		plugins
-	});
+	};
 
-	await builder.write(output);
+	try {
+		const extraConfigPath = resolve(buildConfig.extraConfig);
+		const extraConfig: ExtraConfig = (await import(extraConfigPath)).default;
+		rollupOptions.output.banner = extraConfig.output.banner;
+		rollupOptions.output.footer = extraConfig.output.footer;
+		rollupOptions.plugins.push(...(extraConfig.plugins?.after || []));
+		rollupOptions.plugins.unshift(...(extraConfig.plugins?.before || []));
+	} catch (error) { }
+
+	const builder = await rollup.rollup(rollupOptions);
+	await builder.write(rollupOptions.output as OutputOptions);
 }

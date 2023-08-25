@@ -26,6 +26,11 @@ const cliArgs = cli({
 			description: 'Output dir.',
 			type: String
 		},
+		extraConfig: {
+			default: './ts-project-builder.config.js',
+			description: 'Set extra config js file path.',
+			type: String
+		},
 		format: {
 			alias: 'f',
 			description: 'Rollup output module format. Default is es if --build-type is node; cjs otherwise.',
@@ -75,6 +80,7 @@ async function main() {
 	const buildConfig: BuildConfig = {
 		clean: flags.clean,
 		dist: flags.dist,
+		extraConfig: flags.extraConfig,
 		format: flags.format,
 		input: flags.input,
 		minify: flags.minify,
