@@ -15,6 +15,7 @@ export interface BuildConfig {
 	input: string;
 	minify: boolean;
 	preserveModules: boolean;
+	strip: boolean;
 	type: BuildType;
 }
 
@@ -38,11 +39,11 @@ export const build = async (buildConfig: BuildConfig) => {
 
 	const plugins = [
 		ts(),
-		strip({ include: ['./src/**/*.ts'] }),
 		externals()
 	];
 
 	if (buildConfig.clean) plugins.unshift(del({ targets: dist }));
+	if (buildConfig.strip) plugins.push(strip({ include: ['./src/**/*.ts'] }),);
 	if (buildConfig.minify) plugins.push(minify());
 	if (buildConfig.type === 'package') {
 		Object.assign(output, defaultPackageOutputOptions);

@@ -52,6 +52,11 @@ const cliArgs = cli({
 			description: 'Disable rollup output preserveModules.',
 			type: Boolean
 		},
+		noStrip: {
+			default: false,
+			description: 'Disable rollup strip plugin.',
+			type: Boolean
+		},
 		preserveModules: {
 			description: 'Enable rollup output preserveModules. Default is enable if --build-type is package.',
 			type: Boolean
@@ -73,6 +78,7 @@ async function main() {
 		input: flags.input,
 		minify: flags.minify,
 		preserveModules: flags.preserveModules,
+		strip: !flags.noStrip,
 		type: flags.buildType
 	};
 
