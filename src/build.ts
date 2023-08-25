@@ -5,6 +5,7 @@ import rollup, { ModuleFormat, OutputOptions, Plugin } from 'rollup';
 import del from 'rollup-plugin-delete';
 import { minify } from 'rollup-plugin-esbuild';
 import ts from 'rollup-plugin-ts';
+import { PackageJson } from 'type-fest';
 
 import { getPackageJson } from './utils';
 
@@ -31,7 +32,6 @@ export interface ExtraConfig {
 }
 
 const defaultPackageOutputOptions = {
-	exports: 'named',
 	externalLiveBindings: false,
 	generatedCode: {
 		arrowFunctions: true,
@@ -64,9 +64,10 @@ export const build = async (buildConfig: BuildConfig) => {
 	if (buildConfig.clean) plugins.unshift(del({ targets: dist }));
 	if (buildConfig.strip) plugins.push(strip({ include: ['./src/**/*.ts'] }),);
 	if (buildConfig.minify) plugins.push(minify());
-	if (buildConfig.type === 'package') {
-		Object.assign(output, defaultPackageOutputOptions);
-		output.preserveModules = buildConfig.preserveModules;
+	if (buildConfig.type === 'package') Object.assign(output, defaultPackageOutputOptions);
+	if (buildConfig.preserveModules) {
+		output.exports = 'named';
+		output.preserveModules = true;
 	}
 
 	const rollupOptions = {

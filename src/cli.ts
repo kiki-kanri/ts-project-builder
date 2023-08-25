@@ -73,8 +73,8 @@ const cliArgs = cli({
 async function main() {
 	const flags = cliArgs.flags;
 	flags.format = flags.format || flags.buildType === 'node' ? 'es' : 'cjs';
-	flags.minify = flags.noMinify ? false : flags.buildType === 'node';
-	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package';
+	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
+	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
 	const buildConfig: BuildConfig = {
 		clean: flags.clean,
 		dist: flags.dist,
