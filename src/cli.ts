@@ -27,7 +27,7 @@ const cliArgs = cli({
 		},
 		format: {
 			alias: 'f',
-			description: 'Rollup output module format. Default is esm if --build-type is node; cjs otherwise.',
+			description: 'Rollup output module format. Default is es if --build-type is node; cjs otherwise.',
 			type: (format: ModuleFormat) => {
 				const allowFormats = ['amd', 'cjs', 'commonjs', 'es', 'esm', 'iife', 'module', 'system', 'systemjs', 'umd'];
 				if (!allowFormats.includes(format)) throw new Error(`Invalid module format: "${format}".`);
