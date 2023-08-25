@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { cli } from 'cleye';
 import { ModuleFormat } from 'rollup';
 
