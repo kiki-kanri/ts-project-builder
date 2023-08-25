@@ -1,5 +1,5 @@
 {
-  "extends": "@kikiutils/tsconfigs/cjs/node16.json",
+  "extends": "@kikiutils/tsconfigs/cjs/es2020.json",
   "compilerOptions": {
     "resolveJsonModule": true
   }

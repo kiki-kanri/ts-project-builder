@@ -38,8 +38,8 @@ dependencies:
 
 devDependencies:
   '@kikiutils/tsconfigs':
-    specifier: ^0.0.1
-    version: 0.0.1
+    specifier: ^0.1.0
+    version: 0.1.0
   '@types/node':
     specifier: ^20.5.6
     version: 20.5.6
@@ -275,12 +275,12 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@kikiutils/tsconfigs@0.0.1:
-    resolution: {integrity: sha512-hMb/ON4BqU8crOe4ugGKkCKrQdtOtGVFGjV3c4dpfE/pAzg1edVzod9qG6psfwG4OS7SDZrUkMlYkOv77zCgEA==}
+  /@kikiutils/tsconfigs@0.1.0:
+    resolution: {integrity: sha512-FuT7VtxDeEu23gKH2O6EKIvPMXZ0Q1x3LPHSO38aXZMibrxnemqigScVzrkE3V+yfLkIEBuAsHvv1j1EM3LHzw==}
     dev: true
 
-  /@mdn/browser-compat-data@5.3.12:
-    resolution: {integrity: sha512-EXEsNCIoNlS4Rqe/7k6du0yVnrKBMn0mPSgUn/e4VJ042h8SaRkV0qLbVu+ohwnkwzL2LQjRRAqpu6uOmJT8DQ==}
+  /@mdn/browser-compat-data@5.3.13:
+    resolution: {integrity: sha512-58+1nu0GOUsNtuPbSRKI6/oDti++pJ/cSIy0+OgjtGD8dfvAYfVu3+OqsPkHLpRbcBPvf8nJt7NQDK6n9KD5Zw==}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
@@ -471,7 +471,7 @@ packages:
     resolution: {integrity: sha512-ZFz4mAOgqm0cbwKaZsfJbYDbTXGoPANlte7qRsRJOfjB9KmmISQrXJxAVrnXG8C8v/QHNzXyeJt0Cfcks6zZvQ==}
     engines: {node: '>=16.15.1', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
     dependencies:
-      '@mdn/browser-compat-data': 5.3.12
+      '@mdn/browser-compat-data': 5.3.13
       '@types/object-path': 0.11.1
       '@types/semver': 7.5.0
       '@types/ua-parser-js': 0.7.36
@@ -489,7 +489,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001523
-      electron-to-chromium: 1.4.502
+      electron-to-chromium: 1.4.503
       node-releases: 2.0.13
       update-browserslist-db: 1.0.11(browserslist@4.21.10)
     dev: false
@@ -599,8 +599,8 @@ packages:
       path-type: 4.0.0
     dev: false
 
-  /electron-to-chromium@1.4.502:
-    resolution: {integrity: sha512-xqeGw3Gr6o3uyHy/yKjdnDQHY2RQvXcGC2cfHjccK1IGkH6cX1WQBN8EeC/YpwPhGkBaikDTecJ8+ssxSVRQlw==}
+  /electron-to-chromium@1.4.503:
+    resolution: {integrity: sha512-LF2IQit4B0VrUHFeQkWhZm97KuJSGF2WJqq1InpY+ECpFRkXd8yTIaTtJxsO0OKDmiBYwWqcrNaXOurn2T2wiA==}
     dev: false
 
   /es-module-lexer@1.3.0:
