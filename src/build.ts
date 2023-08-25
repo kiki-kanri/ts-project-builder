@@ -1,4 +1,5 @@
 import strip from '@rollup/plugin-strip';
+import rollupPluginJson from '@rollup/plugin-json';
 import { resolve } from 'path';
 import rollup, { ModuleFormat, OutputOptions } from 'rollup';
 import del from 'rollup-plugin-delete';
@@ -38,6 +39,7 @@ export const build = async (buildConfig: BuildConfig) => {
 	};
 
 	const plugins = [
+		rollupPluginJson(),
 		ts(),
 		externals()
 	];

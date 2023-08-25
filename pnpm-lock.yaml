@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@rollup/plugin-json':
+    specifier: ^6.0.0
+    version: 6.0.0(rollup@3.28.1)
   '@rollup/plugin-strip':
     specifier: ^3.0.2
     version: 3.0.2(rollup@3.28.1)
@@ -296,6 +299,19 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: false
+
+  /@rollup/plugin-json@6.0.0(rollup@3.28.1):
+    resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.0.3(rollup@3.28.1)
+      rollup: 3.28.1
     dev: false
 
   /@rollup/plugin-strip@3.0.2(rollup@3.28.1):
