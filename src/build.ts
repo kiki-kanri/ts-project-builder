@@ -56,9 +56,9 @@ export const build = async (buildConfig: BuildConfig, packageJson?: PackageJson)
 	};
 
 	const plugins = [
+		nodeExternalsPlugin(),
 		rollupPluginJson(),
-		ts(),
-		nodeExternalsPlugin()
+		ts()
 	];
 
 	if (buildConfig.clean) plugins.unshift(del({ targets: dist }));
