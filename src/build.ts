@@ -78,4 +78,5 @@ export const build = async (buildConfig: BuildConfig) => {
 
 	const builder = await rollup.rollup(rollupOptions);
 	await builder.write(rollupOptions.output as OutputOptions);
+	await builder.close();
 }
