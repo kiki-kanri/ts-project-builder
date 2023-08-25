@@ -12,7 +12,7 @@ import { getPackageJson } from './utils';
 export type BuildType = 'node' | 'package';
 
 export interface BuildConfig {
-	clean: boolean;
+	clearDist: boolean;
 	dist: string;
 	extraConfig: string;
 	format: ModuleFormat;
@@ -61,7 +61,7 @@ export const build = async (buildConfig: BuildConfig, packageJson?: PackageJson)
 		ts({ tsconfig: (config) => ({ ...config, declaration: buildConfig.type === 'package' }) })
 	];
 
-	if (buildConfig.clean) plugins.unshift(del({ targets: dist }));
+	if (buildConfig.clearDist) plugins.unshift(del({ targets: dist }));
 	if (buildConfig.strip) plugins.push(strip({ include: ['./src/**/*.ts'] }),);
 	if (buildConfig.minify) plugins.push(minify());
 	if (buildConfig.type === 'package') Object.assign(output, defaultPackageOutputOptions);

@@ -15,7 +15,7 @@ const cliArgs = cli({
 				return type;
 			}
 		},
-		clean: {
+		clearDist: {
 			alias: 'c',
 			default: false,
 			description: 'Clear dist dir when build.',
@@ -81,7 +81,7 @@ async function main() {
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
 	const buildConfig: BuildConfig = {
-		clean: flags.clean,
+		clearDist: flags.clearDist,
 		dist: flags.dist,
 		extraConfig: flags.extraConfig,
 		format: flags.format,
