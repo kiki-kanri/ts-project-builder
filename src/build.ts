@@ -38,7 +38,7 @@ export const build = async (buildConfig: BuildConfig) => {
 
 	const plugins = [
 		ts(),
-		strip(),
+		strip({ include: ['./src/**/*.ts'] }),
 		externals()
 	];
 
