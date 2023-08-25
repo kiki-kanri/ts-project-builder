@@ -1,3 +1,3 @@
 {
-  "extends": "./src/tsconfigs/tsconfig.node16.json"
+  "extends": "@kikiutils/tsconfigs/cjs/node16.json"
 }
