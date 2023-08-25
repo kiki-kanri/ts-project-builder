@@ -1,6 +1,7 @@
 import { cli } from 'cleye';
 import { ModuleFormat } from 'rollup';
 
+import { version } from '../package.json';
 import { BuildConfig, BuildType, build } from './build';
 
 const cliArgs = cli({
@@ -63,7 +64,7 @@ const cliArgs = cli({
 		}
 	},
 	name: 'ts-project-builder',
-	version: '0.0.1'
+	version
 });
 
 async function main() {
