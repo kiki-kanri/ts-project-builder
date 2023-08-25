@@ -40,11 +40,6 @@ const cliArgs = cli({
 				return format;
 			}
 		},
-		input: {
-			default: './src/index.ts',
-			description: 'Entrypoint file.',
-			type: String
-		},
 		minify: {
 			alias: 'm',
 			description: 'Minify output code. Default is enable if --build-type is node.',
@@ -69,6 +64,9 @@ const cliArgs = cli({
 		}
 	},
 	name: 'ts-project-builder',
+	parameters: [
+		'[input]'
+	],
 	version
 });
 
@@ -82,7 +80,7 @@ async function main() {
 		dist: flags.dist,
 		extraConfig: flags.extraConfig,
 		format: flags.format,
-		input: flags.input,
+		input: cliArgs._.input || './src/index.ts',
 		minify: flags.minify,
 		preserveModules: flags.preserveModules,
 		strip: !flags.noStrip,
