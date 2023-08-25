@@ -18,8 +18,8 @@
     "./dist/**/*"
   ],
   "scripts": {
-    "build": "ts-node ./src/cli.ts --build-type package --clean --input ./src/cli.ts",
-    "dev": "nodemon --transpile-only ./src/cli.ts --build-type package --clean --input ./src/cli.ts"
+    "build": "ts-node --transpile-only ./src/cli.ts --build-type package --clean --input ./src/cli.ts --no-preserve-modules",
+    "dev": "nodemon --transpile-only ./src/cli.ts --build-type package --clean --input ./src/cli.ts --no-preserve-modules"
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
