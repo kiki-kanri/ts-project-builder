@@ -40,9 +40,9 @@ const defaultPackageOutputOptions = {
 	}
 };
 
-export const build = async (buildConfig: BuildConfig) => {
-	// Check package.json type and get node externals plugin.
-	const packageJson = await getPackageJson();
+export const build = async (buildConfig: BuildConfig, packageJson?: PackageJson) => {
+	// Check package.json type value and get node externals plugin.
+	if (!packageJson) packageJson = await getPackageJson();
 	let nodeExternalsPlugin = null;
 	if (packageJson?.type === 'module') nodeExternalsPlugin = (await import('rollup-plugin-node-externals')).default;
 	else nodeExternalsPlugin = (await import('rollup-plugin-node-externals5')).default;

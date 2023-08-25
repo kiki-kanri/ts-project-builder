@@ -3,6 +3,7 @@ import { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
 import { BuildConfig, BuildType, build } from './build';
+import { getPackageJson } from './utils';
 
 const cliArgs = cli({
 	flags: {
@@ -33,7 +34,7 @@ const cliArgs = cli({
 		},
 		format: {
 			alias: 'f',
-			description: 'Rollup output module format. Default is es if --build-type is node; cjs otherwise.',
+			description: 'Rollup output module format. Default is es if package.json type value is module; cjs otherwise.',
 			type: (format: ModuleFormat) => {
 				const allowFormats = ['amd', 'cjs', 'commonjs', 'es', 'esm', 'iife', 'module', 'system', 'systemjs', 'umd'];
 				if (!allowFormats.includes(format)) throw new Error(`Invalid module format: "${format}".`);
@@ -71,8 +72,12 @@ const cliArgs = cli({
 });
 
 async function main() {
+	// Get package.json data
+	const packageJson = await getPackageJson();
+
+	// Process args default value
 	const flags = cliArgs.flags;
-	flags.format = flags.format || flags.buildType === 'node' ? 'es' : 'cjs';
+	if (!flags.format) flags.format = packageJson?.type === 'module' ? 'es' : 'cjs';
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
 	const buildConfig: BuildConfig = {
@@ -87,7 +92,7 @@ async function main() {
 		type: flags.buildType
 	};
 
-	await build(buildConfig);
+	await build(buildConfig, packageJson);
 }
 
 (async () => await main())();
