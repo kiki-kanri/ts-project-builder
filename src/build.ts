@@ -1,12 +1,13 @@
 import strip from '@rollup/plugin-strip';
 import rollupPluginJson from '@rollup/plugin-json';
 import { resolve } from 'path';
-import rollup, { ModuleFormat, OutputOptions, Plugin } from 'rollup';
+import rollup, { ModuleFormat, OutputOptions, Plugin, RollupError } from 'rollup';
 import del from 'rollup-plugin-delete';
 import { minify } from 'rollup-plugin-esbuild';
 import ts from 'rollup-plugin-ts';
 import { PackageJson } from 'type-fest';
 
+import { handleError } from '../rollup/cli/logging';
 import { getPackageJson } from './utils';
 
 export type BuildType = 'node' | 'package';
@@ -88,6 +89,12 @@ export const build = async (buildConfig: BuildConfig, packageJson?: PackageJson)
 
 	// Build
 	const builder = await rollup.rollup(rollupOptions);
-	await builder.write(rollupOptions.output as OutputOptions);
+
+	try {
+		await builder.write(rollupOptions.output);
+	} catch (error) {
+		handleError(error as RollupError, true);
+	}
+
 	await builder.close();
 }
