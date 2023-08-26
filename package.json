@@ -4,13 +4,13 @@
   "description": "Use rollup to build typescript project.",
   "license": "MIT",
   "author": "kiki-kanri",
-  "homepage": "https://github.com/kiki-kanri/kikiutils-node-tsconfigs#readme",
+  "homepage": "https://github.com/kiki-kanri/ts-project-builder#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiki-kanri/kikiutils-node-tsconfigs.git"
+    "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
   },
   "bugs": {
-    "url": "https://github.com/kiki-kanri/kikiutils-node-tsconfigs/issues"
+    "url": "https://github.com/kiki-kanri/ts-project-builder/issues"
   },
   "type": "commonjs",
   "main": "./dist/index.js",
