@@ -36,11 +36,11 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@kikiutils/tsconfigs": "^0.1.0",
+    "@kikiutils/tsconfigs": "^0.1.1",
     "@types/node": "^20.5.6",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
-    "type-fest": "^4.2.0"
+    "type-fest": "^4.3.0"
   },
   "keywords": [
     "build",
