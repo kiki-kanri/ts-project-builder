@@ -12,6 +12,7 @@
   "bugs": {
     "url": "https://github.com/kiki-kanri/kikiutils-node-tsconfigs/issues"
   },
+  "type": "commonjs",
   "main": "./dist/index.js",
   "bin": "./dist/cli.js",
   "files": [
