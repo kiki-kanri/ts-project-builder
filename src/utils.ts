@@ -18,3 +18,11 @@ export const isFile = async (path: string) => {
 }
 
 export const randomStr = (length = 8) => Math.random().toString(36).substring(2, length + 2);
+
+export const rmFile = async (path: string) => {
+	try {
+		await fsp.rm(path);
+		return true;
+	} catch (error) { }
+	return false;
+}
