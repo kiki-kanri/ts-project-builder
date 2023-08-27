@@ -1,4 +1,9 @@
+import { RollupJsonOptions } from '@rollup/plugin-json';
+import { RollupStripOptions } from '@rollup/plugin-strip';
 import { ModuleFormat, OutputOptions, Plugin } from 'rollup';
+import { minify } from 'rollup-plugin-esbuild';
+import { ExternalsOptions } from 'rollup-plugin-node-externals5';
+import { TypescriptPluginOptions } from 'rollup-plugin-ts';
 
 export type BuildType = 'node' | 'package';
 
@@ -14,6 +19,14 @@ export interface BuildOptions {
 }
 
 export interface ExtraOptions {
+	builtinPluginOptions?: {
+		esbuildMinify?: Parameters<typeof minify>[0];
+		external?: ExternalsOptions;
+		json?: RollupJsonOptions;
+		strip?: RollupStripOptions;
+		ts?: Partial<TypescriptPluginOptions>;
+	}
+
 	output?: Pick<OutputOptions, 'banner' | 'footer'>;
 	plugins?: {
 		after?: Plugin[];

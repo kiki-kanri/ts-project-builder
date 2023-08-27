@@ -29,6 +29,9 @@ export class Builder {
 	}
 
 	private async getBaseRollupOptions() {
+		// Get extra options
+		const extraOptions = await this.getExtraOptions();
+
 		// Get output options
 		const output: OutputOptions = {
 			dir: this.buildOptions.dist,
@@ -44,16 +47,18 @@ export class Builder {
 		// Get plugins
 		const nodeExternalsPlugin = (await import(this.packageIsModule ? 'rollup-plugin-node-externals' : 'rollup-plugin-node-externals5')).default;
 		const plugins = [
-			nodeExternalsPlugin(),
-			rollupPluginJson(),
-			ts({ tsconfig: (config) => ({ ...config, declaration: this.buildOptions.type === 'package' }) })
+			nodeExternalsPlugin(extraOptions?.builtinPluginOptions?.external),
+			rollupPluginJson(extraOptions?.builtinPluginOptions?.json),
+			ts({
+				tsconfig: (config) => ({ ...config, declaration: this.buildOptions.type === 'package' }),
+				...extraOptions?.builtinPluginOptions?.ts
+			})
 		];
 
-		if (this.buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'] }),);
-		if (this.buildOptions.minify) plugins.push(minify());
+		if (this.buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'], ...extraOptions?.builtinPluginOptions?.strip }),);
+		if (this.buildOptions.minify) plugins.push(minify(extraOptions?.builtinPluginOptions?.esbuildMinify));
 
-		// Get extra options and process
-		const extraOptions = await this.getExtraOptions();
+		// Process options
 		if (extraOptions) {
 			output.banner = extraOptions.output?.banner;
 			output.footer = extraOptions.output?.footer;
