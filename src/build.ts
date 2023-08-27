@@ -96,7 +96,7 @@ export const buildExtraConfig = async (configPath: string, configTmpPath: string
 
 export const getExtraConfig = async (configPath: string) => {
 	if (!await isFile(configPath)) return;
-	const configTmpPath = path.join(configPath, `../tspbc-${randomStr()}.js`);
+	const configTmpPath = path.join(configPath, `../tspbc-${randomStr()}.cjs`);
 	await buildExtraConfig(configPath, configTmpPath);
 	try {
 		const extraConfig: ExtraConfig = (await import(configTmpPath)).default;
