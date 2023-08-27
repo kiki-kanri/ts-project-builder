@@ -34,6 +34,11 @@ const cliArgs = cli({
 			description: 'Set extra config js file path.',
 			type: String
 		},
+		forceClearDist: {
+			default: false,
+			description: 'Forced deletion of the dist folder regardless of whether it is in the project directory or not.',
+			type: Boolean
+		},
 		format: {
 			alias: 'f',
 			description: 'Rollup output module format. Default is es if package.json type value is module; cjs otherwise.',
@@ -93,7 +98,9 @@ async function main() {
 		type: flags.buildType
 	};
 
+	const root = path.resolve();
 	const distPath = path.resolve(buildConfig.dist);
+	if (!distPath.startsWith(root) && !flags.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
 	await forceRmDir(distPath);
 	await build(buildConfig, packageJson);
 }
