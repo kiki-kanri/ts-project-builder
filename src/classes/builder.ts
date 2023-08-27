@@ -52,17 +52,16 @@ export class Builder {
 		if (this.buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'] }),);
 		if (this.buildOptions.minify) plugins.push(minify());
 
-		// Get extra options
+		// Get extra options and process
 		const extraOptions = await this.getExtraOptions();
-
-		// Process options
-		const baseRollupOptions = { output, plugins };
 		if (extraOptions) {
-			baseRollupOptions.output.banner = extraOptions.output?.banner;
-			baseRollupOptions.output.footer = extraOptions.output?.footer;
+			output.banner = extraOptions.output?.banner;
+			output.footer = extraOptions.output?.footer;
+			plugins.push(...(extraOptions.plugins?.after || []));
+			plugins.unshift(...(extraOptions.plugins?.before || []));
 		}
 
-		return baseRollupOptions;
+		return { output, plugins };
 	}
 
 	private async getExtraOptions() {

@@ -16,7 +16,7 @@ export interface BuildOptions {
 export interface ExtraOptions {
 	output?: Pick<OutputOptions, 'banner' | 'footer'>;
 	plugins?: {
-		after?: ((...args: any[]) => Plugin)[];
-		before?: ((...args: any[]) => Plugin)[];
+		after?: Plugin[];
+		before?: Plugin[];
 	}
 }
