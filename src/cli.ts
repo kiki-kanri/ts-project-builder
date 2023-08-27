@@ -73,7 +73,7 @@ const cliArgs = cli({
 	},
 	name: 'ts-project-builder',
 	parameters: [
-		'[input]'
+		'[input...]'
 	],
 	version
 });
@@ -94,18 +94,19 @@ async function main() {
 	if (!flags.format) flags.format = packageJson?.type === 'module' ? 'es' : 'cjs';
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
-	const buildConfig: BuildConfig = {
+	const baseBuildConfig: BuildConfig = {
 		dist: flags.dist,
 		extraConfig: flags.extraConfig,
 		format: flags.format,
-		input: cliArgs._.input || './src/index.ts',
+		input: './src/index.ts',
 		minify: flags.minify,
 		preserveModules: flags.preserveModules,
 		strip: !flags.noStrip,
 		type: flags.buildType
 	};
 
-	await build(buildConfig, packageJson);
+	if (!cliArgs._.input.length) cliArgs._.input.push('./src/index.ts');
+	await Promise.all(cliArgs._.input.map((input) => build({ ...baseBuildConfig, input }, packageJson)));
 }
 
 (async () => await main())();
