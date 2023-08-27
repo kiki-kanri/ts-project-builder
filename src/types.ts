@@ -8,6 +8,7 @@ import { TypescriptPluginOptions } from 'rollup-plugin-ts';
 export type BuildType = 'node' | 'package';
 
 export interface BuildOptions {
+	clearDist: boolean;
 	dist: string;
 	extraConfig: string;
 	forceClearDist: boolean;

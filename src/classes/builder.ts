@@ -94,10 +94,12 @@ export class Builder {
 
 	async build(inputs: string[]) {
 		// Clear dist
-		const root = resolve();
-		const distPath = resolve(this.buildOptions.dist);
-		if (!distPath.startsWith(root) && !this.buildOptions.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
-		await forceRmDir(distPath);
+		if (this.buildOptions.clearDist) {
+			const root = resolve();
+			const distPath = resolve(this.buildOptions.dist);
+			if (!distPath.startsWith(root) && !this.buildOptions.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
+			await forceRmDir(distPath);
+		}
 
 		// Get options and build
 		const baseRollupOptions = await this.getBaseRollupOptions();

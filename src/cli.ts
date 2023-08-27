@@ -88,6 +88,7 @@ async function main() {
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
 	const buildOptions: BuildOptions = {
+		clearDist: flags.clearDist,
 		dist: flags.dist,
 		extraConfig: flags.extraConfig,
 		forceClearDist: flags.forceClearDist,
