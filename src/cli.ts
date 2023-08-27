@@ -1,10 +1,11 @@
 import { cli } from 'cleye';
+import path from 'path';
 import { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
 import { build } from './build';
 import { BuildConfig, BuildType } from './types';
-import { getPackageJson } from './utils';
+import { forceRmDir, getPackageJson } from './utils';
 
 const cliArgs = cli({
 	flags: {
@@ -82,7 +83,6 @@ async function main() {
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
 	const buildConfig: BuildConfig = {
-		clearDist: flags.clearDist,
 		dist: flags.dist,
 		extraConfig: flags.extraConfig,
 		format: flags.format,
@@ -93,6 +93,8 @@ async function main() {
 		type: flags.buildType
 	};
 
+	const distPath = path.resolve(buildConfig.dist);
+	await forceRmDir(distPath);
 	await build(buildConfig, packageJson);
 }
 

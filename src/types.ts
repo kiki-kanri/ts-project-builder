@@ -3,7 +3,6 @@ import { ModuleFormat, OutputOptions, Plugin } from 'rollup';
 export type BuildType = 'node' | 'package';
 
 export interface BuildConfig {
-	clearDist: boolean;
 	dist: string;
 	extraConfig: string;
 	format: ModuleFormat;

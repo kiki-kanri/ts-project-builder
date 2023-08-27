@@ -2,6 +2,14 @@ import fsp from 'fs/promises';
 import { resolve } from 'path';
 import { PackageJson } from 'type-fest';
 
+export const forceRmDir = async (path: string) => {
+	try {
+		await fsp.rm(path, { force: true, recursive: true });
+		return true;
+	} catch (error) { }
+	return false;
+}
+
 export const getPackageJson = async () => {
 	const packageJsonPath = resolve('./package.json');
 	try {

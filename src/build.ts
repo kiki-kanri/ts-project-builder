@@ -2,7 +2,6 @@ import strip from '@rollup/plugin-strip';
 import rollupPluginJson from '@rollup/plugin-json';
 import path from 'path';
 import rollup, { OutputOptions, RollupError, RollupOptions } from 'rollup';
-import del from 'rollup-plugin-delete';
 import { minify } from 'rollup-plugin-esbuild';
 import ts from 'rollup-plugin-ts';
 import { PackageJson } from 'type-fest';
@@ -41,7 +40,6 @@ export const build = async (buildConfig: BuildConfig, packageJson?: PackageJson)
 		ts({ tsconfig: (config) => ({ ...config, declaration: buildConfig.type === 'package' }) })
 	];
 
-	if (buildConfig.clearDist) plugins.unshift(del({ targets: dist }));
 	if (buildConfig.strip) plugins.push(strip({ include: ['./src/**/*.ts'] }),);
 	if (buildConfig.minify) plugins.push(minify());
 	if (buildConfig.type === 'package') Object.assign(output, defaultPackageOutputOptions);
