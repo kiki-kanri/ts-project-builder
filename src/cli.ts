@@ -79,11 +79,18 @@ const cliArgs = cli({
 });
 
 async function main() {
+	const flags = cliArgs.flags;
+
+	// Clear dist
+	const root = path.resolve();
+	const distPath = path.resolve(flags.dist);
+	if (!distPath.startsWith(root) && !flags.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
+	await forceRmDir(distPath);
+
 	// Get package.json data
 	const packageJson = await getPackageJson();
 
 	// Process args default value
-	const flags = cliArgs.flags;
 	if (!flags.format) flags.format = packageJson?.type === 'module' ? 'es' : 'cjs';
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
@@ -98,10 +105,6 @@ async function main() {
 		type: flags.buildType
 	};
 
-	const root = path.resolve();
-	const distPath = path.resolve(buildConfig.dist);
-	if (!distPath.startsWith(root) && !flags.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
-	await forceRmDir(distPath);
 	await build(buildConfig, packageJson);
 }
 
