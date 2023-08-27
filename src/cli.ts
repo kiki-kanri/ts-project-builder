@@ -2,7 +2,8 @@ import { cli } from 'cleye';
 import { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
-import { BuildConfig, BuildType, build } from './build';
+import { build } from './build';
+import { BuildConfig, BuildType } from './types';
 import { getPackageJson } from './utils';
 
 const cliArgs = cli({

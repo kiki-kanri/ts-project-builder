@@ -1,36 +1,15 @@
 import strip from '@rollup/plugin-strip';
 import rollupPluginJson from '@rollup/plugin-json';
 import { resolve } from 'path';
-import rollup, { ModuleFormat, OutputOptions, Plugin, RollupError } from 'rollup';
+import rollup, { OutputOptions, RollupError } from 'rollup';
 import del from 'rollup-plugin-delete';
 import { minify } from 'rollup-plugin-esbuild';
 import ts from 'rollup-plugin-ts';
 import { PackageJson } from 'type-fest';
 
 import { handleError } from '../rollup/cli/logging';
+import { BuildConfig, ExtraConfig } from './types';
 import { getPackageJson } from './utils';
-
-export type BuildType = 'node' | 'package';
-
-export interface BuildConfig {
-	clearDist: boolean;
-	dist: string;
-	extraConfig: string;
-	format: ModuleFormat;
-	input: string;
-	minify: boolean;
-	preserveModules: boolean;
-	strip: boolean;
-	type: BuildType;
-}
-
-export interface ExtraConfig {
-	output: Pick<OutputOptions, 'banner' | 'footer'>;
-	plugins?: {
-		after?: Plugin[];
-		before?: Plugin[];
-	}
-}
 
 const defaultPackageOutputOptions = {
 	externalLiveBindings: false,
