@@ -1,5 +1,5 @@
-import strip from '@rollup/plugin-strip';
 import rollupPluginJson from '@rollup/plugin-json';
+import strip from '@rollup/plugin-strip';
 import { resolve, join } from 'path';
 import rollup, { OutputOptions, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
