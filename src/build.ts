@@ -60,8 +60,8 @@ export const build = async (buildConfig: BuildConfig, packageJson?: PackageJson)
 	if (extraConfig) {
 		rollupOptions.output.banner = extraConfig.output?.banner;
 		rollupOptions.output.footer = extraConfig.output?.footer;
-		rollupOptions.plugins.push(...(extraConfig.plugins?.after || []));
-		rollupOptions.plugins.unshift(...(extraConfig.plugins?.before || []));
+		extraConfig.plugins?.after?.forEach((pluginFunction) => rollupOptions.plugins.push(pluginFunction()));
+		extraConfig.plugins?.before?.forEach((pluginFunction) => rollupOptions.plugins.unshift(pluginFunction()));
 	}
 
 	// Build
