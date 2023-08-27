@@ -58,8 +58,8 @@ export const build = async (buildConfig: BuildConfig, packageJson?: PackageJson)
 	const extraConfigPath = path.resolve(buildConfig.extraConfig);
 	const extraConfig = await getExtraConfig(extraConfigPath);
 	if (extraConfig) {
-		rollupOptions.output.banner = extraConfig.output.banner;
-		rollupOptions.output.footer = extraConfig.output.footer;
+		rollupOptions.output.banner = extraConfig.output?.banner;
+		rollupOptions.output.footer = extraConfig.output?.footer;
 		rollupOptions.plugins.push(...(extraConfig.plugins?.after || []));
 		rollupOptions.plugins.unshift(...(extraConfig.plugins?.before || []));
 	}

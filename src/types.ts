@@ -14,7 +14,7 @@ export interface BuildConfig {
 }
 
 export interface ExtraConfig {
-	output: Pick<OutputOptions, 'banner' | 'footer'>;
+	output?: Pick<OutputOptions, 'banner' | 'footer'>;
 	plugins?: {
 		after?: Plugin[];
 		before?: Plugin[];
