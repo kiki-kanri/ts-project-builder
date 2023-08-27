@@ -29,7 +29,7 @@ const cliArgs = cli({
 			type: String
 		},
 		extraConfig: {
-			default: './ts-project-builder.config.js',
+			default: './ts-project-builder.config.ts',
 			description: 'Set extra config js file path.',
 			type: String
 		},
