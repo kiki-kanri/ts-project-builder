@@ -1,11 +1,10 @@
 import { cli } from 'cleye';
-import path from 'path';
 import { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
-import { build } from './build';
-import { BuildConfig, BuildType } from './types';
-import { forceRmDir, getPackageJson } from './utils';
+import Builder from './classes/builder';
+import { getPackageJson } from './library/utils';
+import { BuildOptions, BuildType } from './types';
 
 const cliArgs = cli({
 	flags: {
@@ -73,40 +72,34 @@ const cliArgs = cli({
 	},
 	name: 'ts-project-builder',
 	parameters: [
-		'[input...]'
+		'[inputs...]'
 	],
 	version
 });
 
 async function main() {
-	const flags = cliArgs.flags;
-
-	// Clear dist
-	const root = path.resolve();
-	const distPath = path.resolve(flags.dist);
-	if (!distPath.startsWith(root) && !flags.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
-	await forceRmDir(distPath);
-
 	// Get package.json data
 	const packageJson = await getPackageJson();
+	const packageIsModule = packageJson?.type === 'module';
 
 	// Process args default value
-	if (!flags.format) flags.format = packageJson?.type === 'module' ? 'es' : 'cjs';
+	const flags = cliArgs.flags;
+	if (!flags.format) flags.format = packageIsModule ? 'es' : 'cjs';
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
-	const baseBuildConfig: BuildConfig = {
+	const buildOptions: BuildOptions = {
 		dist: flags.dist,
 		extraConfig: flags.extraConfig,
+		forceClearDist: flags.forceClearDist,
 		format: flags.format,
-		input: './src/index.ts',
 		minify: flags.minify,
 		preserveModules: flags.preserveModules,
 		strip: !flags.noStrip,
 		type: flags.buildType
 	};
 
-	if (!cliArgs._.input.length) cliArgs._.input.push('./src/index.ts');
-	await Promise.all(cliArgs._.input.map((input) => build({ ...baseBuildConfig, input }, packageJson)));
+	const builder = new Builder(buildOptions, packageIsModule);
+	await builder.build(cliArgs._.inputs);
 }
 
 (async () => await main())();

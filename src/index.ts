@@ -1,3 +1,3 @@
-import { ExtraConfig } from './types';
+import { ExtraOptions } from './types';
 
-export const defineExtraConfig = (config: ExtraConfig) => config;
+export const defineExtraConfig = (config: ExtraOptions) => config;

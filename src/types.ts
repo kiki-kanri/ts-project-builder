@@ -2,18 +2,18 @@ import { ModuleFormat, OutputOptions, Plugin } from 'rollup';
 
 export type BuildType = 'node' | 'package';
 
-export interface BuildConfig {
+export interface BuildOptions {
 	dist: string;
 	extraConfig: string;
+	forceClearDist: boolean;
 	format: ModuleFormat;
-	input: string;
 	minify: boolean;
 	preserveModules: boolean;
 	strip: boolean;
 	type: BuildType;
 }
 
-export interface ExtraConfig {
+export interface ExtraOptions {
 	output?: Pick<OutputOptions, 'banner' | 'footer'>;
 	plugins?: {
 		after?: ((...args: any[]) => Plugin)[];
