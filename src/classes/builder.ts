@@ -1,6 +1,7 @@
 import rollupPluginJson from '@rollup/plugin-json';
 import strip from '@rollup/plugin-strip';
 import { resolve, join } from 'path';
+import ms from 'pretty-ms';
 import { OutputOptions, RollupError, RollupOptions, rollup } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import externals from 'rollup-plugin-node-externals';
@@ -118,7 +119,7 @@ export class Builder {
 		if (!inputs.length) inputs.push('./src/index.ts');
 		const promises = inputs.map((input) => this.rollupBuild({ ...baseRollupOptions, input: resolve(input) }));
 		await Promise.all(promises);
-		if (promises.every(async (promise) => await promise)) stderr(green(`Success build in ${Date.now() - st}ms.`));
+		if (promises.every(async (promise) => await promise)) stderr(green(`Success build in ${ms(Date.now() - st)}.`));
 	}
 }
 
