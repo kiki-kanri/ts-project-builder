@@ -74,6 +74,7 @@ export class Builder {
 		if (!await isFile(this.buildOptions.extraConfig)) return;
 		const extraConfigTmpPath = join(this.buildOptions.extraConfig, `../tspbc-${randomStr()}.mjs`);
 		await this.rollupBuild({
+			external: () => true,
 			input: this.buildOptions.extraConfig,
 			output: {
 				format: 'es',
