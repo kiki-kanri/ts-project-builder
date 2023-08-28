@@ -38,8 +38,8 @@ dependencies:
 
 devDependencies:
   '@kikiutils/tsconfigs':
-    specifier: ^0.1.1
-    version: 0.1.1
+    specifier: ^0.2.0
+    version: 0.2.0
   '@types/node':
     specifier: ^20.5.7
     version: 20.5.7
@@ -275,8 +275,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@kikiutils/tsconfigs@0.1.1:
-    resolution: {integrity: sha512-sgl0+le4Owzma7ltzU/aEdIBPP8g7XGwHS/7B1ajt04xbKH6FD0j0BDXInv+jM3dmLyxFDzwbUGa/+1JgxTePw==}
+  /@kikiutils/tsconfigs@0.2.0:
+    resolution: {integrity: sha512-D4Pxmzdj0ta6pxFYgLKHh0rwOiW4VtZIlgiLGelMvIfozy0uTj24CIXQ5Ll4HNFMoWhoVT5P1K18xdPVDa5ulg==}
     dev: true
 
   /@mdn/browser-compat-data@5.3.13:

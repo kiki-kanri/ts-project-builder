@@ -35,7 +35,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
-    "@kikiutils/tsconfigs": "^0.1.1",
+    "@kikiutils/tsconfigs": "^0.2.0",
     "@types/node": "^20.5.7",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
