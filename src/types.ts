@@ -20,6 +20,9 @@ export interface BuildOptions {
 }
 
 export interface ExtraOptions {
+	/**
+	 * Builtin plugins options.
+	 */
 	builtinPluginOptions?: {
 		esbuildMinify?: Parameters<typeof minify>[0];
 		external?: ExternalsOptions;
@@ -28,9 +31,21 @@ export interface ExtraOptions {
 		ts?: Partial<TypescriptPluginOptions>;
 	}
 
+	/**
+	 * Rollup output options.
+	 *
+	 * Not all options can be entered.
+	 */
 	output?: Pick<OutputOptions, 'banner' | 'footer'>;
 	plugins?: {
+		/**
+		 * Insert plugins after builtins.
+		 */
 		after?: Plugin[];
+
+		/**
+		 * Insert plugins before builtins.
+		 */
 		before?: Plugin[];
 	}
 }
