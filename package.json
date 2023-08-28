@@ -36,8 +36,6 @@
   "devDependencies": {
     "@kikiutils/tsconfigs": "^0.2.0",
     "@types/node": "^20.5.7",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
     "type-fest": "^4.3.1"
   },
   "keywords": [
