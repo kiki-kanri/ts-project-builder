@@ -1,14 +1,15 @@
 import rollupPluginJson from '@rollup/plugin-json';
 import strip from '@rollup/plugin-strip';
 import { resolve, join } from 'path';
-import rollup, { OutputOptions, RollupError, RollupOptions } from 'rollup';
+import { OutputOptions, RollupError, RollupOptions, rollup } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
+import externals from 'rollup-plugin-node-externals';
 import ts from 'rollup-plugin-ts';
 
-import { cyan, green } from '../../rollup/src/utils/colors';
-import { handleError, stderr } from '../../rollup/cli/logging';
-import { BuildOptions, ExtraOptions } from '../types';
-import { forceRmDir, isFile, randomStr, rmFile } from '../library/utils';
+import { cyan, green } from '@/library/_rollup/colors';
+import { handleError, stderr } from '@/library/_rollup/logging';
+import { forceRmDir, isFile, randomStr, rmFile } from '@/library/utils';
+import { BuildOptions, ExtraOptions } from '@/types';
 
 const defaultPackageOutputOptions = {
 	externalLiveBindings: false,
@@ -21,11 +22,9 @@ const defaultPackageOutputOptions = {
 
 export class Builder {
 	private buildOptions: BuildOptions;
-	private packageIsModule: boolean;
 
-	constructor(buildOptions: BuildOptions, packageIsModule: boolean = false) {
+	constructor(buildOptions: BuildOptions) {
 		this.buildOptions = buildOptions;
-		this.packageIsModule = packageIsModule;
 		buildOptions.dist = resolve(buildOptions.dist);
 		buildOptions.extraConfig = resolve(buildOptions.extraConfig);
 	}
@@ -47,9 +46,8 @@ export class Builder {
 		}
 
 		// Get plugins
-		const nodeExternalsPlugin = (await import(this.packageIsModule ? 'rollup-plugin-node-externals' : 'rollup-plugin-node-externals5')).default;
 		const plugins = [
-			nodeExternalsPlugin(extraOptions?.builtinPluginOptions?.external),
+			externals(extraOptions?.builtinPluginOptions?.external),
 			rollupPluginJson(extraOptions?.builtinPluginOptions?.json),
 			ts({
 				tsconfig: (config) => ({ ...config, declaration: this.buildOptions.type === 'package' }),
@@ -90,7 +88,7 @@ export class Builder {
 
 	private async rollupBuild(rollupOptions: RollupOptions) {
 		let successBuild = false;
-		const rollupBuild = await rollup.rollup(rollupOptions);
+		const rollupBuild = await rollup(rollupOptions);
 
 		try {
 			await rollupBuild.write(rollupOptions.output as OutputOptions);

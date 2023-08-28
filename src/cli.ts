@@ -2,9 +2,9 @@ import { cli } from 'cleye';
 import { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
-import Builder from './classes/builder';
-import { getPackageJson } from './library/utils';
-import { BuildOptions, BuildType } from './types';
+import Builder from '@/classes/builder';
+import { getPackageJson } from '@/library/utils';
+import { BuildOptions, BuildType } from '@/types';
 
 const cliArgs = cli({
 	flags: {
@@ -80,11 +80,10 @@ const cliArgs = cli({
 async function main() {
 	// Get package.json data
 	const packageJson = await getPackageJson();
-	const packageIsModule = packageJson?.type === 'module';
 
 	// Process args default value
 	const flags = cliArgs.flags;
-	if (!flags.format) flags.format = packageIsModule ? 'es' : 'cjs';
+	if (!flags.format) flags.format = packageJson?.type === 'module' ? 'es' : 'cjs';
 	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
 	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
 	const buildOptions: BuildOptions = {
@@ -99,7 +98,7 @@ async function main() {
 		type: flags.buildType
 	};
 
-	const builder = new Builder(buildOptions, packageIsModule);
+	const builder = new Builder(buildOptions);
 	await builder.build(cliArgs._.inputs);
 }
 

@@ -2,7 +2,7 @@ import { RollupJsonOptions } from '@rollup/plugin-json';
 import { RollupStripOptions } from '@rollup/plugin-strip';
 import { ModuleFormat, OutputOptions, Plugin } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
-import { ExternalsOptions } from 'rollup-plugin-node-externals5';
+import { ExternalsOptions } from 'rollup-plugin-node-externals';
 import { TypescriptPluginOptions } from 'rollup-plugin-ts';
 
 export type BuildType = 'node' | 'package';

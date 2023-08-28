@@ -1,6 +1,10 @@
 {
-  "extends": "@kikiutils/tsconfigs/cjs/es2020.json",
+  "extends": "@kikiutils/tsconfigs/esm/es2021.json",
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "resolveJsonModule": true
   }
 }
