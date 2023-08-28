@@ -37,7 +37,8 @@ export class Builder {
 		// Get output options
 		const output: OutputOptions = {
 			dir: this.buildOptions.dist,
-			format: this.buildOptions.format
+			format: this.buildOptions.format,
+			interop: 'compat'
 		};
 
 		if (this.buildOptions.type === 'package') Object.assign(output, defaultPackageOutputOptions);
@@ -78,7 +79,8 @@ export class Builder {
 			input: this.buildOptions.extraConfig,
 			output: {
 				format: 'es',
-				file: extraConfigTmpPath
+				file: extraConfigTmpPath,
+				interop: 'compat'
 			},
 			plugins: [ts()]
 		});
