@@ -2,7 +2,7 @@ import rollupPluginJson from '@rollup/plugin-json';
 import strip from '@rollup/plugin-strip';
 import { resolve, join } from 'path';
 import ms from 'pretty-ms';
-import { OutputOptions, RollupError, RollupOptions, rollup } from 'rollup';
+import { OutputOptions, RollupBuild, RollupError, RollupOptions, rollup } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import externals from 'rollup-plugin-node-externals';
 import ts from 'rollup-plugin-ts';
@@ -89,17 +89,18 @@ export class Builder {
 	}
 
 	private async rollupBuild(rollupOptions: RollupOptions) {
+		let rollupBuild: RollupBuild | undefined;
 		let successBuild = false;
-		const rollupBuild = await rollup(rollupOptions);
 
 		try {
+			rollupBuild = await rollup(rollupOptions);
 			await rollupBuild.write(rollupOptions.output as OutputOptions);
 			successBuild = true;
 		} catch (error) {
 			handleError(error as RollupError, true);
 		}
 
-		await rollupBuild.close();
+		await rollupBuild?.close();
 		return successBuild;
 	}
 
