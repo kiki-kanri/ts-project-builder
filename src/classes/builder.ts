@@ -33,6 +33,7 @@ export class Builder {
 	private async getBaseRollupOptions() {
 		// Get extra options
 		const extraOptions = await this.getExtraOptions();
+		if (extraOptions === false) return;
 
 		// Get output options
 		const output: OutputOptions = {
@@ -74,7 +75,7 @@ export class Builder {
 	private async getExtraOptions() {
 		if (!await isFile(this.buildOptions.extraConfig)) return;
 		const extraConfigTmpPath = join(this.buildOptions.extraConfig, `../tspbc-${randomStr()}.mjs`);
-		await this.rollupBuild({
+		const buildResult =await this.rollupBuild({
 			external: () => true,
 			input: this.buildOptions.extraConfig,
 			output: {
@@ -85,6 +86,7 @@ export class Builder {
 			plugins: [ts()]
 		});
 
+		if (!buildResult) return false;
 		const extraOptions = (await import(extraConfigTmpPath)).default;
 		await rmFile(extraConfigTmpPath);
 		return (extraOptions.default || extraOptions) as ExtraOptions;
@@ -120,6 +122,7 @@ export class Builder {
 
 		// Get options and build
 		const baseRollupOptions = await this.getBaseRollupOptions();
+		if (!baseRollupOptions) return;
 		if (!inputs.length) inputs.push('./src/index.ts');
 		const promises = inputs.map((input) => this.rollupBuild({ ...baseRollupOptions, input: resolve(input) }));
 		await Promise.all(promises);
