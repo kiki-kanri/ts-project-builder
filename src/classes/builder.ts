@@ -1,10 +1,12 @@
 import rollupPluginJson from '@rollup/plugin-json';
 import strip from '@rollup/plugin-strip';
 import { resolve, join } from 'path';
-import rollup, { OutputOptions, RollupOptions } from 'rollup';
+import rollup, { OutputOptions, RollupError, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import ts from 'rollup-plugin-ts';
 
+import { cyan, green } from '../../rollup/src/utils/colors';
+import { handleError, stderr } from '../../rollup/cli/logging';
 import { BuildOptions, ExtraOptions } from '../types';
 import { forceRmDir, isFile, randomStr, rmFile } from '../library/utils';
 
@@ -87,12 +89,24 @@ export class Builder {
 	}
 
 	private async rollupBuild(rollupOptions: RollupOptions) {
+		let successBuild = false;
 		const rollupBuild = await rollup.rollup(rollupOptions);
-		await rollupBuild.write(rollupOptions.output as OutputOptions);
+
+		try {
+			await rollupBuild.write(rollupOptions.output as OutputOptions);
+			successBuild = true;
+		} catch (error) {
+			handleError(error as RollupError, true);
+		}
+
 		await rollupBuild.close();
+		return successBuild;
 	}
 
 	async build(inputs: string[]) {
+		const st = Date.now();
+		stderr(cyan('Starting build...'));
+
 		// Clear dist
 		if (this.buildOptions.clearDist) {
 			const root = resolve();
@@ -104,7 +118,9 @@ export class Builder {
 		// Get options and build
 		const baseRollupOptions = await this.getBaseRollupOptions();
 		if (!inputs.length) inputs.push('./src/index.ts');
-		await Promise.all(inputs.map((input) => this.rollupBuild({ ...baseRollupOptions, input: resolve(input) })));
+		const promises = inputs.map((input) => this.rollupBuild({ ...baseRollupOptions, input: resolve(input) }));
+		await Promise.all(promises);
+		if (promises.every(async (promise) => await promise)) stderr(green(`Success build in ${Date.now() - st}ms.`));
 	}
 }
 
