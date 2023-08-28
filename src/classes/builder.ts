@@ -72,11 +72,11 @@ export class Builder {
 
 	private async getExtraOptions() {
 		if (!await isFile(this.buildOptions.extraConfig)) return;
-		const extraConfigTmpPath = join(this.buildOptions.extraConfig, `../tspbc-${randomStr()}.cjs`);
+		const extraConfigTmpPath = join(this.buildOptions.extraConfig, `../tspbc-${randomStr()}.mjs`);
 		await this.rollupBuild({
 			input: this.buildOptions.extraConfig,
 			output: {
-				format: 'cjs',
+				format: 'es',
 				file: extraConfigTmpPath
 			},
 			plugins: [ts()]
