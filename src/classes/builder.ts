@@ -121,7 +121,8 @@ export class Builder {
 		if (!inputs.length) inputs.push('./src/index.ts');
 		const promises = inputs.map((input) => this.rollupBuild({ ...baseRollupOptions, input: resolve(input) }));
 		await Promise.all(promises);
-		if (promises.every(async (promise) => await promise)) stderr(green(`Success build in ${ms(Date.now() - st)}.`));
+		for (const promise of promises) if (!await promise) return;
+		stderr(green(`Success build in ${ms(Date.now() - st)}.`));
 	}
 }
 
