@@ -1,6 +1,6 @@
 {
   "name": "ts-project-builder",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Use rollup to build typescript project.",
   "license": "MIT",
   "author": "kiki-kanri",
