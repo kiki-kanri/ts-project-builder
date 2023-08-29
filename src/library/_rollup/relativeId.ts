@@ -13,9 +13,7 @@ export default function relativeId(id: string): string {
 
 export function isPathFragment(name: string): boolean {
 	// starting with "/", "./", "../", "C:/"
-	return (
-		name[0] === '/' || (name[0] === '.' && (name[1] === '/' || name[1] === '.')) || isAbsolute(name)
-	);
+	return name[0] === '/' || (name[0] === '.' && (name[1] === '/' || name[1] === '.')) || isAbsolute(name);
 }
 
 const UPPER_DIR_REGEX = /^(\.\.\/)*\.\.$/;
@@ -30,15 +28,15 @@ export function getImportPath(
 		targetPath = targetPath.slice(3);
 		importerId = '_/' + importerId;
 	}
+
 	let relativePath = normalize(relative(dirname(importerId), targetPath));
-	if (stripJsExtension && relativePath.endsWith('.js')) {
-		relativePath = relativePath.slice(0, -3);
-	}
+	if (stripJsExtension && relativePath.endsWith('.js')) relativePath = relativePath.slice(0, -3);
 	if (ensureFileName) {
 		if (relativePath === '') return '../' + basename(targetPath);
 		if (UPPER_DIR_REGEX.test(relativePath)) {
 			return [...relativePath.split('/'), '..', basename(targetPath)].join('/');
 		}
 	}
+
 	return relativePath ? (relativePath.startsWith('..') ? relativePath : './' + relativePath) : '.';
 }

@@ -4,21 +4,10 @@ const ALL_BACKSLASHES_REGEX = /\\/g;
 const ANY_SLASH_REGEX = /[/\\]/;
 const EXTNAME_REGEX = /\.[^.]+$/;
 
-export function isAbsolute(path: string): boolean {
-	return ABSOLUTE_PATH_REGEX.test(path);
-}
-
-export function isRelative(path: string): boolean {
-	return RELATIVE_PATH_REGEX.test(path);
-}
-
-export function normalize(path: string): string {
-	return path.replace(ALL_BACKSLASHES_REGEX, '/');
-}
-
-export function basename(path: string): string {
-	return path.split(ANY_SLASH_REGEX).pop() || '';
-}
+export const isAbsolute = (path: string) => ABSOLUTE_PATH_REGEX.test(path);
+export const isRelative = (path: string) => RELATIVE_PATH_REGEX.test(path);
+export const normalize = (path: string) => path.replace(ALL_BACKSLASHES_REGEX, '/');
+export const basename = (path: string) => path.split(ANY_SLASH_REGEX).pop() || '';
 
 export function dirname(path: string): string {
 	const match = /[/\\][^/\\]*$/.exec(path);
