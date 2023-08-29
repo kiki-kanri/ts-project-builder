@@ -101,7 +101,7 @@ export class Builder {
 			await rollupBuild.write(rollupOptions.output as OutputOptions);
 			successBuild = true;
 		} catch (error) {
-			handleError(error as RollupError, true);
+			handleError(error as RollupError);
 		}
 
 		await rollupBuild?.close();
