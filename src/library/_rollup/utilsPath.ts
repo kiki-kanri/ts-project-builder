@@ -6,4 +6,4 @@ export const isAbsolute = (path: string) => ABSOLUTE_PATH_REGEX.test(path);
 export const isRelative = (path: string) => RELATIVE_PATH_REGEX.test(path);
 export const normalize = (path: string) => path.replace(BACKSLASH_REGEX, '/');
 
-export { basename, dirname, extname, relative, resolve } from 'node:path';
+export { basename, dirname, extname, resolve } from 'node:path';
