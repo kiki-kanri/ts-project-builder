@@ -62,14 +62,26 @@ export class Builder {
 		if (this.buildOptions.minify) plugins.push(minify(extraOptions?.builtinPluginOptions?.esbuildMinify));
 
 		// Process options
+		const rollupOptions = <RollupOptions>{
+			output,
+			plugins,
+			strictDeprecations: true
+		};
+
 		if (extraOptions) {
-			output.banner = extraOptions.output?.banner;
-			output.footer = extraOptions.output?.footer;
+			// Output options and plugins
+			Object.assign(output, extraOptions.output || {});
 			plugins.push(...(extraOptions.plugins?.after || []));
 			plugins.unshift(...(extraOptions.plugins?.before || []));
+
+			// Merge other options
+			delete extraOptions.builtinPluginOptions;
+			delete extraOptions.output;
+			delete extraOptions.plugins;
+			Object.assign(rollupOptions, extraOptions);
 		}
 
-		return { output, plugins };
+		return rollupOptions;
 	}
 
 	private async getExtraOptions() {

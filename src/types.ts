@@ -1,6 +1,6 @@
 import { RollupJsonOptions } from '@rollup/plugin-json';
 import { RollupStripOptions } from '@rollup/plugin-strip';
-import { ModuleFormat, OutputOptions, Plugin } from 'rollup';
+import { ModuleFormat, OutputOptions, Plugin, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import { ExternalsOptions } from 'rollup-plugin-node-externals';
 import { TypescriptPluginOptions } from 'rollup-plugin-ts';
@@ -19,7 +19,15 @@ export interface BuildOptions {
 	type: BuildType;
 }
 
-export interface ExtraOptions {
+/**
+ * Build extra options.
+ *
+ * Extends rollup options but without `input` option.
+ *
+ * @see {@link RollupOptions}
+ * @see {@link https://rollupjs.org/configuration-options}
+ */
+export interface ExtraOptions extends Omit<RollupOptions, 'input' | 'output' | 'plugins'> {
 	/**
 	 * Builtin plugins options.
 	 */
@@ -32,11 +40,9 @@ export interface ExtraOptions {
 	}
 
 	/**
-	 * Rollup output options.
-	 *
-	 * Not all options can be entered.
+	 * Rollup output options but without `dir`, `file`, `format` and `name` options.
 	 */
-	output?: Pick<OutputOptions, 'banner' | 'footer'>;
+	output?: Omit<OutputOptions, 'dir' | 'file' | 'format' | 'name'>;
 	plugins?: {
 		/**
 		 * Insert plugins after builtins.
