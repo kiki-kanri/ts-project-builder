@@ -44,5 +44,8 @@
     "builder",
     "rollup",
     "typescript"
-  ]
+  ],
+  "engines": {
+    "node": ">=16.15.1"
+  }
 }
