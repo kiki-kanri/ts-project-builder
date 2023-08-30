@@ -29,8 +29,8 @@ const cliArgs = cli({
 			type: String
 		},
 		extraConfig: {
-			default: './ts-project-builder.config.ts',
-			description: 'Set extra config js file path.',
+			default: './ts-project-builder.config.mjs',
+			description: 'Set extra config mjs file path.',
 			type: String
 		},
 		forceClearDist: {

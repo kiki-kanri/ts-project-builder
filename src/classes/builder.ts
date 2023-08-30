@@ -1,6 +1,6 @@
 import rollupPluginJson from '@rollup/plugin-json';
 import strip from '@rollup/plugin-strip';
-import { resolve, join } from 'path';
+import { resolve } from 'path';
 import ms from 'pretty-ms';
 import { OutputOptions, RollupBuild, RollupError, RollupOptions, rollup } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
@@ -9,7 +9,7 @@ import ts from 'rollup-plugin-ts';
 
 import { cyan, green } from '@/library/_rollup/colors';
 import { handleError, stderr } from '@/library/_rollup/logging';
-import { forceRmDir, isFile, randomStr, rmFile } from '@/library/utils';
+import { forceRmDir, isFile } from '@/library/utils';
 import { BuildOptions, ExtraOptions } from '@/types';
 
 const defaultPackageOutputOptions = {
@@ -86,22 +86,14 @@ export class Builder {
 
 	private async getExtraOptions() {
 		if (!await isFile(this.buildOptions.extraConfig)) return;
-		const extraConfigTmpPath = join(this.buildOptions.extraConfig, `../tspbc-${randomStr()}.mjs`);
-		const buildResult =await this.rollupBuild({
-			external: () => true,
-			input: this.buildOptions.extraConfig,
-			output: {
-				format: 'es',
-				file: extraConfigTmpPath,
-				interop: 'compat'
-			},
-			plugins: [ts()]
-		});
+		try {
+			const extraOptions = await import(this.buildOptions.extraConfig);
+			return (extraOptions.default || extraOptions) as ExtraOptions;
+		} catch (error) {
+			handleError(error as RollupError);
+		}
 
-		if (!buildResult) return false;
-		const extraOptions = (await import(extraConfigTmpPath)).default;
-		await rmFile(extraConfigTmpPath);
-		return (extraOptions.default || extraOptions) as ExtraOptions;
+		return false;
 	}
 
 	private async rollupBuild(rollupOptions: RollupOptions) {
@@ -110,8 +102,7 @@ export class Builder {
 
 		try {
 			rollupBuild = await rollup(rollupOptions);
-			await rollupBuild.write(rollupOptions.output as OutputOptions);
-			successBuild = true;
+			await rollupBuild.write(rollupOptions.output as OutputOptions) && (successBuild = true);
 		} catch (error) {
 			handleError(error as RollupError);
 		}
