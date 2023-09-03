@@ -8,14 +8,6 @@ import { BuildOptions, BuildType } from '@/types';
 
 const cliArgs = cli({
 	flags: {
-		buildType: {
-			default: 'node' as BuildType,
-			description: 'Build target type.',
-			type: (type: BuildType) => {
-				if (!['node', 'package'].includes(type)) throw new Error(`Invalid build type: "${type}".`);
-				return type;
-			}
-		},
 		clearDist: {
 			alias: 'c',
 			default: false,
@@ -68,6 +60,15 @@ const cliArgs = cli({
 		preserveModules: {
 			description: 'Enable rollup output preserveModules. Default is enable if --build-type is package.',
 			type: Boolean
+		},
+		type: {
+			alias: 't',
+			default: 'node' as BuildType,
+			description: 'Build target type.',
+			type: (value: BuildType) => {
+				if (!value.match(/node|package/)) throw new Error(`Invalid build type: "${value}".`);
+				return value;
+			}
 		}
 	},
 	name: 'ts-project-builder',
@@ -84,8 +85,8 @@ async function main() {
 	// Process args default value
 	const flags = cliArgs.flags;
 	if (!flags.format) flags.format = packageJson?.type === 'module' ? 'es' : 'cjs';
-	flags.minify = flags.noMinify ? false : flags.buildType === 'node' || flags.minify || false;
-	flags.preserveModules = flags.noPreserveModules ? false : flags.buildType === 'package' || flags.preserveModules || false;
+	flags.minify = flags.noMinify ? false : flags.type === 'node' || flags.minify || false;
+	flags.preserveModules = flags.noPreserveModules ? false : flags.type === 'package' || flags.preserveModules || false;
 	const buildOptions: BuildOptions = {
 		clearDist: flags.clearDist,
 		dist: flags.dist,
@@ -95,7 +96,7 @@ async function main() {
 		minify: flags.minify,
 		preserveModules: flags.preserveModules,
 		strip: !flags.noStrip,
-		type: flags.buildType
+		type: flags.type
 	};
 
 	const builder = new Builder(buildOptions);

@@ -19,7 +19,7 @@
     "./dist/**/*"
   ],
   "scripts": {
-    "build": "node --loader \"@esbuild-kit/esm-loader\" ./src/cli.ts -c --build-type package --no-preserve-modules ./src/cli.ts ./src/index.ts"
+    "build": "node --loader \"@esbuild-kit/esm-loader\" ./src/cli.ts -c --no-preserve-modules --type package ./src/cli.ts ./src/index.ts"
   },
   "dependencies": {
     "@rollup/plugin-json": "^6.0.0",
