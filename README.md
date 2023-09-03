@@ -6,12 +6,13 @@ Cli typescript project builder, use rollup.
 
 ## Usage
 
+This package requires Node v16.15.1 or above.
+
 Use `npx ts-project-builder -h` command to see the usage description.
 
 Use `npx ts-project-builder` command to automatically read the value of type in package.json to determine the output file format (esm or cjs).
 
-The default entry point file to look for is ./src/index.ts
-The default output folder is ./dist
+The default entry point file to look for is `./src/index.ts` and the default output folder is `./dist`.
 
 **The -c flag enables automatic clearing of the dist folder, it does not specify a path to the configuration file!**
 
