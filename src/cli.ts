@@ -100,7 +100,7 @@ async function main() {
 	};
 
 	const builder = new Builder(buildOptions);
-	await builder.build(cliArgs._.inputs);
+	if (!await builder.build(cliArgs._.inputs)) process.exit(1);
 }
 
 (async () => await main())();

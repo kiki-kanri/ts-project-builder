@@ -128,9 +128,8 @@ export class Builder {
 		if (!baseRollupOptions) return;
 		if (!inputs.length) inputs.push('./src/index.ts');
 		const promises = inputs.map((input) => this.rollupBuild({ ...baseRollupOptions, input: resolve(input) }));
-		await Promise.all(promises);
-		for (const promise of promises) if (!await promise) return;
-		stderr(green(`Success build in ${ms(Date.now() - st)}.`));
+		const results = await Promise.all(promises);
+		if (results.every((result) => result)) return stderr(green(`Success build in ${ms(Date.now() - st)}.`)) || true;
 	}
 }
 
