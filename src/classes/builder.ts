@@ -22,28 +22,28 @@ const defaultPackageOutputOptions = {
 };
 
 export class Builder {
-	private buildOptions: BuildOptions;
+	#buildOptions: BuildOptions;
 
 	constructor(buildOptions: BuildOptions) {
-		this.buildOptions = buildOptions;
+		this.#buildOptions = buildOptions;
 		buildOptions.dist = resolve(buildOptions.dist);
 		buildOptions.extraConfig = resolve(buildOptions.extraConfig);
 	}
 
-	private async getBaseRollupOptions() {
+	async #getBaseRollupOptions() {
 		// Get extra options
-		const extraOptions = await this.getExtraOptions();
+		const extraOptions = await this.#getExtraOptions();
 		if (extraOptions === false) return;
 
 		// Get output options
 		const output: OutputOptions = {
-			dir: this.buildOptions.dist,
-			format: this.buildOptions.format,
+			dir: this.#buildOptions.dist,
+			format: this.#buildOptions.format,
 			interop: 'compat'
 		};
 
-		if (this.buildOptions.type === 'package') Object.assign(output, defaultPackageOutputOptions);
-		if (this.buildOptions.preserveModules) {
+		if (this.#buildOptions.type === 'package') Object.assign(output, defaultPackageOutputOptions);
+		if (this.#buildOptions.preserveModules) {
 			output.exports = 'named';
 			output.preserveModules = true;
 		}
@@ -53,13 +53,13 @@ export class Builder {
 			externals(extraOptions?.builtinPluginOptions?.external),
 			rollupPluginJson(extraOptions?.builtinPluginOptions?.json),
 			ts({
-				tsconfig: (config) => ({ ...config, declaration: this.buildOptions.type === 'package' }),
+				tsconfig: (config) => ({ ...config, declaration: this.#buildOptions.type === 'package' }),
 				...extraOptions?.builtinPluginOptions?.ts
 			})
 		];
 
-		if (this.buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'], ...extraOptions?.builtinPluginOptions?.strip }),);
-		if (this.buildOptions.minify) plugins.push(minify(extraOptions?.builtinPluginOptions?.esbuildMinify));
+		if (this.#buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'], ...extraOptions?.builtinPluginOptions?.strip }),);
+		if (this.#buildOptions.minify) plugins.push(minify(extraOptions?.builtinPluginOptions?.esbuildMinify));
 
 		// Process options
 		const rollupOptions = <RollupOptions>{
@@ -84,10 +84,10 @@ export class Builder {
 		return rollupOptions;
 	}
 
-	private async getExtraOptions() {
-		if (!await isFile(this.buildOptions.extraConfig)) return;
+	async #getExtraOptions() {
+		if (!await isFile(this.#buildOptions.extraConfig)) return;
 		try {
-			const extraOptions = await import(this.buildOptions.extraConfig);
+			const extraOptions = await import(this.#buildOptions.extraConfig);
 			return (extraOptions.default || extraOptions) as ExtraOptions;
 		} catch (error) {
 			handleError(error as RollupError);
@@ -96,7 +96,7 @@ export class Builder {
 		return false;
 	}
 
-	private async rollupBuild(rollupOptions: RollupOptions) {
+	async #rollupBuild(rollupOptions: RollupOptions) {
 		let rollupBuild: RollupBuild | undefined;
 		let successBuild = false;
 
@@ -116,18 +116,18 @@ export class Builder {
 		stderr(cyan('Starting build...'));
 
 		// Clear dist
-		if (this.buildOptions.clearDist) {
+		if (this.#buildOptions.clearDist) {
 			const root = resolve();
-			const distPath = resolve(this.buildOptions.dist);
-			if (!distPath.startsWith(root) && !this.buildOptions.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
+			const distPath = resolve(this.#buildOptions.dist);
+			if (!distPath.startsWith(root) && !this.#buildOptions.forceClearDist) throw new Error('Dist folder outside the project catalog must be deleted by force using the --force-clear-dist flag.');
 			await forceRmDir(distPath);
 		}
 
 		// Get options and build
-		const baseRollupOptions = await this.getBaseRollupOptions();
+		const baseRollupOptions = await this.#getBaseRollupOptions();
 		if (!baseRollupOptions) return;
 		if (!inputs.length) inputs.push('./src/index.ts');
-		const promises = inputs.map((input) => this.rollupBuild({ ...baseRollupOptions, input: resolve(input) }));
+		const promises = inputs.map((input) => this.#rollupBuild({ ...baseRollupOptions, input: resolve(input) }));
 		const results = await Promise.all(promises);
 		if (results.every((result) => result)) return stderr(green(`Success build in ${ms(Date.now() - st)}.`)) || true;
 	}
