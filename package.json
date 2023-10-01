@@ -36,8 +36,8 @@
   "devDependencies": {
     "@esbuild-kit/esm-loader": "^2.6.5",
     "@kikiutils/tsconfigs": "^0.2.1",
-    "@types/node": "^20.7.1",
-    "type-fest": "^4.3.2"
+    "@types/node": "^20.8.0",
+    "type-fest": "^4.3.3"
   },
   "keywords": [
     "build",
