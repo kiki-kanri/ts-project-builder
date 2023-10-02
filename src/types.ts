@@ -1,4 +1,6 @@
+import { RollupCommonJSOptions } from '@rollup/plugin-commonjs';
 import { RollupJsonOptions } from '@rollup/plugin-json';
+import { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
 import { RollupStripOptions } from '@rollup/plugin-strip';
 import { ModuleFormat, OutputOptions, Plugin, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
@@ -32,9 +34,11 @@ export interface ExtraOptions extends Omit<RollupOptions, 'input' | 'output' | '
 	 * Builtin plugins options.
 	 */
 	builtinPluginOptions?: {
+		commonjs?: RollupCommonJSOptions;
 		esbuildMinify?: Parameters<typeof minify>[0];
 		external?: ExternalsOptions;
 		json?: RollupJsonOptions;
+		nodeResolve?: RollupNodeResolveOptions;
 		strip?: RollupStripOptions;
 		ts?: Partial<TypescriptPluginOptions>;
 	}

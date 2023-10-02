@@ -1,4 +1,6 @@
+import commonjs from '@rollup/plugin-commonjs';
 import rollupPluginJson from '@rollup/plugin-json';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import { resolve } from 'path';
 import ms from 'pretty-ms';
@@ -55,7 +57,9 @@ export class Builder {
 			ts({
 				tsconfig: (config) => ({ ...config, declaration: this.#buildOptions.type === 'package' }),
 				...extraOptions?.builtinPluginOptions?.ts
-			})
+			}),
+			nodeResolve(extraOptions?.builtinPluginOptions?.nodeResolve),
+			commonjs(extraOptions?.builtinPluginOptions?.commonjs)
 		];
 
 		if (this.#buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'], ...extraOptions?.builtinPluginOptions?.strip }),);
