@@ -28,7 +28,9 @@ export default defineExtraConfig({
 This builder already contains some plugins, the plugin options can be set through the top of the extraconfig builtinPluginOptions.
 
 Builtin plugins:
+- @rollup/plugin-commonjs
 - @rollup/plugin-json
+- @rollup/plugin-node-resolve
 - @rollup/plugin-strip
 - rollup-plugin-esbuild (Only minify)
 - rollup-plugin-node-externals
