@@ -6,7 +6,11 @@ Cli typescript project builder, use rollup.
 
 ## Usage
 
-This package requires Node v16.15.1 or above.
+**Version 2.x uses rollup v4.**
+
+**If you want to use the rollup v3 version, please install the 1.x version.**
+
+This package requires Node v18.0.0 or above.
 
 Use `npx ts-project-builder -h` command to see the usage description.
 
