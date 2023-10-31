@@ -46,6 +46,9 @@ dependencies:
     version: 5.2.2
 
 devDependencies:
+  '@kikiutils/prettierrc':
+    specifier: ^1.0.4
+    version: 1.0.4
   '@kikiutils/tsconfigs':
     specifier: ^1.0.0
     version: 1.0.0
@@ -460,6 +463,12 @@ packages:
   /@jridgewell/sourcemap-codec@1.4.15:
     resolution: {integrity: sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==}
     dev: false
+
+  /@kikiutils/prettierrc@1.0.4:
+    resolution: {integrity: sha512-H25q/wBL5Kou3Cotrwuf6R7MyqgYNC0LEnqZvJ7y3a/hmc3SEDCJTu+J1vAtrYEQVRKVoCb/wIJEzUBEHh9WMQ==}
+    dependencies:
+      prettier: 3.0.3
+    dev: true
 
   /@kikiutils/tsconfigs@1.0.0:
     resolution: {integrity: sha512-S0bAzfMWpolOI4iJuilvOzrQ4bBBppKNntaN6fj0BfjzRbt0m0BZQ2sl60ZAn15mT2lL7MekiEVHR/lSqFlyQw==}
@@ -999,6 +1008,12 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
     dev: false
+
+  /prettier@3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /pretty-ms@8.0.0:
     resolution: {integrity: sha512-ASJqOugUF1bbzI35STMBUpZqdfYKlJugy6JBziGi2EE+AL5JPJGSzvpeVXojxrr0ViUYoToUjb5kjSEGf7Y83Q==}
