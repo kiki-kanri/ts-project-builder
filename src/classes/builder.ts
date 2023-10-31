@@ -62,7 +62,7 @@ export class Builder {
 			commonjs(extraOptions?.builtinPluginOptions?.commonjs)
 		];
 
-		if (this.#buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'], ...extraOptions?.builtinPluginOptions?.strip }),);
+		if (this.#buildOptions.strip) plugins.push(strip({ include: ['./src/**/*.ts'], ...extraOptions?.builtinPluginOptions?.strip }));
 		if (this.#buildOptions.minify) plugins.push(minify(extraOptions?.builtinPluginOptions?.esbuildMinify));
 
 		// Process options
@@ -89,7 +89,7 @@ export class Builder {
 	}
 
 	async #getExtraOptions() {
-		if (!await isFile(this.#buildOptions.extraConfig)) return;
+		if (!(await isFile(this.#buildOptions.extraConfig))) return;
 		try {
 			const extraOptions = await import(this.#buildOptions.extraConfig);
 			return (extraOptions.default || extraOptions) as ExtraOptions;
@@ -106,7 +106,7 @@ export class Builder {
 
 		try {
 			rollupBuild = await rollup(rollupOptions);
-			await rollupBuild.write(rollupOptions.output as OutputOptions) && (successBuild = true);
+			(await rollupBuild.write(rollupOptions.output as OutputOptions)) && (successBuild = true);
 		} catch (error) {
 			handleError(error as RollupError);
 		}

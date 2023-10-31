@@ -72,9 +72,7 @@ const cliArgs = cli({
 		}
 	},
 	name: 'ts-project-builder',
-	parameters: [
-		'[inputs...]'
-	],
+	parameters: ['[inputs...]'],
 	version
 });
 
@@ -100,7 +98,7 @@ async function main() {
 	};
 
 	const builder = new Builder(buildOptions);
-	if (!await builder.build(cliArgs._.inputs)) process.exit(1);
+	if (!(await builder.build(cliArgs._.inputs))) process.exit(1);
 }
 
 (async () => await main())();

@@ -41,7 +41,7 @@ export interface ExtraOptions extends Omit<RollupOptions, 'input' | 'output' | '
 		nodeResolve?: RollupNodeResolveOptions;
 		strip?: RollupStripOptions;
 		ts?: Partial<TypescriptPluginOptions>;
-	}
+	};
 
 	/**
 	 * Rollup output options but without `dir`, `file`, `format` and `name` options.
@@ -57,5 +57,5 @@ export interface ExtraOptions extends Omit<RollupOptions, 'input' | 'output' | '
 		 * Insert plugins before builtins.
 		 */
 		before?: Plugin[];
-	}
+	};
 }

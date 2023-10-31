@@ -21,17 +21,19 @@ The default entry point file to look for is `./src/index.ts` and the default out
 **The -c flag enables automatic clearing of the dist folder, it does not specify a path to the configuration file!**
 
 To use the additional settings, create a file named `ts-project-builder.config.mjs` in the same level directory as package.json and refer to the following example:
+
 ```typescript
-import { defineExtraConfig } from 'ts-project-builder';
+import { defineExtraConfig } from "ts-project-builder"
 
 export default defineExtraConfig({
-	// options...
+  // options...
 });
 ```
 
 This builder already contains some plugins, the plugin options can be set through the top of the extraconfig builtinPluginOptions.
 
 Builtin plugins:
+
 - @rollup/plugin-commonjs
 - @rollup/plugin-json
 - @rollup/plugin-node-resolve
