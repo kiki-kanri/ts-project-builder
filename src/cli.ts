@@ -34,7 +34,8 @@ const cliArgs = cli({
 			alias: 'f',
 			description: 'Rollup output module format. Default is es if package.json type value is module; cjs otherwise.',
 			type: (format: ModuleFormat) => {
-				const allowFormats = ['amd', 'cjs', 'commonjs', 'es', 'esm', 'iife', 'module', 'system', 'systemjs', 'umd'];
+				// prettier-ignore
+				const allowFormats: ModuleFormat[] = ['amd', 'cjs', 'commonjs', 'es', 'esm', 'iife', 'module', 'system', 'systemjs', 'umd'];
 				if (!allowFormats.includes(format)) throw new Error(`Invalid module format: "${format}".`);
 				return format;
 			}

@@ -3,20 +3,17 @@
   "version": "2.0.1",
   "description": "Use rollup to build typescript project.",
   "license": "MIT",
-  "author": "kiki-kanri",
-  "homepage": "https://github.com/kiki-kanri/ts-project-builder#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
-  },
-  "bugs": {
-    "url": "https://github.com/kiki-kanri/ts-project-builder/issues"
+    "url": "https://github.com/kiki-kanri/ts-project-builder.git"
   },
   "type": "module",
   "main": "./dist/index.js",
-  "bin": "./dist/cli.js",
+  "bin": {
+    "ts-project-builder": "./dist/cli.js"
+  },
   "files": [
-    "./dist/**/*"
+    "./dist"
   ],
   "scripts": {
     "build": "tsx ./src/cli.ts -c --no-preserve-modules --type package ./src/cli.ts ./src/index.ts"

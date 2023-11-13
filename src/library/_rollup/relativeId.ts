@@ -27,9 +27,8 @@ export function getImportPath(importerId: string, targetPath: string, stripJsExt
 	if (stripJsExtension && relativePath.endsWith('.js')) relativePath = relativePath.slice(0, -3);
 	if (ensureFileName) {
 		if (relativePath === '') return `../${basename(targetPath)}`;
-		if (UPPER_DIR_REGEX.test(relativePath)) {
-			return [...relativePath.split('/'), '..', basename(targetPath)].join('/');
-		}
+		// prettier-ignore
+		if (UPPER_DIR_REGEX.test(relativePath)) return [...relativePath.split('/'),'..',basename(targetPath)].join('/');
 	}
 
 	return relativePath ? (relativePath.startsWith('..') ? relativePath : `./${relativePath}`) : '.';
