@@ -1,3 +1,3 @@
-import { ExtraOptions } from './types';
+import type { ExtraOptions } from '@/types';
 
 export const defineExtraConfig = (config: ExtraOptions) => config;

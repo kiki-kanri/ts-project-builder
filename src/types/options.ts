@@ -1,11 +1,11 @@
-import { RollupCommonJSOptions } from '@rollup/plugin-commonjs';
-import { RollupJsonOptions } from '@rollup/plugin-json';
-import { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
-import { RollupStripOptions } from '@rollup/plugin-strip';
-import { ModuleFormat, OutputOptions, Plugin, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
-import { ExternalsOptions } from 'rollup-plugin-node-externals';
-import { TypescriptPluginOptions } from 'rollup-plugin-ts';
+import type { RollupCommonJSOptions } from '@rollup/plugin-commonjs';
+import type { RollupJsonOptions } from '@rollup/plugin-json';
+import type { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
+import type { RollupStripOptions } from '@rollup/plugin-strip';
+import type { ModuleFormat, OutputOptions, Plugin, RollupOptions } from 'rollup';
+import type { ExternalsOptions } from 'rollup-plugin-node-externals';
+import type { TypescriptPluginOptions } from 'rollup-plugin-ts';
 
 export type BuildType = 'node' | 'package';
 

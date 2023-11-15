@@ -1,10 +1,10 @@
 import { cli } from 'cleye';
-import { ModuleFormat } from 'rollup';
+import type { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
 import Builder from '@/classes/builder';
 import { getPackageJson } from '@/library/utils';
-import { BuildOptions, BuildType } from '@/types';
+import type { BuildOptions, BuildType } from '@/types';
 
 const cliArgs = cli({
 	flags: {

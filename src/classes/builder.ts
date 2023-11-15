@@ -4,15 +4,16 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import { resolve } from 'path';
 import ms from 'pretty-ms';
-import { OutputOptions, RollupBuild, RollupError, RollupOptions, rollup } from 'rollup';
+import { rollup } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import externals from 'rollup-plugin-node-externals';
 import ts from 'rollup-plugin-ts';
+import type { OutputOptions, RollupBuild, RollupError, RollupOptions } from 'rollup';
 
 import { cyan, green } from '@/library/_rollup/colors';
 import { handleError, stderr } from '@/library/_rollup/logging';
 import { forceRmDir, isFile } from '@/library/utils';
-import { BuildOptions, ExtraOptions } from '@/types';
+import type { BuildOptions, ExtraOptions } from '@/types';
 
 const defaultPackageOutputOptions = {
 	externalLiveBindings: false,

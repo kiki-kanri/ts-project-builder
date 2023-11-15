@@ -1,6 +1,6 @@
 import fsp from 'fs/promises';
 import { resolve } from 'path';
-import { PackageJson } from 'type-fest';
+import type { PackageJson } from 'type-fest';
 
 export const forceRmDir = async (path: string) => {
 	try {

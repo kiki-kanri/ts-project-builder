@@ -1,5 +1,5 @@
 import process from 'process';
-import { RollupError } from 'rollup';
+import type { RollupError } from 'rollup';
 
 import { bold, cyan, dim, red } from './colors';
 import relativeId from './relativeId';
