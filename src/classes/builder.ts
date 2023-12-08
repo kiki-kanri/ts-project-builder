@@ -5,10 +5,10 @@ import strip from '@rollup/plugin-strip';
 import { resolve } from 'path';
 import ms from 'pretty-ms';
 import { rollup } from 'rollup';
+import type { OutputOptions, RollupBuild, RollupError, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import externals from 'rollup-plugin-node-externals';
 import ts from 'rollup-plugin-ts';
-import type { OutputOptions, RollupBuild, RollupError, RollupOptions } from 'rollup';
 import { pathToFileURL } from 'url';
 
 import { cyan, green } from '@/library/_rollup/colors';
