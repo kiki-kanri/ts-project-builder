@@ -3,9 +3,7 @@
   "version": "2.0.4",
   "description": "Use rollup to build typescript project.",
   "license": "MIT",
-  "author": {
-    "name": "kiki-kanri"
-  },
+  "author": "kiki-kanri",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
