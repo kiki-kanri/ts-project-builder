@@ -2,16 +2,16 @@ import { cli } from 'cleye';
 import type { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
-import Builder, { defaultConfigFilePath, defaultOutputDir } from './builder';
+import Builder, { defaultConfigFilePath, defaultOutputDir, defaultOutputPreserveModulesRoot } from './builder';
 import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCliArgString } from './utils';
 
-const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim())));
+const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim().toLowerCase()))) as boolean | Set<ModuleFormat>;
 
 (async () => {
 	const args = cli({
 		flags: {
-			clean: { type: BooleanOrStringSet },
+			clean: { type: BooleanOrModuleFormats },
 			config: {
 				alias: 'c',
 				default: defaultConfigFilePath,
@@ -20,15 +20,15 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 			dirs: { default: defaultOutputDir, type: String },
 			exts: { type: String },
 			files: { type: String },
-			forceClean: { type: BooleanOrStringSet },
+			forceClean: { type: BooleanOrModuleFormats },
 			formats: {
 				alias: 'f',
 				default: 'cjs,esm',
 				type: String
 			},
-			minify: { alias: 'm', type: BooleanOrStringSet },
-			preserveModules: { type: BooleanOrStringSet },
-			preserveModulesRoots: { default: './src', type: String }
+			minify: { alias: 'm', type: BooleanOrModuleFormats },
+			preserveModules: { type: BooleanOrModuleFormats },
+			preserveModulesRoots: { default: defaultOutputPreserveModulesRoot, type: String }
 		},
 		name: 'ts-project-builder',
 		parameters: ['[inputs...]'],
@@ -41,14 +41,14 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 		configFilePath: args.flags.config,
 		inputs,
 		output: {
-			clean: args.flags.clean as true | Set<ModuleFormat> | undefined,
+			clean: args.flags.clean,
 			dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
 			exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
-			files: args.flags.files ? parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files) : {},
-			forceClean: args.flags.forceClean as true | Set<ModuleFormat> | undefined,
-			formats: args.flags.formats.split(',') as ModuleFormat[],
-			minify: args.flags.minify as true | Set<ModuleFormat> | undefined,
-			preserveModules: args.flags.preserveModules as true | Set<ModuleFormat> | undefined,
+			files: parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files || ''),
+			forceClean: args.flags.forceClean,
+			formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
+			minify: args.flags.minify,
+			preserveModules: args.flags.preserveModules,
 			preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots)
 		}
 	});

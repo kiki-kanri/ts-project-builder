@@ -13,7 +13,7 @@ import { minify } from 'rollup-plugin-esbuild';
 import nodeExternals from 'rollup-plugin-node-externals';
 import { pathToFileURL } from 'url';
 
-import type { BaseBuilderOutputOptions, BuilderOptions, Config } from './types';
+import type { BuilderOptions, Config } from './types';
 import { pathIsFile } from './utils';
 import { bold, cyan, green } from './utils/rollup/colors';
 import { handleError, stderr } from './utils/rollup/logging';
@@ -33,7 +33,8 @@ const availableOutputFormats = new Set<ModuleFormat>([
 
 export const defaultConfigFilePath = './ts-project-builder.config.mjs' as const;
 export const defaultOutputDir = './dist' as const;
-const outputFormatToExtMap: Partial<Record<ModuleFormat, string>> = {
+export const defaultOutputPreserveModulesRoot = './src' as const;
+const outputFormatToExtMap: Record<ModuleFormat, string> = {
 	amd: 'amd.js',
 	cjs: 'cjs',
 	commonjs: 'cjs',
@@ -53,9 +54,8 @@ export class Builder {
 	constructor(options: BuilderOptions) {
 		options = cloneDeep(options);
 		if (!options.inputs.length) throw new Error('No inputs specified');
-		options.output.formats = new Set(options.output.formats);
 		if (!options.output.formats.size) throw new Error('No output formats specified');
-		this.#configFilePath = options.configFilePath || defaultConfigFilePath;
+		this.#configFilePath = resolve(options.configFilePath || defaultConfigFilePath);
 		this.#options = options;
 	}
 
@@ -63,7 +63,7 @@ export class Builder {
 		if (!this.#configFilePath) return {};
 		try {
 			if (!(await pathIsFile(this.#configFilePath))) {
-				if (this.#configFilePath !== defaultConfigFilePath) throw new Error(`Config file not found: ${this.#configFilePath}`);
+				if (relative(this.#configFilePath, resolve(defaultConfigFilePath)) !== '') new Error(`Config file not found: ${this.#configFilePath}`);
 				return {};
 			}
 
@@ -74,26 +74,23 @@ export class Builder {
 		}
 	}
 
+	#isOutputOptionEnabled(format: ModuleFormat, optionKey: 'clean' | 'forceClean' | 'minify' | 'preserveModules') {
+		if (!this.#options.output[optionKey]) return;
+		return this.#options.output[optionKey] === true || this.#options.output[optionKey].has(format);
+	}
+
 	async build() {
 		stderr(cyan('Starting build...'));
 		const startAt = Date.now();
 		const config = await this.#getConfig();
 		if (!config) return false;
-		const baseOutputOptions: BaseBuilderOutputOptions = {
-			clean: this.#options.output.clean === true,
+		const baseOutputOptions: OutputOptions & { ext?: string } = {
 			dir: this.#options.output.dirs?.default || defaultOutputDir,
 			ext: this.#options.output.exts?.default,
 			file: this.#options.output.files?.default,
-			forceClean: this.#options.output.forceClean === true,
-			minify: this.#options.output.minify === true,
-			preserveModules: this.#options.output.preserveModules === true,
-			preserveModulesRoot: this.#options.output.preserveModulesRoots?.default || './src'
+			preserveModulesRoot: this.#options.output.preserveModulesRoots?.default || defaultOutputPreserveModulesRoot
 		};
 
-		const enabledCleanOutputFormats = new Set(typeof this.#options.output.clean === 'object' ? this.#options.output.clean : []);
-		const enabledForceCleanOutputFormats = new Set(typeof this.#options.output.forceClean === 'object' ? this.#options.output.forceClean : []);
-		const enabledMinifyOutputFormats = new Set(typeof this.#options.output.minify === 'object' ? this.#options.output.minify : []);
-		const enabledPreserveModulesOutputFormats = new Set(typeof this.#options.output.preserveModules === 'object' ? this.#options.output.preserveModules : []);
 		const logOutputTargetsStrings: string[] = [];
 		const rollupInputPlugins: Plugin[] = [
 			...(config?.additionalInputPlugins?.beforeBuiltins || []),
@@ -129,11 +126,11 @@ export class Builder {
 					},
 					interop: 'compat',
 					plugins: [],
-					preserveModules: enabledPreserveModulesOutputFormats.has(format) || baseOutputOptions.preserveModules,
+					preserveModules: this.#isOutputOptionEnabled(format, 'preserveModules'),
 					preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot
 				};
 
-				if (enabledMinifyOutputFormats.has(format) || baseOutputOptions.minify) outputOptions.plugins.push(minify(config?.builtinOutputPluginOptions?.minify?.[format] || config?.builtinOutputPluginOptions?.minify?.default));
+				if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins.push(minify(config?.builtinOutputPluginOptions?.minify?.[format] || config?.builtinOutputPluginOptions?.minify?.default));
 				outputOptions.plugins.push(...(config?.additionalOutputPlugins?.[format]?.afterBuiltins || config?.additionalOutputPlugins?.default?.afterBuiltins || []));
 				outputOptions.plugins.unshift(...(config?.additionalOutputPlugins?.[format]?.beforeBuiltins || config?.additionalOutputPlugins?.default?.beforeBuiltins || []));
 				if (configOutputOptions?.processMethod === 'assign') Object.assign(outputOptions, configOutputOptions.options);
@@ -141,17 +138,16 @@ export class Builder {
 			}
 
 			outputOptions.format = format;
-			if (outputOptions.file !== undefined) delete outputOptions.dir;
-			if (outputOptions.dir) logOutputTargetsStrings.push(`${outputOptions.dir} (${format})`);
-			if (outputOptions.file) logOutputTargetsStrings.push(`${outputOptions.file} (${format})`);
-			if (enabledCleanOutputFormats.has(format) || baseOutputOptions.clean) {
+			if (outputOptions.file) delete outputOptions.dir, logOutputTargetsStrings.push(`${outputOptions.file} (${format})`);
+			else if (outputOptions.dir) delete outputOptions.file, logOutputTargetsStrings.push(`${outputOptions.dir} (${format})`);
+			if (this.#isOutputOptionEnabled(format, 'clean')) {
 				const outputPath = outputOptions.dir || outputOptions.file;
 				if (outputPath) {
 					const absoluteOutputPath = resolve(outputPath);
 					const relativePath = relative(rootPath, absoluteOutputPath);
 					if (relativePath === '') return handleError(new Error('The directory to be cleared is the same as the running directory.')), false;
 					// prettier-ignore
-					if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !(enabledForceCleanOutputFormats.has(format) || baseOutputOptions.forceClean)) return handleError(new Error('The path to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.')), false;
+					if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !this.#isOutputOptionEnabled(format, 'forceClean')) return handleError(new Error(`The path "${absoluteOutputPath}" to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.`)), false;
 					toRemovePaths.add(absoluteOutputPath);
 				}
 			}
