@@ -28,9 +28,9 @@ export interface BuilderOptions {
 }
 
 export interface Config {
-	additionalInputPlugins?: { afterBuiltins?: Plugin[]; beforeBuiltins?: Plugin[] };
-	additionalOutputPlugins?: PartialModuleFormatDict<{ afterBuiltins?: OutputPlugin[]; beforeBuiltins?: OutputPlugin[] }, 'default'>;
-	builtinInputPluginOptions?: {
+	additionalInputPlugins?: { afterBuiltIns?: Plugin[]; beforeBuiltIns?: Plugin[] };
+	additionalOutputPlugins?: PartialModuleFormatDict<{ afterBuiltIns?: OutputPlugin[]; beforeBuiltIns?: OutputPlugin[] }, 'default'>;
+	builtInInputPluginOptions?: {
 		commonjs?: RollupCommonJSOptions;
 		json?: RollupJsonOptions;
 		nodeExternal?: ExternalsOptions;
@@ -38,7 +38,7 @@ export interface Config {
 		typescript?: RollupTypescriptOptions;
 	};
 
-	builtinOutputPluginOptions?: { minify?: PartialModuleFormatDict<MinifyOptions, 'default'> };
+	builtInOutputPluginOptions?: { minify?: PartialModuleFormatDict<MinifyOptions, 'default'> };
 	outputOptions?: PartialModuleFormatDict<ConfigOutputOptions, 'default'>;
 	rollupOptions?: Omit<RollupOptions, 'input' | 'output' | 'plugins'>;
 }

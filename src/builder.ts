@@ -93,13 +93,13 @@ export class Builder {
 
 		const logOutputTargetsStrings: string[] = [];
 		const rollupInputPlugins: Plugin[] = [
-			...(config?.additionalInputPlugins?.beforeBuiltins || []),
-			nodeExternals(config?.builtinInputPluginOptions?.nodeExternal),
-			nodeResolve(config?.builtinInputPluginOptions?.nodeResolve),
-			commonjs(config?.builtinInputPluginOptions?.commonjs),
-			json(config?.builtinInputPluginOptions?.json),
-			typescript(config?.builtinInputPluginOptions?.typescript),
-			...(config?.additionalInputPlugins?.afterBuiltins || [])
+			...(config?.additionalInputPlugins?.beforeBuiltIns || []),
+			nodeExternals(config?.builtInInputPluginOptions?.nodeExternal),
+			nodeResolve(config?.builtInInputPluginOptions?.nodeResolve),
+			commonjs(config?.builtInInputPluginOptions?.commonjs),
+			json(config?.builtInInputPluginOptions?.json),
+			typescript(config?.builtInInputPluginOptions?.typescript),
+			...(config?.additionalInputPlugins?.afterBuiltIns || [])
 		];
 
 		// prettier-ignore
@@ -130,9 +130,9 @@ export class Builder {
 					preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot
 				};
 
-				if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins.push(minify(config?.builtinOutputPluginOptions?.minify?.[format] || config?.builtinOutputPluginOptions?.minify?.default));
-				outputOptions.plugins.push(...(config?.additionalOutputPlugins?.[format]?.afterBuiltins || config?.additionalOutputPlugins?.default?.afterBuiltins || []));
-				outputOptions.plugins.unshift(...(config?.additionalOutputPlugins?.[format]?.beforeBuiltins || config?.additionalOutputPlugins?.default?.beforeBuiltins || []));
+				if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins.push(minify(config?.builtInOutputPluginOptions?.minify?.[format] || config?.builtInOutputPluginOptions?.minify?.default));
+				outputOptions.plugins.push(...(config?.additionalOutputPlugins?.[format]?.afterBuiltIns || config?.additionalOutputPlugins?.default?.afterBuiltIns || []));
+				outputOptions.plugins.unshift(...(config?.additionalOutputPlugins?.[format]?.beforeBuiltIns || config?.additionalOutputPlugins?.default?.beforeBuiltIns || []));
 				if (configOutputOptions?.processMethod === 'assign') Object.assign(outputOptions, configOutputOptions.options);
 				else merge(outputOptions, configOutputOptions?.options);
 			}
