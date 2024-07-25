@@ -11,22 +11,32 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
 (async () => {
 	const args = cli({
 		flags: {
-			clean: { type: BooleanOrModuleFormats },
+			clean: { description: 'Clean the target directory or files before output.', type: BooleanOrModuleFormats },
 			config: {
 				alias: 'c',
 				default: defaultConfigFilePath,
+				description: 'The path to the config file.',
 				type: String
 			},
-			dirs: { default: defaultOutputDir, type: String },
-			exts: { type: String },
-			files: { type: String },
-			forceClean: { type: BooleanOrModuleFormats },
+			dirs: {
+				default: defaultOutputDir,
+				description: 'The output directory paths.',
+				type: String
+			},
+			exts: { description: 'The output file extensions.', type: String },
+			files: { description: 'The output file paths.', type: String },
+			forceClean: { description: 'Force clean the target directory or files before output.', type: BooleanOrModuleFormats },
 			formats: {
 				alias: 'f',
 				default: 'cjs,esm',
+				description: 'The output formats.',
 				type: String
 			},
-			minify: { alias: 'm', type: BooleanOrModuleFormats },
+			minify: {
+				alias: 'm',
+				description: 'Enable minify output.',
+				type: BooleanOrModuleFormats
+			},
 			preserveModules: { type: BooleanOrModuleFormats },
 			preserveModulesRoots: { default: defaultOutputPreserveModulesRoot, type: String }
 		},
