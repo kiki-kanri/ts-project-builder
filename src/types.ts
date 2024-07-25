@@ -12,7 +12,9 @@ export type NonNullableBuilderOutputOptions = NonNullable<Required<BuilderOption
 type PartialModuleFormatDict<T, K extends string = never> = Partial<Record<ModuleFormat | K, T>>;
 
 export interface BaseBuilderOutputOptions extends OutputOptions {
+	clean?: boolean;
 	ext?: string;
+	forceClean?: boolean;
 	minify: boolean;
 }
 
@@ -20,9 +22,11 @@ export interface BuilderOptions {
 	configFilePath?: string;
 	inputs: string[];
 	output: {
+		clean?: boolean | ModuleFormat[] | Set<ModuleFormat>;
 		dirs?: PartialModuleFormatDict<string, 'default'>;
 		exts?: PartialModuleFormatDict<string, 'default'>;
 		files?: PartialModuleFormatDict<string, 'default'>;
+		forceClean?: boolean | ModuleFormat[] | Set<ModuleFormat>;
 		formats: ModuleFormat[] | Set<ModuleFormat>;
 		minify?: boolean | ModuleFormat[] | Set<ModuleFormat>;
 		preserveModules?: boolean | ModuleFormat[] | Set<ModuleFormat>;

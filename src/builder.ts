@@ -2,9 +2,10 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import { rm } from 'fs/promises';
 import { globSync } from 'glob';
 import { cloneDeep, merge } from 'lodash-es';
-import { resolve } from 'path';
+import { isAbsolute, relative, resolve } from 'path';
 import prettyMilliseconds from 'pretty-ms';
 import { rollup } from 'rollup';
 import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions } from 'rollup';
@@ -79,16 +80,20 @@ export class Builder {
 		const config = await this.#getConfig();
 		if (!config) return false;
 		const baseOutputOptions: BaseBuilderOutputOptions = {
+			clean: this.#options.output.clean === true,
 			dir: this.#options.output.dirs?.default || defaultOutputDir,
 			ext: this.#options.output.exts?.default,
 			file: this.#options.output.files?.default,
+			forceClean: this.#options.output.forceClean === true,
 			minify: this.#options.output.minify === true,
 			preserveModules: this.#options.output.preserveModules === true,
 			preserveModulesRoot: this.#options.output.preserveModulesRoots?.default || './src'
 		};
 
-		const enabledOutputMinifyFormats = new Set(typeof this.#options.output.minify === 'object' ? this.#options.output.minify : []);
-		const enabledOutputPreserveModulesFormats = new Set(typeof this.#options.output.preserveModules === 'object' ? this.#options.output.preserveModules : []);
+		const enabledCleanOutputFormats = new Set(typeof this.#options.output.clean === 'object' ? this.#options.output.clean : []);
+		const enabledForceCleanOutputFormats = new Set(typeof this.#options.output.forceClean === 'object' ? this.#options.output.forceClean : []);
+		const enabledMinifyOutputFormats = new Set(typeof this.#options.output.minify === 'object' ? this.#options.output.minify : []);
+		const enabledPreserveModulesOutputFormats = new Set(typeof this.#options.output.preserveModules === 'object' ? this.#options.output.preserveModules : []);
 		const logOutputTargetsStrings: string[] = [];
 		const rollupInputPlugins: Plugin[] = [
 			...(config?.additionalInputPlugins?.beforeBuiltins || []),
@@ -103,6 +108,8 @@ export class Builder {
 		// prettier-ignore
 		const rollupOptions: RollupOptions = { ...config?.rollupOptions, input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort() };
 		const rollupOutputs: OutputOptions[] = [];
+		const rootPath = resolve();
+		const toRemovePaths = new Set<string>();
 		for (const format of this.#options.output.formats) {
 			if (!availableOutputFormats.has(format)) throw new Error(`Invalid output format: ${format}`);
 			const configOutputOptions = config?.outputOptions?.[format] || config?.outputOptions?.default;
@@ -122,11 +129,11 @@ export class Builder {
 					},
 					interop: 'compat',
 					plugins: [],
-					preserveModules: enabledOutputPreserveModulesFormats.has(format) || baseOutputOptions.preserveModules,
+					preserveModules: enabledPreserveModulesOutputFormats.has(format) || baseOutputOptions.preserveModules,
 					preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot
 				};
 
-				if (enabledOutputMinifyFormats.has(format) || baseOutputOptions.minify) outputOptions.plugins.push(minify(config?.builtinOutputPluginOptions?.minify?.[format] || config?.builtinOutputPluginOptions?.minify?.default));
+				if (enabledMinifyOutputFormats.has(format) || baseOutputOptions.minify) outputOptions.plugins.push(minify(config?.builtinOutputPluginOptions?.minify?.[format] || config?.builtinOutputPluginOptions?.minify?.default));
 				outputOptions.plugins.push(...(config?.additionalOutputPlugins?.[format]?.afterBuiltins || config?.additionalOutputPlugins?.default?.afterBuiltins || []));
 				outputOptions.plugins.unshift(...(config?.additionalOutputPlugins?.[format]?.beforeBuiltins || config?.additionalOutputPlugins?.default?.beforeBuiltins || []));
 				if (configOutputOptions?.processMethod === 'assign') Object.assign(outputOptions, configOutputOptions.options);
@@ -137,6 +144,18 @@ export class Builder {
 			if (outputOptions.file !== undefined) delete outputOptions.dir;
 			if (outputOptions.dir) logOutputTargetsStrings.push(`${outputOptions.dir} (${format})`);
 			if (outputOptions.file) logOutputTargetsStrings.push(`${outputOptions.file} (${format})`);
+			if (enabledCleanOutputFormats.has(format) || baseOutputOptions.clean) {
+				const outputPath = outputOptions.dir || outputOptions.file;
+				if (outputPath) {
+					const absoluteOutputPath = resolve(outputPath);
+					const relativePath = relative(rootPath, absoluteOutputPath);
+					if (relativePath === '') return handleError(new Error('The directory to be cleared is the same as the running directory.')), false;
+					// prettier-ignore
+					if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !(enabledForceCleanOutputFormats.has(format) || baseOutputOptions.forceClean)) return handleError(new Error('The path to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.')), false;
+					toRemovePaths.add(absoluteOutputPath);
+				}
+			}
+
 			rollupOutputs.push(outputOptions);
 		}
 
@@ -144,6 +163,7 @@ export class Builder {
 		stderr(cyan(`${bold((rollupOptions.input as string[]).join(', ').trim())} → ${logOutputTargetsString}...`));
 		try {
 			const rollupResult = await rollup({ ...rollupOptions, plugins: rollupInputPlugins });
+			if (toRemovePaths.size) await rm([...toRemovePaths].join(' '), { force: true, recursive: true });
 			await Promise.all(rollupOutputs.map((outputOptions) => rollupResult.write(outputOptions)));
 		} catch (error) {
 			handleError(error as Error);

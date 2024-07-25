@@ -11,6 +11,7 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 (async () => {
 	const args = cli({
 		flags: {
+			clean: { type: BooleanOrStringSet },
 			config: {
 				alias: 'c',
 				default: defaultConfigFilePath,
@@ -19,6 +20,7 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 			dirs: { default: defaultOutputDir, type: String },
 			exts: { type: String },
 			files: { type: String },
+			forceClean: { type: BooleanOrStringSet },
 			formats: {
 				alias: 'f',
 				default: 'cjs,esm',
@@ -39,12 +41,14 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 		configFilePath: args.flags.config,
 		inputs,
 		output: {
+			clean: args.flags.clean as true | Set<ModuleFormat> | undefined,
 			dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
 			exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
 			files: args.flags.files ? parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files) : {},
+			forceClean: args.flags.forceClean as true | Set<ModuleFormat> | undefined,
 			formats: args.flags.formats.split(',') as ModuleFormat[],
-			minify: args.flags.minify as Set<ModuleFormat> | undefined,
-			preserveModules: args.flags.preserveModules as Set<ModuleFormat> | undefined,
+			minify: args.flags.minify as true | Set<ModuleFormat> | undefined,
+			preserveModules: args.flags.preserveModules as true | Set<ModuleFormat> | undefined,
 			preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots)
 		}
 	});
