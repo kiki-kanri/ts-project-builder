@@ -16,12 +16,8 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 				default: defaultConfigFilePath,
 				type: String
 			},
-			dirs: {
-				alias: 'd',
-				default: defaultOutputDir,
-				type: String
-			},
-			exts: { alias: 'e', type: String },
+			dirs: { default: defaultOutputDir, type: String },
+			exts: { type: String },
 			formats: {
 				alias: 'f',
 				default: 'cjs,esm',
