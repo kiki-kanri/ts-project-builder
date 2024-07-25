@@ -12,7 +12,7 @@
     "./dist"
   ],
   "scripts": {
-    "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -m && dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts",
+    "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -mf esm && dts-bundle-generator -o ./dist/index.d.ts --fail-on-class ./src/index.ts",
     "bumplog": "changelogen --bump"
   },
   "dependencies": {

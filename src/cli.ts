@@ -2,7 +2,7 @@ import { cli } from 'cleye';
 import type { ModuleFormat } from 'rollup';
 
 import { version } from '../package.json';
-import Builder from './builder';
+import Builder, { defaultConfigFilePath, defaultOutputDir } from './builder';
 import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCliArgString } from './utils';
 
@@ -13,12 +13,12 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 		flags: {
 			config: {
 				alias: 'c',
-				default: './ts-project-builder.config.mjs',
+				default: defaultConfigFilePath,
 				type: String
 			},
 			dirs: {
 				alias: 'd',
-				default: './dist',
+				default: defaultOutputDir,
 				type: String
 			},
 			exts: { alias: 'e', type: String },
