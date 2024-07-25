@@ -81,6 +81,7 @@ export class Builder {
 		const baseOutputOptions: BaseBuilderOutputOptions = {
 			dir: this.#options.output.dirs?.default || defaultOutputDir,
 			ext: this.#options.output.exts?.default,
+			file: this.#options.output.files?.default,
 			minify: this.#options.output.minify === true,
 			preserveModules: this.#options.output.preserveModules === true,
 			preserveModulesRoot: this.#options.output.preserveModulesRoots?.default || './src'
@@ -113,6 +114,7 @@ export class Builder {
 					entryFileNames: `[name].${this.#options.output.exts?.[format] || baseOutputOptions.ext || outputFormatToExtMap[format]}`,
 					exports: 'named',
 					externalLiveBindings: false,
+					file: this.#options.output.files?.[format] || baseOutputOptions.file,
 					generatedCode: {
 						arrowFunctions: true,
 						constBindings: true,
@@ -132,6 +134,7 @@ export class Builder {
 			}
 
 			outputOptions.format = format;
+			if (outputOptions.file !== undefined) delete outputOptions.dir;
 			if (outputOptions.dir) logOutputTargetsStrings.push(`${outputOptions.dir} (${format})`);
 			if (outputOptions.file) logOutputTargetsStrings.push(`${outputOptions.file} (${format})`);
 			rollupOutputs.push(outputOptions);

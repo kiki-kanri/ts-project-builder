@@ -18,6 +18,7 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 			},
 			dirs: { default: defaultOutputDir, type: String },
 			exts: { type: String },
+			files: { type: String },
 			formats: {
 				alias: 'f',
 				default: 'cjs,esm',
@@ -40,6 +41,7 @@ const BooleanOrStringSet = (value: string) => (value === '' ? true : new Set(val
 		output: {
 			dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
 			exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
+			files: args.flags.files ? parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files) : {},
 			formats: args.flags.formats.split(',') as ModuleFormat[],
 			minify: args.flags.minify as Set<ModuleFormat> | undefined,
 			preserveModules: args.flags.preserveModules as Set<ModuleFormat> | undefined,

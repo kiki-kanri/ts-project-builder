@@ -22,6 +22,7 @@ export interface BuilderOptions {
 	output: {
 		dirs?: PartialModuleFormatDict<string, 'default'>;
 		exts?: PartialModuleFormatDict<string, 'default'>;
+		files?: PartialModuleFormatDict<string, 'default'>;
 		formats: ModuleFormat[] | Set<ModuleFormat>;
 		minify?: boolean | ModuleFormat[] | Set<ModuleFormat>;
 		preserveModules?: boolean | ModuleFormat[] | Set<ModuleFormat>;
