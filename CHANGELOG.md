@@ -1,5 +1,28 @@
 # Changelog
 
+## v3.0.0
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.0.0-rc.1...v3.0.0)
+
+### 💅 Refactors
+
+- Clean up and optimize code ([23b324f](https://github.com/kiki-kanri/ts-project-builder/commit/23b324f))
+- ⚠️ Rename builtin to builtIn ([d024abb](https://github.com/kiki-kanri/ts-project-builder/commit/d024abb))
+
+### 📖 Documentation
+
+- Update CHANGELOG, package.json, and README ([cc5a0b3](https://github.com/kiki-kanri/ts-project-builder/commit/cc5a0b3))
+- Add comments and descriptions to properties in Config ([c019e6e](https://github.com/kiki-kanri/ts-project-builder/commit/c019e6e))
+- Add descriptions to some flags in cli ([c0ed863](https://github.com/kiki-kanri/ts-project-builder/commit/c0ed863))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️ Rename builtin to builtIn ([d024abb](https://github.com/kiki-kanri/ts-project-builder/commit/d024abb))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.0.0-rc.1
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.0.0-rc.0...v3.0.0-rc.1)
