@@ -8,13 +8,17 @@
     "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
   },
   "type": "module",
+  "module": "./dist/index.mjs",
+  "bin": "./dist/cli.mjs",
   "files": [
     "./dist"
   ],
   "scripts": {
-    "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -mf esm && dts-bundle-generator -o ./dist/index.d.ts --fail-on-class ./src/index.ts",
-    "bumplog": "changelogen --bump"
+    "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -mf esm && dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts",
+    "bumplog": "changelogen --bump",
+    "prepack": "pnpm run build"
   },
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
@@ -40,7 +44,7 @@
     "tsx": "^4.16.2"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.12"
   },
   "prettier": "@kikiutils/prettierrc"
 }
