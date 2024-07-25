@@ -6,30 +6,80 @@ import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions }
 import { minify } from 'rollup-plugin-esbuild';
 import type { ExternalsOptions } from 'rollup-plugin-node-externals';
 
-type ConfigOutputOptions = { options: Omit<OutputOptions, 'format'>; processMethod?: 'assign' | 'lodash-merge' | 'replace' };
+type ConfigOutputOptions = {
+	/**
+	 * Rollup's output options. The options will be processed based on the value of `processMethod` before the build.
+	 */
+	options: Omit<OutputOptions, 'format'>;
+
+	/**
+	 * Methods for handling options:
+	 *
+	 * - assign: Use Object.assign to combine custom options with the CLI-parsed and processed options.
+	 * - lodash-merge (default): Use lodash's merge to combine custom options with the CLI-parsed and processed options.
+	 * - replace: Completely replace CLI and default options with custom options.
+	 */
+	processMethod?: 'assign' | 'lodash-merge' | 'replace';
+};
+
 type MinifyOptions = Parameters<typeof minify>[0];
 export type NonNullableBuilderOutputOptions = NonNullable<Required<BuilderOptions['output']>>;
-type PartialModuleFormatDict<T, K extends string = never> = Partial<Record<ModuleFormat | K, T>>;
+type PartialModuleFormatWithDefaultDict<T> = Partial<Record<ModuleFormat | 'default', T>>;
 
 export interface BuilderOptions {
 	configFilePath?: string;
 	inputs: string[];
 	output: {
 		clean?: boolean | Set<ModuleFormat>;
-		dirs?: PartialModuleFormatDict<string, 'default'>;
-		exts?: PartialModuleFormatDict<string, 'default'>;
-		files?: PartialModuleFormatDict<string, 'default'>;
+		dirs?: PartialModuleFormatWithDefaultDict<string>;
+		exts?: PartialModuleFormatWithDefaultDict<string>;
+		files?: PartialModuleFormatWithDefaultDict<string>;
 		forceClean?: boolean | Set<ModuleFormat>;
 		formats: Set<ModuleFormat>;
 		minify?: boolean | Set<ModuleFormat>;
 		preserveModules?: boolean | Set<ModuleFormat>;
-		preserveModulesRoots?: PartialModuleFormatDict<string, 'default'>;
+		preserveModulesRoots?: PartialModuleFormatWithDefaultDict<string>;
 	};
 }
 
 export interface Config {
-	additionalInputPlugins?: { afterBuiltIns?: Plugin[]; beforeBuiltIns?: Plugin[] };
-	additionalOutputPlugins?: PartialModuleFormatDict<{ afterBuiltIns?: OutputPlugin[]; beforeBuiltIns?: OutputPlugin[] }, 'default'>;
+	/**
+	 * Additional input plugins.
+	 */
+	additionalInputPlugins?: {
+		/**
+		 * Plugins to insert after the built-in plugins.
+		 */
+		afterBuiltIns?: Plugin[];
+
+		/**
+		 * Plugins to insert before the built-in plugins.
+		 */
+		beforeBuiltIns?: Plugin[];
+	};
+
+	/**
+	 * You can specify additional output plugins. The logic for handling these plugins is as follows:
+	 *
+	 * - If a corresponding value for a format is set, only the specified value will be used for that format. Other formats that are not set will use the default value.
+	 *
+	 * For example, when outputting CJS and ESM formats, if `default.afterBuiltIns` and `esm.afterBuiltIns` are set, ESM will use only `esm.afterBuiltIns`, while CJS will use `default.afterBuiltIns`.
+	 */
+	additionalOutputPlugins?: PartialModuleFormatWithDefaultDict<{
+		/**
+		 * Plugins to insert after the built-in plugins.
+		 */
+		afterBuiltIns?: OutputPlugin[];
+
+		/**
+		 * Plugins to insert before the built-in plugins.
+		 */
+		beforeBuiltIns?: OutputPlugin[];
+	}>;
+
+	/**
+	 * Options for built-in input plugins.
+	 */
 	builtInInputPluginOptions?: {
 		commonjs?: RollupCommonJSOptions;
 		json?: RollupJsonOptions;
@@ -38,7 +88,18 @@ export interface Config {
 		typescript?: RollupTypescriptOptions;
 	};
 
-	builtInOutputPluginOptions?: { minify?: PartialModuleFormatDict<MinifyOptions, 'default'> };
-	outputOptions?: PartialModuleFormatDict<ConfigOutputOptions, 'default'>;
+	/**
+	 * Options for built-in output plugins.
+	 *
+	 * The same handling logic applies to `additionalOutputPlugins`.
+	 */
+	builtInOutputPluginOptions?: { minify?: PartialModuleFormatWithDefaultDict<MinifyOptions> };
+
+	/**
+	 * Output options for different formats.
+	 *
+	 * The same handling logic applies to `additionalOutputPlugins`.
+	 */
+	outputOptions?: PartialModuleFormatWithDefaultDict<ConfigOutputOptions>;
 	rollupOptions?: Omit<RollupOptions, 'input' | 'output' | 'plugins'>;
 }
