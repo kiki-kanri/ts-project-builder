@@ -1,5 +1,30 @@
 # Changelog
 
+## v3.0.0-rc.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.0.0-rc.0...v3.0.0-rc.1)
+
+### 🚀 Enhancements
+
+- Add functionality to specify rollup output.file option ([7ef69e7](https://github.com/kiki-kanri/ts-project-builder/commit/7ef69e7))
+- Add functionality to clean output directory or files before build ([32f3945](https://github.com/kiki-kanri/ts-project-builder/commit/32f3945))
+
+### 🩹 Fixes
+
+- Specify entry point in package.json ([9043e71](https://github.com/kiki-kanri/ts-project-builder/commit/9043e71))
+
+### 💅 Refactors
+
+- ⚠️ Remove aliases for dirs and exts cli args ([a937fe4](https://github.com/kiki-kanri/ts-project-builder/commit/a937fe4))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️ Remove aliases for dirs and exts cli args ([a937fe4](https://github.com/kiki-kanri/ts-project-builder/commit/a937fe4))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.0.0-rc.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v2.0.5...v3.0.0-rc.0)
