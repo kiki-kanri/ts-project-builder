@@ -8,6 +8,7 @@
     "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
   },
   "type": "module",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "bin": "./dist/cli.mjs",
   "files": [
