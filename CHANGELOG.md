@@ -1,5 +1,27 @@
 # Changelog
 
+## v3.0.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.0.0...v3.0.1)
+
+### 💅 Refactors
+
+- Remove all try-catch blocks in builder and throw all errors ([f4ed061](https://github.com/kiki-kanri/ts-project-builder/commit/f4ed061))
+- Use try-catch when instantiating Builder class and calling build method after cli parses parameters ([ed48ee4](https://github.com/kiki-kanri/ts-project-builder/commit/ed48ee4))
+
+### 📖 Documentation
+
+- Update README ([34bab78](https://github.com/kiki-kanri/ts-project-builder/commit/34bab78))
+
+### 🏡 Chore
+
+- Make cli input parameter mandatory and update usage in help ([38c3f05](https://github.com/kiki-kanri/ts-project-builder/commit/38c3f05))
+- Upgrade dependencies ([a874e92](https://github.com/kiki-kanri/ts-project-builder/commit/a874e92))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.0.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.0.0-rc.1...v3.0.0)
