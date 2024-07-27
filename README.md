@@ -38,14 +38,22 @@ That's it! You're ready to use this package for your project. Check out the [usa
 
 ## Usage
 
+Use the `-h` flag to view usage and all available flags:
+
+```bash
+ts-project-builder -h # package.json script
+npx ts-project-builder -h # terminal
+```
+
 Here is the most basic usage, using `./src/index.ts` as the entry point:
 
 ```bash
-ts-project-builder ./src/index.ts # package.json script
-npx ts-project-builder ./src/index.ts # terminal
+ts-project-builder ./src/index.ts
 ```
 
 By default, it will generate files in both CJS and ESM formats. The output directory is `./dist`, with file extensions `cjs` and `mjs` respectively.
+
+The input path supports Glob Patterns. Before building, the paths will be processed using glob. Please use quotation marks when specifying the paths.
 
 You can also specify multiple inputs simultaneously and designate the output formats:
 
