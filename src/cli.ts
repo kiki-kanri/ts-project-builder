@@ -1,7 +1,7 @@
 import { cli } from 'cleye';
 import type { ModuleFormat } from 'rollup';
 
-import { version } from '../package.json';
+import { name, version } from '../package.json';
 import Builder, { defaultConfigFilePath, defaultOutputDir, defaultOutputPreserveModulesRoot } from './builder';
 import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCliArgString } from './utils';
@@ -40,8 +40,9 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
 			preserveModules: { type: BooleanOrModuleFormats },
 			preserveModulesRoots: { default: defaultOutputPreserveModulesRoot, type: String }
 		},
-		name: 'ts-project-builder',
-		parameters: ['[inputs...]'],
+		help: { usage: `${name} <inputs...> [flags...]` },
+		name,
+		parameters: ['<inputs...>'],
 		version
 	});
 
