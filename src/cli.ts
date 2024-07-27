@@ -5,6 +5,7 @@ import { name, version } from '../package.json';
 import Builder, { defaultConfigFilePath, defaultOutputDir, defaultOutputPreserveModulesRoot } from './builder';
 import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCliArgString } from './utils';
+import { handleError } from './utils/rollup/logging';
 
 const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim().toLowerCase()))) as boolean | Set<ModuleFormat>;
 
@@ -48,21 +49,24 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
 
 	const inputs = args._.inputs;
 	if (!inputs.length) inputs.push('./src/index.ts');
-	const builder = new Builder({
-		configFilePath: args.flags.config,
-		inputs,
-		output: {
-			clean: args.flags.clean,
-			dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
-			exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
-			files: parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files || ''),
-			forceClean: args.flags.forceClean,
-			formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
-			minify: args.flags.minify,
-			preserveModules: args.flags.preserveModules,
-			preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots)
-		}
-	});
-
-	if (!(await builder.build())) process.exit(1);
+	try {
+		await new Builder({
+			configFilePath: args.flags.config,
+			inputs,
+			output: {
+				clean: args.flags.clean,
+				dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
+				exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
+				files: parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files || ''),
+				forceClean: args.flags.forceClean,
+				formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
+				minify: args.flags.minify,
+				preserveModules: args.flags.preserveModules,
+				preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots)
+			}
+		}).build();
+	} catch (error) {
+		handleError(error as Error);
+		process.exit(1);
+	}
 })();
