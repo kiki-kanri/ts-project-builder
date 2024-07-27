@@ -16,7 +16,7 @@ import { pathToFileURL } from 'url';
 import type { BuilderOptions, Config } from './types';
 import { pathIsFile } from './utils';
 import { bold, cyan, green } from './utils/rollup/colors';
-import { handleError, stderr } from './utils/rollup/logging';
+import { stderr } from './utils/rollup/logging';
 
 const availableOutputFormats = new Set<ModuleFormat>([
 	'amd',
@@ -61,17 +61,13 @@ export class Builder {
 
 	async #getConfig() {
 		if (!this.#configFilePath) return {};
-		try {
-			if (!(await pathIsFile(this.#configFilePath))) {
-				if (relative(this.#configFilePath, resolve(defaultConfigFilePath)) !== '') new Error(`Config file not found: ${this.#configFilePath}`);
-				return {};
-			}
-
-			const config = await import(pathToFileURL(resolve(this.#configFilePath)).toString());
-			return (config && typeof config === 'object' && 'default' in config ? config.default : config) as Config;
-		} catch (error) {
-			handleError(error as Error);
+		if (!(await pathIsFile(this.#configFilePath))) {
+			if (relative(this.#configFilePath, resolve(defaultConfigFilePath)) !== '') throw new Error(`Config file not found: ${this.#configFilePath}`);
+			return {};
 		}
+
+		const config = await import(pathToFileURL(resolve(this.#configFilePath)).toString());
+		return (config && typeof config === 'object' && 'default' in config ? config.default : config) as Config;
 	}
 
 	#isOutputOptionEnabled(format: ModuleFormat, optionKey: 'clean' | 'forceClean' | 'minify' | 'preserveModules') {
@@ -83,7 +79,6 @@ export class Builder {
 		stderr(cyan('Starting build...'));
 		const startAt = Date.now();
 		const config = await this.#getConfig();
-		if (!config) return false;
 		const baseOutputOptions: OutputOptions & { ext?: string } = {
 			dir: this.#options.output.dirs?.default || defaultOutputDir,
 			ext: this.#options.output.exts?.default,
@@ -145,9 +140,9 @@ export class Builder {
 				if (outputPath) {
 					const absoluteOutputPath = resolve(outputPath);
 					const relativePath = relative(rootPath, absoluteOutputPath);
-					if (relativePath === '') return handleError(new Error('The directory to be cleared is the same as the running directory.')), false;
+					if (relativePath === '') throw new Error('The directory to be cleared is the same as the running directory.');
 					// prettier-ignore
-					if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !this.#isOutputOptionEnabled(format, 'forceClean')) return handleError(new Error(`The path "${absoluteOutputPath}" to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.`)), false;
+					if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !this.#isOutputOptionEnabled(format, 'forceClean')) throw new Error(`The path "${absoluteOutputPath}" to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.`);
 					toRemovePaths.add(absoluteOutputPath);
 				}
 			}
@@ -157,17 +152,10 @@ export class Builder {
 
 		const logOutputTargetsString = bold(logOutputTargetsStrings.join(', ').trim());
 		stderr(cyan(`${bold((rollupOptions.input as string[]).join(', ').trim())} → ${logOutputTargetsString}...`));
-		try {
-			const rollupResult = await rollup({ ...rollupOptions, plugins: rollupInputPlugins });
-			if (toRemovePaths.size) await rm([...toRemovePaths].join(' '), { force: true, recursive: true });
-			await Promise.all(rollupOutputs.map((outputOptions) => rollupResult.write(outputOptions)));
-		} catch (error) {
-			handleError(error as Error);
-			return false;
-		}
-
+		const rollupResult = await rollup({ ...rollupOptions, plugins: rollupInputPlugins });
+		if (toRemovePaths.size) await rm([...toRemovePaths].join(' '), { force: true, recursive: true });
+		await Promise.all(rollupOutputs.map((outputOptions) => rollupResult.write(outputOptions)));
 		stderr(green(`Created ${logOutputTargetsString} in ${bold(prettyMilliseconds(Date.now() - startAt))}`));
-		return true;
 	}
 }
 
