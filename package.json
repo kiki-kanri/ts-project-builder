@@ -9,14 +9,13 @@
     "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
   },
   "type": "module",
-  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "bin": "./dist/cli.mjs",
   "files": [
     "./dist"
   ],
   "scripts": {
-    "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -mf esm --clean && dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts",
+    "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -f esm --clean --preserve-modules && dts-bundle-generator -o ./dist/index.d.ts ./src/index.ts",
     "bumplog": "changelogen --bump",
     "prepack": "pnpm run build"
   },
