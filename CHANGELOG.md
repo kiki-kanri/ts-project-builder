@@ -1,5 +1,17 @@
 # Changelog
 
+## v3.1.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.1.0...v3.1.1)
+
+### 🩹 Fixes
+
+- Add missing main field in package.json ([78e373c](https://github.com/kiki-kanri/ts-project-builder/commit/78e373c))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.1.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.0.1...v3.1.0)
