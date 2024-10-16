@@ -40,7 +40,7 @@ const outputFormatToExtMap = Object.freeze<Record<ModuleFormat, string>>({
 	commonjs: 'cjs',
 	es: 'mjs',
 	esm: 'mjs',
-	iife: 'life.js',
+	iife: 'iife.js',
 	module: 'mjs',
 	system: 'system.js',
 	systemjs: 'system.js',
