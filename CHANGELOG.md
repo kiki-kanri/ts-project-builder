@@ -1,5 +1,18 @@
 # Changelog
 
+## v3.2.3
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.2...v3.2.3)
+
+### 🏡 Chore
+
+- Modify release script ([db8e42b](https://github.com/kiki-kanri/ts-project-builder/commit/db8e42b))
+- Move tslib to dependencies ([60f3dc1](https://github.com/kiki-kanri/ts-project-builder/commit/60f3dc1))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.2.2
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.1...v3.2.2)
