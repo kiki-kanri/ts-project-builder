@@ -4,7 +4,7 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import { rm } from 'fs/promises';
 import { globSync } from 'glob';
-import { cloneDeep, merge } from 'lodash-es';
+import lodash from 'lodash';
 import { isAbsolute, relative, resolve } from 'path';
 import prettyMilliseconds from 'pretty-ms';
 import { rollup } from 'rollup';
@@ -52,7 +52,7 @@ export class Builder {
 	#options: BuilderOptions;
 
 	constructor(options: BuilderOptions) {
-		options = cloneDeep(options);
+		options = lodash.cloneDeep(options);
 		if (!options.inputs.length) throw new Error('No inputs specified');
 		if (!options.output.formats.size) throw new Error('No output formats specified');
 		this.#configFilePath = resolve(options.configFilePath || defaultConfigFilePath);
@@ -129,7 +129,7 @@ export class Builder {
 				outputOptions.plugins.push(...(config?.additionalOutputPlugins?.[format]?.afterBuiltIns || config?.additionalOutputPlugins?.default?.afterBuiltIns || []));
 				outputOptions.plugins.unshift(...(config?.additionalOutputPlugins?.[format]?.beforeBuiltIns || config?.additionalOutputPlugins?.default?.beforeBuiltIns || []));
 				if (configOutputOptions?.processMethod === 'assign') Object.assign(outputOptions, configOutputOptions.options);
-				else merge(outputOptions, configOutputOptions?.options);
+				else lodash.merge(outputOptions, configOutputOptions?.options);
 			}
 
 			outputOptions.format = format;
