@@ -1,5 +1,19 @@
 # Changelog
 
+## v3.2.4
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.3...v3.2.4)
+
+### 🏡 Chore
+
+- Replace lodash package with lodash-es ([a907582](https://github.com/kiki-kanri/ts-project-builder/commit/a907582))
+- Disable CJS build output ([f47047e](https://github.com/kiki-kanri/ts-project-builder/commit/f47047e))
+- Add missing types field in package.json ([b295591](https://github.com/kiki-kanri/ts-project-builder/commit/b295591))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.2.3
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.2...v3.2.3)

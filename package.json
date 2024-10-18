@@ -1,6 +1,6 @@
 {
   "name": "ts-project-builder",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "A powerful TypeScript project builder supporting multiple output formats, automatic cleaning, and customizable plugins.",
   "license": "MIT",
   "author": "kiki-kanri",
