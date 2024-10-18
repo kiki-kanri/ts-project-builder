@@ -1,5 +1,26 @@
 # Changelog
 
+## v3.2.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.0...v3.2.1)
+
+### 🩹 Fixes
+
+- Update all imports in types files to use import type ([a5d7857](https://github.com/kiki-kanri/ts-project-builder/commit/a5d7857))
+- Resolve missing `#!/usr/bin/env node` at the start of cli.cjs ([e672e52](https://github.com/kiki-kanri/ts-project-builder/commit/e672e52))
+
+### 💅 Refactors
+
+- Improve readability of parts of the code ([3b184e5](https://github.com/kiki-kanri/ts-project-builder/commit/3b184e5))
+
+### 🏡 Chore
+
+- Modify release script ([98171e6](https://github.com/kiki-kanri/ts-project-builder/commit/98171e6))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.2.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.1.2...v3.2.0)
