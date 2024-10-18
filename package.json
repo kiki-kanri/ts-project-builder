@@ -19,6 +19,7 @@
     "prepack": "pnpm run build",
     "release": "pnpm run build && changelogen --release && pnpm publish"
   },
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-json": "^6.1.0",
@@ -57,7 +58,6 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     }
   },
