@@ -133,8 +133,14 @@ export class Builder {
 			}
 
 			outputOptions.format = format;
-			if (outputOptions.file) delete outputOptions.dir, logOutputTargetsStrings.push(`${outputOptions.file} (${format})`);
-			else if (outputOptions.dir) delete outputOptions.file, logOutputTargetsStrings.push(`${outputOptions.dir} (${format})`);
+			if (outputOptions.file) {
+				delete outputOptions.dir;
+				logOutputTargetsStrings.push(`${outputOptions.file} (${format})`);
+			} else if (outputOptions.dir) {
+				delete outputOptions.file;
+				logOutputTargetsStrings.push(`${outputOptions.dir} (${format})`);
+			}
+
 			if (this.#isOutputOptionEnabled(format, 'clean')) {
 				const outputPath = outputOptions.dir || outputOptions.file;
 				if (outputPath) {
