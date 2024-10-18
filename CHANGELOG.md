@@ -1,5 +1,18 @@
 # Changelog
 
+## v3.2.2
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.1...v3.2.2)
+
+### 🏡 Chore
+
+- Replace lodash-es with lodash ([e6d7119](https://github.com/kiki-kanri/ts-project-builder/commit/e6d7119))
+- Remove main, module, and types fields from package.json and add exports configuration ([c67d788](https://github.com/kiki-kanri/ts-project-builder/commit/c67d788))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.2.1
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.0...v3.2.1)
