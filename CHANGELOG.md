@@ -1,5 +1,22 @@
 # Changelog
 
+## v3.3.0
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.4...v3.3.0)
+
+### 🚀 Enhancements
+
+- Export all types from entry point ([65b830d](https://github.com/kiki-kanri/ts-project-builder/commit/65b830d))
+
+### 🏡 Chore
+
+- Move tslib to devDependencies ([93ff7d6](https://github.com/kiki-kanri/ts-project-builder/commit/93ff7d6))
+- Upgrade dependencies and modify release script ([a5a12bd](https://github.com/kiki-kanri/ts-project-builder/commit/a5a12bd))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.2.4
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.3...v3.2.4)
