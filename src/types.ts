@@ -6,7 +6,7 @@ import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions }
 import { minify } from 'rollup-plugin-esbuild';
 import type { ExternalsOptions } from 'rollup-plugin-node-externals';
 
-type ConfigOutputOptions = {
+export type ConfigOutputOptions = {
 	/**
 	 * Rollup's output options. The options will be processed based on the value of `processMethod` before the build.
 	 */
@@ -22,9 +22,9 @@ type ConfigOutputOptions = {
 	processMethod?: 'assign' | 'lodash-merge' | 'replace';
 };
 
-type MinifyOptions = Parameters<typeof minify>[0];
+export type MinifyOptions = Parameters<typeof minify>[0];
 export type NonNullableBuilderOutputOptions = NonNullable<Required<BuilderOptions['output']>>;
-type PartialModuleFormatWithDefaultDict<T> = Partial<Record<ModuleFormat | 'default', T>>;
+export type PartialModuleFormatWithDefaultDict<T> = Partial<Record<ModuleFormat | 'default', T>>;
 
 export interface BuilderOptions {
 	configFilePath?: string;
