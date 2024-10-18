@@ -1,6 +1,6 @@
 import { stat } from 'fs/promises';
 
-export const parseCliArgString = <T extends Record<string, string> = {}>(value: string) => {
+export const parseCLIArgString = <T extends Record<string, string> = {}>(value: string) => {
 	const data: Record<string, string> = {};
 	for (const part of value.split(',')) {
 		const [key, value] = part.replaceAll(/\s+/g, '').split('=');
