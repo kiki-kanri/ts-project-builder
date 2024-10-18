@@ -1,5 +1,28 @@
 # Changelog
 
+## v3.2.0
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.1.2...v3.2.0)
+
+### 🚀 Enhancements
+
+- Export all types ([074b7ab](https://github.com/kiki-kanri/ts-project-builder/commit/074b7ab))
+- Modify build process and output files ([0ed1ec0](https://github.com/kiki-kanri/ts-project-builder/commit/0ed1ec0))
+- Add release script to package.json ([b0665d1](https://github.com/kiki-kanri/ts-project-builder/commit/b0665d1))
+
+### 💅 Refactors
+
+- Rename `parseCliArgString` to `parseCLIArgString` ([b6a0136](https://github.com/kiki-kanri/ts-project-builder/commit/b6a0136))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([019449c](https://github.com/kiki-kanri/ts-project-builder/commit/019449c))
+- Switch changelog generation package ([6b30966](https://github.com/kiki-kanri/ts-project-builder/commit/6b30966))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.1.2
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.1.1...v3.1.2)
