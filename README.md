@@ -62,7 +62,7 @@ You can also specify multiple inputs simultaneously and designate the output for
 ts-project-builder ./src/cli.ts ./src/index.ts -f amd,cjs,esm
 
 # cjs
-ts-project-builder "./src/**/*.ts" -f cjs
+ts-project-builder './src/**/*.ts' -f cjs
 ```
 
 > [!IMPORTANT]
@@ -222,16 +222,31 @@ export default defineConfig({});
 
 For detailed config instructions, please refer to the `Config` interface in [this file](./src/types.ts).
 
+## Direct Import Usage
+
+You can also directly import the `Builder` class in your code, create a builder instance, and execute the `builder.build` method.
+
+```typescript
+import { Builder } from 'ts-project-builder';
+
+const builder = new Builder({
+  inputs: ['./src/index.ts'],
+  output: { formats: new Set(['cjs', 'esm']) }
+});
+
+await builder.build();
+```
+
 ## License
 
 [MIT License](./LICENSE)
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/ts-project-builder/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-version-href]: https://npmjs.com/package/ts-project-builder
+[npm-version-src]: https://img.shields.io/npm/v/ts-project-builder/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/ts-project-builder.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-downloads-href]: https://npmjs.com/package/ts-project-builder
+[npm-downloads-src]: https://img.shields.io/npm/dm/ts-project-builder.svg?style=flat&colorA=18181B&colorB=28CF8D
 
-[license-src]: https://img.shields.io/npm/l/ts-project-builder.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://github.com/kiki-kanri/ts-project-builder/blob/main/LICENSE
+[license-src]: https://img.shields.io/npm/l/ts-project-builder.svg?style=flat&colorA=18181B&colorB=28CF8D
