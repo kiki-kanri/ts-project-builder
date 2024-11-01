@@ -1,5 +1,24 @@
 # Changelog
 
+## v3.3.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.0...v3.3.1)
+
+### 📖 Documentation
+
+- Update README ([ce5f146](https://github.com/kiki-kanri/ts-project-builder/commit/ce5f146))
+
+### 🏡 Chore
+
+- Update minimum Node.js version ([e5451e6](https://github.com/kiki-kanri/ts-project-builder/commit/e5451e6))
+- Modify release script in package.json ([bacd2a8](https://github.com/kiki-kanri/ts-project-builder/commit/bacd2a8))
+- Upgrade dependencies ([1d8dfbd](https://github.com/kiki-kanri/ts-project-builder/commit/1d8dfbd))
+- Change from tsx to jiti ([3ba4113](https://github.com/kiki-kanri/ts-project-builder/commit/3ba4113))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.3.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.2.4...v3.3.0)
