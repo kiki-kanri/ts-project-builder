@@ -17,7 +17,7 @@
     "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -f esm --clean --preserve-modules",
     "bumplog": "changelogen --bump",
     "prepack": "pnpm run build",
-    "release": "pnpm run build && changelogen --push --release && pnpm publish"
+    "release": "pnpm run build && changelogen --push --release && npm publish"
   },
   "types": "./dist/index.d.ts",
   "dependencies": {
