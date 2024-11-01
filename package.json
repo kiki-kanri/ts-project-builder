@@ -14,7 +14,7 @@
     "./dist"
   ],
   "scripts": {
-    "build": "tsx ./src/cli.ts ./src/cli.ts ./src/index.ts -f esm --clean --preserve-modules",
+    "build": "jiti ./src/cli.ts ./src/cli.ts ./src/index.ts -f esm --clean --preserve-modules",
     "bumplog": "changelogen --bump",
     "prepack": "pnpm run build",
     "release": "pnpm run build && changelogen --push --release && npm publish"
@@ -40,8 +40,8 @@
     "@kikiutils/tsconfigs": "^3.0.2",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.8.6",
-    "tslib": "^2.8.1",
-    "tsx": "^4.19.2"
+    "jiti": "^2.4.0",
+    "tslib": "^2.8.1"
   },
   "keywords": [
     "build tool",
