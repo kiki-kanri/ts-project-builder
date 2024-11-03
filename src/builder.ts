@@ -11,6 +11,7 @@ import { rollup } from 'rollup';
 import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import nodeExternals from 'rollup-plugin-node-externals';
+import type { SetFieldType } from 'type-fest';
 import { pathToFileURL } from 'url';
 
 import type { BuilderOptions, Config } from './types';
@@ -105,7 +106,7 @@ export class Builder {
 		for (const format of this.#options.output.formats) {
 			if (!availableOutputFormats.has(format)) throw new Error(`Invalid output format: ${format}`);
 			const configOutputOptions = config?.outputOptions?.[format] || config?.outputOptions?.default;
-			let outputOptions: Omit<OutputOptions, 'plugins'> & { plugins: OutputPlugin[] };
+			let outputOptions: SetFieldType<OutputOptions, 'plugins', OutputPlugin[]>;
 			if (configOutputOptions?.processMethod === 'replace') outputOptions = configOutputOptions.options as typeof outputOptions;
 			else {
 				outputOptions = {
