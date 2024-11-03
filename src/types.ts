@@ -5,12 +5,13 @@ import type { RollupTypescriptOptions } from '@rollup/plugin-typescript';
 import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions } from 'rollup';
 import type { minify } from 'rollup-plugin-esbuild';
 import type { ExternalsOptions } from 'rollup-plugin-node-externals';
+import type { Except } from 'type-fest';
 
 export type ConfigOutputOptions = {
 	/**
 	 * Rollup's output options. The options will be processed based on the value of `processMethod` before the build.
 	 */
-	options: Omit<OutputOptions, 'format'>;
+	options: Except<OutputOptions, 'format'>;
 
 	/**
 	 * Methods for handling options:
@@ -101,5 +102,5 @@ export interface Config {
 	 * The same handling logic applies to `additionalOutputPlugins`.
 	 */
 	outputOptions?: PartialModuleFormatWithDefaultDict<ConfigOutputOptions>;
-	rollupOptions?: Omit<RollupOptions, 'input' | 'output' | 'plugins'>;
+	rollupOptions?: Except<RollupOptions, 'input' | 'output' | 'plugins'>;
 }
