@@ -1,5 +1,28 @@
 # Changelog
 
+## v3.3.2
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.1...v3.3.2)
+
+### 💅 Refactors
+
+- Replace `Omit` type with type-fest's `Except` type ([a3c1ffb](https://github.com/kiki-kanri/ts-project-builder/commit/a3c1ffb))
+- Change `outputOptions` type in `builder.build` method to use `SetFieldType` definition ([8021fd4](https://github.com/kiki-kanri/ts-project-builder/commit/8021fd4))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([5a64c5c](https://github.com/kiki-kanri/ts-project-builder/commit/5a64c5c))
+- Replace Prettier with ESLint, add related files, and update VSCode settings ([c2c279f](https://github.com/kiki-kanri/ts-project-builder/commit/c2c279f))
+- Modify scripts in package.json ([9b0b9e4](https://github.com/kiki-kanri/ts-project-builder/commit/9b0b9e4))
+
+### 🎨 Styles
+
+- Format and lint all files ([899caf4](https://github.com/kiki-kanri/ts-project-builder/commit/899caf4))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.3.1
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.0...v3.3.1)

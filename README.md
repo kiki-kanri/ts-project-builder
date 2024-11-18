@@ -229,10 +229,12 @@ You can also directly import the `Builder` class in your code, create a builder 
 ```typescript
 import { Builder } from 'ts-project-builder';
 
+/* eslint-disable style/indent */
 const builder = new Builder({
   inputs: ['./src/index.ts'],
   output: { formats: new Set(['cjs', 'esm']) }
 });
+/* eslint-enable style/indent */
 
 await builder.build();
 ```
