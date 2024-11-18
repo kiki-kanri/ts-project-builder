@@ -80,7 +80,7 @@ export class Builder {
 		stderr(cyan('Starting build...'));
 		const startAt = Date.now();
 		const config = await this.#getConfig();
-		const baseOutputOptions: OutputOptions & { ext?: string } = {
+		const baseOutputOptions: { ext?: string } & OutputOptions = {
 			dir: this.#options.output.dirs?.default || defaultOutputDir,
 			ext: this.#options.output.exts?.default,
 			file: this.#options.output.files?.default,

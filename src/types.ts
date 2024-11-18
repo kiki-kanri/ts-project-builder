@@ -9,20 +9,20 @@ import type { Except } from 'type-fest';
 
 export type MinifyOptions = Parameters<typeof minify>[0];
 export type NonNullableBuilderOutputOptions = NonNullable<Required<BuilderOptions['output']>>;
-export type PartialModuleFormatWithDefaultDict<T> = Partial<Record<ModuleFormat | 'default', T>>;
+export type PartialModuleFormatWithDefaultDict<T> = Partial<Record<'default' | ModuleFormat, T>>;
 
 export interface BuilderOptions {
 	configFilePath?: string;
 	inputs: string[];
 	output: {
-		clean?: boolean | Set<ModuleFormat>;
+		clean?: Set<ModuleFormat> | boolean;
 		dirs?: PartialModuleFormatWithDefaultDict<string>;
 		exts?: PartialModuleFormatWithDefaultDict<string>;
 		files?: PartialModuleFormatWithDefaultDict<string>;
-		forceClean?: boolean | Set<ModuleFormat>;
+		forceClean?: Set<ModuleFormat> | boolean;
 		formats: Set<ModuleFormat>;
-		minify?: boolean | Set<ModuleFormat>;
-		preserveModules?: boolean | Set<ModuleFormat>;
+		minify?: Set<ModuleFormat> | boolean;
+		preserveModules?: Set<ModuleFormat> | boolean;
 		preserveModulesRoots?: PartialModuleFormatWithDefaultDict<string>;
 	};
 }
