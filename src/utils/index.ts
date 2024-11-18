@@ -1,6 +1,6 @@
-import { stat } from 'fs/promises';
+import { stat } from 'node:fs/promises';
 
-export const parseCLIArgString = <T extends Record<string, string> = {}>(value: string) => {
+export function parseCLIArgString<T extends Record<string, string> = Record<string, string>>(value: string) {
 	const data: Record<string, string> = {};
 	for (const part of value.split(',')) {
 		const [key, value] = part.replaceAll(/\s+/g, '').split('=');
@@ -9,10 +9,10 @@ export const parseCLIArgString = <T extends Record<string, string> = {}>(value: 
 	}
 
 	return data as T;
-};
+}
 
-export const pathIsFile = async (path: string) => {
+export async function pathIsFile(path: string) {
 	try {
 		return (await stat(path)).isFile();
 	} catch {}
-};
+}

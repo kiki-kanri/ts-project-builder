@@ -1,4 +1,4 @@
-const ABSOLUTE_PATH_REGEX = /^(?:\/|(?:[A-Za-z]:)?[/\\|])/;
+const ABSOLUTE_PATH_REGEX = /^(?:\/|(?:[A-Z]:)?[/\\|])/i;
 const RELATIVE_PATH_REGEX = /^\.?\.\//;
 const ALL_BACKSLASHES_REGEX = /\\/g;
 const ANY_SLASH_REGEX = /[/\\]/;

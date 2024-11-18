@@ -1,11 +1,12 @@
 import process from 'node:process';
 import type { RollupError } from 'rollup';
+
 import { bold, cyan, dim, red } from './colors';
 import relativeId from './relativeId';
 
 // log to stderr to keep `rollup main.js > bundle.js` from breaking
 export const stderr = (...parameters: readonly unknown[]) => process.stderr.write(`${parameters.join('')}\n`);
-export const handleError = (error: RollupError): void => {
+export function handleError(error: RollupError): void {
 	const name = error.name || (error.cause as Error)?.name;
 	const nameSection = name ? `${name}: ` : '';
 	const pluginSection = error.plugin ? `(plugin ${error.plugin}) ` : '';
@@ -33,4 +34,4 @@ export const handleError = (error: RollupError): void => {
 
 	outputLines.push('', '');
 	stderr(outputLines.join('\n'));
-};
+}

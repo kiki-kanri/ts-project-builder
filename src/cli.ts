@@ -1,7 +1,9 @@
 import { cli } from 'cleye';
+import { exit } from 'node:process';
 import type { ModuleFormat } from 'rollup';
 
 import { name, version } from '../package.json';
+
 import Builder, { defaultConfigFilePath, defaultOutputDir, defaultOutputPreserveModulesRoot } from './builder';
 import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCLIArgString } from './utils';
@@ -17,12 +19,12 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
 				alias: 'c',
 				default: defaultConfigFilePath,
 				description: 'The path to the config file.',
-				type: String
+				type: String,
 			},
 			dirs: {
 				default: defaultOutputDir,
 				description: 'The output directory paths.',
-				type: String
+				type: String,
 			},
 			exts: { description: 'The output file extensions.', type: String },
 			files: { description: 'The output file paths.', type: String },
@@ -31,20 +33,20 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
 				alias: 'f',
 				default: 'cjs,esm',
 				description: 'The output formats.',
-				type: String
+				type: String,
 			},
 			minify: {
 				alias: 'm',
 				description: 'Enable minify output.',
-				type: BooleanOrModuleFormats
+				type: BooleanOrModuleFormats,
 			},
 			preserveModules: { type: BooleanOrModuleFormats },
-			preserveModulesRoots: { default: defaultOutputPreserveModulesRoot, type: String }
+			preserveModulesRoots: { default: defaultOutputPreserveModulesRoot, type: String },
 		},
 		help: { usage: `${name} <inputs...> [flags...]` },
 		name,
 		parameters: ['<inputs...>'],
-		version
+		version,
 	});
 
 	const inputs = args._.inputs;
@@ -62,11 +64,11 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
 				formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
 				minify: args.flags.minify,
 				preserveModules: args.flags.preserveModules,
-				preserveModulesRoots: parseCLIArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots)
-			}
+				preserveModulesRoots: parseCLIArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots),
+			},
 		}).build();
 	} catch (error) {
 		handleError(error as Error);
-		process.exit(1);
+		exit(1);
 	}
 })();

@@ -16,25 +16,27 @@ export function isPathFragment(name: string): boolean {
 	return name[0] === '/' || (name[0] === '.' && (name[1] === '/' || name[1] === '.')) || isAbsolute(name);
 }
 
+/* eslint-disable regexp/no-unused-capturing-group */
 const UPPER_DIR_REGEX = /^(\.\.\/)*\.\.$/;
 
 export function getImportPath(importerId: string, targetPath: string, stripJsExtension: boolean, ensureFileName: boolean): string {
 	while (targetPath.startsWith('../')) {
 		targetPath = targetPath.slice(3);
-		importerId = '_/' + importerId;
+		importerId = `_/${importerId}`;
 	}
 	let relativePath = normalize(relative(dirname(importerId), targetPath));
 	if (stripJsExtension && relativePath.endsWith('.js')) {
 		relativePath = relativePath.slice(0, -3);
 	}
 	if (ensureFileName) {
-		if (relativePath === '') return '../' + basename(targetPath);
+		if (relativePath === '') return `../${basename(targetPath)}`;
 		if (UPPER_DIR_REGEX.test(relativePath)) {
 			return [
 				...relativePath.split('/'),
 				'..',
-				basename(targetPath)].join('/');
+				basename(targetPath),
+			].join('/');
 		}
 	}
-	return relativePath ? (relativePath.startsWith('..') ? relativePath : './' + relativePath) : '.';
+	return relativePath ? (relativePath.startsWith('..') ? relativePath : `./${relativePath}`) : '.';
 }

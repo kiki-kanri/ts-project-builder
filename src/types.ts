@@ -7,22 +7,6 @@ import type { minify } from 'rollup-plugin-esbuild';
 import type { ExternalsOptions } from 'rollup-plugin-node-externals';
 import type { Except } from 'type-fest';
 
-export type ConfigOutputOptions = {
-	/**
-	 * Rollup's output options. The options will be processed based on the value of `processMethod` before the build.
-	 */
-	options: Except<OutputOptions, 'format'>;
-
-	/**
-	 * Methods for handling options:
-	 *
-	 * - assign: Use Object.assign to combine custom options with the CLI-parsed and processed options.
-	 * - lodash-merge (default): Use lodash's merge to combine custom options with the CLI-parsed and processed options.
-	 * - replace: Completely replace CLI and default options with custom options.
-	 */
-	processMethod?: 'assign' | 'lodash-merge' | 'replace';
-};
-
 export type MinifyOptions = Parameters<typeof minify>[0];
 export type NonNullableBuilderOutputOptions = NonNullable<Required<BuilderOptions['output']>>;
 export type PartialModuleFormatWithDefaultDict<T> = Partial<Record<ModuleFormat | 'default', T>>;
@@ -103,4 +87,20 @@ export interface Config {
 	 */
 	outputOptions?: PartialModuleFormatWithDefaultDict<ConfigOutputOptions>;
 	rollupOptions?: Except<RollupOptions, 'input' | 'output' | 'plugins'>;
+}
+
+export interface ConfigOutputOptions {
+	/**
+	 * Rollup's output options. The options will be processed based on the value of `processMethod` before the build.
+	 */
+	options: Except<OutputOptions, 'format'>;
+
+	/**
+	 * Methods for handling options:
+	 *
+	 * - assign: Use Object.assign to combine custom options with the CLI-parsed and processed options.
+	 * - lodash-merge (default): Use lodash's merge to combine custom options with the CLI-parsed and processed options.
+	 * - replace: Completely replace CLI and default options with custom options.
+	 */
+	processMethod?: 'assign' | 'lodash-merge' | 'replace';
 }

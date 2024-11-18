@@ -1,4 +1,5 @@
-const ABSOLUTE_PATH_REGEX = /^(?:\/|(?:[A-Za-z]:)?[/\\|])/;
+const ABSOLUTE_PATH_REGEX = /^(?:\/|(?:[A-Z]:)?[/\\|])/i;
+/* eslint-disable regexp/no-unused-capturing-group */
 const RELATIVE_PATH_REGEX = /^\.?\.(\/|$)/;
 
 export function isAbsolute(path: string): boolean {

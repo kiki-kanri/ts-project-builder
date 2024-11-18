@@ -2,17 +2,17 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import { rm } from 'fs/promises';
 import { globSync } from 'glob';
 import { cloneDeep, merge } from 'lodash-es';
-import { isAbsolute, relative, resolve } from 'path';
+import { rm } from 'node:fs/promises';
+import { isAbsolute, relative, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import prettyMilliseconds from 'pretty-ms';
 import { rollup } from 'rollup';
 import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import nodeExternals from 'rollup-plugin-node-externals';
 import type { SetFieldType } from 'type-fest';
-import { pathToFileURL } from 'url';
 
 import type { BuilderOptions, Config } from './types';
 import { pathIsFile } from './utils';
@@ -29,7 +29,7 @@ const availableOutputFormats = new Set<ModuleFormat>([
 	'module',
 	'system',
 	'systemjs',
-	'umd'
+	'umd',
 ]);
 
 export const defaultConfigFilePath = './ts-project-builder.config.mjs' as const;
@@ -45,7 +45,7 @@ const outputFormatToExtMap = Object.freeze<Record<ModuleFormat, string>>({
 	module: 'mjs',
 	system: 'system.js',
 	systemjs: 'system.js',
-	umd: 'umd.js'
+	umd: 'umd.js',
 });
 
 export class Builder {
@@ -84,7 +84,7 @@ export class Builder {
 			dir: this.#options.output.dirs?.default || defaultOutputDir,
 			ext: this.#options.output.exts?.default,
 			file: this.#options.output.files?.default,
-			preserveModulesRoot: this.#options.output.preserveModulesRoots?.default || defaultOutputPreserveModulesRoot
+			preserveModulesRoot: this.#options.output.preserveModulesRoots?.default || defaultOutputPreserveModulesRoot,
 		};
 
 		const logOutputTargetsStrings: string[] = [];
@@ -95,10 +95,9 @@ export class Builder {
 			commonjs(config?.builtInInputPluginOptions?.commonjs),
 			json(config?.builtInInputPluginOptions?.json),
 			typescript(config?.builtInInputPluginOptions?.typescript),
-			...(config?.additionalInputPlugins?.afterBuiltIns || [])
+			...(config?.additionalInputPlugins?.afterBuiltIns || []),
 		];
 
-		// prettier-ignore
 		const rollupOptions: RollupOptions = { ...config?.rollupOptions, input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort() };
 		const rollupOutputs: OutputOptions[] = [];
 		const rootPath = resolve();
@@ -118,12 +117,12 @@ export class Builder {
 					generatedCode: {
 						arrowFunctions: true,
 						constBindings: true,
-						objectShorthand: true
+						objectShorthand: true,
 					},
 					interop: 'compat',
 					plugins: [],
 					preserveModules: this.#isOutputOptionEnabled(format, 'preserveModules'),
-					preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot
+					preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot,
 				};
 
 				if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins.push(minify(config?.builtInOutputPluginOptions?.minify?.[format] || config?.builtInOutputPluginOptions?.minify?.default));
@@ -148,8 +147,10 @@ export class Builder {
 					const absoluteOutputPath = resolve(outputPath);
 					const relativePath = relative(rootPath, absoluteOutputPath);
 					if (relativePath === '') throw new Error('The directory to be cleared is the same as the running directory.');
-					// prettier-ignore
-					if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !this.#isOutputOptionEnabled(format, 'forceClean')) throw new Error(`The path "${absoluteOutputPath}" to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.`);
+					if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !this.#isOutputOptionEnabled(format, 'forceClean')) {
+						throw new Error(`The path "${absoluteOutputPath}" to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.`);
+					}
+
 					toRemovePaths.add(absoluteOutputPath);
 				}
 			}

@@ -1,25 +1,43 @@
 {
   "name": "ts-project-builder",
+  "type": "module",
   "version": "3.3.1",
   "description": "A powerful TypeScript project builder supporting multiple output formats, automatic cleaning, and customizable plugins.",
-  "license": "MIT",
   "author": "kiki-kanri",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
   },
-  "type": "module",
+  "keywords": [
+    "build tool",
+    "builder",
+    "customizable",
+    "minification",
+    "module formats",
+    "rollup",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
   "bin": "./dist/cli.mjs",
   "files": [
     "./dist"
   ],
+  "engines": {
+    "node": ">=18.12.1"
+  },
   "scripts": {
     "build": "jiti ./src/cli.ts ./src/cli.ts ./src/index.ts -f esm --clean --preserve-modules",
     "bumplog": "changelogen --bump",
     "prepack": "pnpm run build",
     "release": "pnpm run build && changelogen --push --release && npm publish"
   },
-  "types": "./dist/index.d.ts",
   "dependencies": {
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-json": "^6.1.0",
@@ -37,29 +55,11 @@
   },
   "devDependencies": {
     "@kikiutils/changelogen": "^0.7.0",
-    "@kikiutils/eslint-config": "^0.2.0",
+    "@kikiutils/eslint-config": "^0.3.0",
     "@kikiutils/tsconfigs": "^3.0.2",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.9.0",
     "jiti": "^2.4.0",
     "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "build tool",
-    "builder",
-    "customizable",
-    "minification",
-    "module formats",
-    "rollup",
-    "typescript"
-  ],
-  "engines": {
-    "node": ">=18.12.1"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
   }
 }
