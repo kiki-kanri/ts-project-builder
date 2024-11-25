@@ -16,7 +16,7 @@ export function isPathFragment(name: string): boolean {
 	return name[0] === '/' || (name[0] === '.' && (name[1] === '/' || name[1] === '.')) || isAbsolute(name);
 }
 
-/* eslint-disable regexp/no-unused-capturing-group */
+// eslint-disable-next-line regexp/no-unused-capturing-group
 const UPPER_DIR_REGEX = /^(\.\.\/)*\.\.$/;
 
 export function getImportPath(importerId: string, targetPath: string, stripJsExtension: boolean, ensureFileName: boolean): string {
