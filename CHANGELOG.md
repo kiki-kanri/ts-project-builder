@@ -1,5 +1,29 @@
 # Changelog
 
+## v3.3.3
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.2...v3.3.3)
+
+### 💅 Refactors
+
+- Change for const to forEach inside `parseCLIArgString` ([bd05ab4](https://github.com/kiki-kanri/ts-project-builder/commit/bd05ab4))
+
+### 🏡 Chore
+
+- Update eslint-config and format codes ([126b8fd](https://github.com/kiki-kanri/ts-project-builder/commit/126b8fd))
+- Modify `eslint-disable-next-line` comment style ([4ec782b](https://github.com/kiki-kanri/ts-project-builder/commit/4ec782b))
+- Upgrade dependencies ([b141e28](https://github.com/kiki-kanri/ts-project-builder/commit/b141e28))
+- Upgrade dependencies ([0c5aac8](https://github.com/kiki-kanri/ts-project-builder/commit/0c5aac8))
+
+### 🎨 Styles
+
+- Change all indentation to 4 spaces ([361e163](https://github.com/kiki-kanri/ts-project-builder/commit/361e163))
+- Format and lint files ([2280c72](https://github.com/kiki-kanri/ts-project-builder/commit/2280c72))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.3.2
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.1...v3.3.2)
