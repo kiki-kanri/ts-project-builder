@@ -15,14 +15,14 @@ export interface BuilderOptions {
     configFilePath?: string;
     inputs: string[];
     output: {
-        clean?: Set<ModuleFormat> | boolean;
+        clean?: boolean | Set<ModuleFormat>;
         dirs?: PartialModuleFormatWithDefaultDict<string>;
         exts?: PartialModuleFormatWithDefaultDict<string>;
         files?: PartialModuleFormatWithDefaultDict<string>;
-        forceClean?: Set<ModuleFormat> | boolean;
+        forceClean?: boolean | Set<ModuleFormat>;
         formats: Set<ModuleFormat>;
-        minify?: Set<ModuleFormat> | boolean;
-        preserveModules?: Set<ModuleFormat> | boolean;
+        minify?: boolean | Set<ModuleFormat>;
+        preserveModules?: boolean | Set<ModuleFormat>;
         preserveModulesRoots?: PartialModuleFormatWithDefaultDict<string>;
     };
 }

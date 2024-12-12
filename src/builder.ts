@@ -62,7 +62,7 @@ export class Builder {
 
     async #getConfig() {
         if (!this.#configFilePath) return {};
-        if (!(await pathIsFile(this.#configFilePath))) {
+        if (!await pathIsFile(this.#configFilePath)) {
             if (relative(this.#configFilePath, resolve(defaultConfigFilePath)) !== '') throw new Error(`Config file not found: ${this.#configFilePath}`);
             return {};
         }
@@ -80,7 +80,7 @@ export class Builder {
         stderr(cyan('Starting build...'));
         const startAt = Date.now();
         const config = await this.#getConfig();
-        const baseOutputOptions: { ext?: string } & OutputOptions = {
+        const baseOutputOptions: OutputOptions & { ext?: string } = {
             dir: this.#options.output.dirs?.default || defaultOutputDir,
             ext: this.#options.output.exts?.default,
             file: this.#options.output.files?.default,
@@ -89,13 +89,13 @@ export class Builder {
 
         const logOutputTargetsStrings: string[] = [];
         const rollupInputPlugins: Plugin[] = [
-            ...(config?.additionalInputPlugins?.beforeBuiltIns || []),
+            ...config?.additionalInputPlugins?.beforeBuiltIns || [],
             nodeExternals(config?.builtInInputPluginOptions?.nodeExternal),
             nodeResolve(config?.builtInInputPluginOptions?.nodeResolve),
             commonjs(config?.builtInInputPluginOptions?.commonjs),
             json(config?.builtInInputPluginOptions?.json),
             typescript(config?.builtInInputPluginOptions?.typescript),
-            ...(config?.additionalInputPlugins?.afterBuiltIns || []),
+            ...config?.additionalInputPlugins?.afterBuiltIns || [],
         ];
 
         const rollupOptions: RollupOptions = { ...config?.rollupOptions, input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort() };
@@ -126,8 +126,8 @@ export class Builder {
                 };
 
                 if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins.push(minify(config?.builtInOutputPluginOptions?.minify?.[format] || config?.builtInOutputPluginOptions?.minify?.default));
-                outputOptions.plugins.push(...(config?.additionalOutputPlugins?.[format]?.afterBuiltIns || config?.additionalOutputPlugins?.default?.afterBuiltIns || []));
-                outputOptions.plugins.unshift(...(config?.additionalOutputPlugins?.[format]?.beforeBuiltIns || config?.additionalOutputPlugins?.default?.beforeBuiltIns || []));
+                outputOptions.plugins.push(...config?.additionalOutputPlugins?.[format]?.afterBuiltIns || config?.additionalOutputPlugins?.default?.afterBuiltIns || []);
+                outputOptions.plugins.unshift(...config?.additionalOutputPlugins?.[format]?.beforeBuiltIns || config?.additionalOutputPlugins?.default?.beforeBuiltIns || []);
                 if (configOutputOptions?.processMethod === 'assign') Object.assign(outputOptions, configOutputOptions.options);
                 else merge(outputOptions, configOutputOptions?.options);
             }

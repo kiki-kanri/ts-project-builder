@@ -38,5 +38,5 @@ export function getImportPath(importerId: string, targetPath: string, stripJsExt
             ].join('/');
         }
     }
-    return relativePath ? (relativePath.startsWith('..') ? relativePath : `./${relativePath}`) : '.';
+    return relativePath ? relativePath.startsWith('..') ? relativePath : `./${relativePath}` : '.';
 }

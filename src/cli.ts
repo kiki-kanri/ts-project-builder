@@ -9,7 +9,7 @@ import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCLIArgString } from './utils';
 import { handleError } from './utils/rollup/logging';
 
-const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim().toLowerCase()))) as Set<ModuleFormat> | boolean;
+const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim().toLowerCase()))) as boolean | Set<ModuleFormat>;
 
 (async () => {
     const args = cli({
