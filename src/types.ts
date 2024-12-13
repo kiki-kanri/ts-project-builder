@@ -2,7 +2,13 @@ import type { RollupCommonJSOptions } from '@rollup/plugin-commonjs';
 import type { RollupJsonOptions } from '@rollup/plugin-json';
 import type { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
 import type { RollupTypescriptOptions } from '@rollup/plugin-typescript';
-import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions } from 'rollup';
+import type {
+    ModuleFormat,
+    OutputOptions,
+    OutputPlugin,
+    Plugin,
+    RollupOptions,
+} from 'rollup';
 import type { minify } from 'rollup-plugin-esbuild';
 import type { ExternalsOptions } from 'rollup-plugin-node-externals';
 import type { Except } from 'type-fest';

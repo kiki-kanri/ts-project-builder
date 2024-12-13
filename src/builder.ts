@@ -3,20 +3,40 @@ import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import { globSync } from 'glob';
-import { cloneDeep, merge } from 'lodash-es';
+import {
+    cloneDeep,
+    merge,
+} from 'lodash-es';
 import { rm } from 'node:fs/promises';
-import { isAbsolute, relative, resolve } from 'node:path';
+import {
+    isAbsolute,
+    relative,
+    resolve,
+} from 'node:path';
 import { pathToFileURL } from 'node:url';
 import prettyMilliseconds from 'pretty-ms';
 import { rollup } from 'rollup';
-import type { ModuleFormat, OutputOptions, OutputPlugin, Plugin, RollupOptions } from 'rollup';
+import type {
+    ModuleFormat,
+    OutputOptions,
+    OutputPlugin,
+    Plugin,
+    RollupOptions,
+} from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
 import nodeExternals from 'rollup-plugin-node-externals';
 import type { SetFieldType } from 'type-fest';
 
-import type { BuilderOptions, Config } from './types';
+import type {
+    BuilderOptions,
+    Config,
+} from './types';
 import { pathIsFile } from './utils';
-import { bold, cyan, green } from './utils/rollup/colors';
+import {
+    bold,
+    cyan,
+    green,
+} from './utils/rollup/colors';
 import { stderr } from './utils/rollup/logging';
 
 const availableOutputFormats = new Set<ModuleFormat>([
@@ -98,7 +118,11 @@ export class Builder {
             ...config?.additionalInputPlugins?.afterBuiltIns || [],
         ];
 
-        const rollupOptions: RollupOptions = { ...config?.rollupOptions, input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort() };
+        const rollupOptions: RollupOptions = {
+            ...config?.rollupOptions,
+            input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort(),
+        };
+
         const rollupOutputs: OutputOptions[] = [];
         const rootPath = resolve();
         const toRemovePaths = new Set<string>();
@@ -160,8 +184,21 @@ export class Builder {
 
         const logOutputTargetsString = bold(logOutputTargetsStrings.join(', ').trim());
         stderr(cyan(`${bold((rollupOptions.input as string[]).join(', ').trim())} → ${logOutputTargetsString}...`));
-        const rollupResult = await rollup({ ...rollupOptions, plugins: rollupInputPlugins });
-        if (toRemovePaths.size) await rm([...toRemovePaths].join(' '), { force: true, recursive: true });
+        const rollupResult = await rollup({
+            ...rollupOptions,
+            plugins: rollupInputPlugins,
+        });
+
+        await Promise.all(
+            [...toRemovePaths].map(async (path) => rm(
+                path,
+                {
+                    force: true,
+                    recursive: true,
+                },
+            )),
+        );
+
         await Promise.all(rollupOutputs.map((outputOptions) => rollupResult.write(outputOptions)));
         stderr(green(`Created ${logOutputTargetsString} in ${bold(prettyMilliseconds(Date.now() - startAt))}`));
     }

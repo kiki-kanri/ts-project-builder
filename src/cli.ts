@@ -2,9 +2,16 @@ import { cli } from 'cleye';
 import { exit } from 'node:process';
 import type { ModuleFormat } from 'rollup';
 
-import { name, version } from '../package.json';
+import {
+    name,
+    version,
+} from '../package.json';
 
-import Builder, { defaultConfigFilePath, defaultOutputDir, defaultOutputPreserveModulesRoot } from './builder';
+import Builder, {
+    defaultConfigFilePath,
+    defaultOutputDir,
+    defaultOutputPreserveModulesRoot,
+} from './builder';
 import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCLIArgString } from './utils';
 import { handleError } from './utils/rollup/logging';
@@ -14,7 +21,10 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
 (async () => {
     const args = cli({
         flags: {
-            clean: { description: 'Clean the target directory or files before output.', type: BooleanOrModuleFormats },
+            clean: {
+                description: 'Clean the target directory or files before output.',
+                type: BooleanOrModuleFormats,
+            },
             config: {
                 alias: 'c',
                 default: defaultConfigFilePath,
@@ -26,9 +36,18 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
                 description: 'The output directory paths.',
                 type: String,
             },
-            exts: { description: 'The output file extensions.', type: String },
-            files: { description: 'The output file paths.', type: String },
-            forceClean: { description: 'Force clean the target directory or files before output.', type: BooleanOrModuleFormats },
+            exts: {
+                description: 'The output file extensions.',
+                type: String,
+            },
+            files: {
+                description: 'The output file paths.',
+                type: String,
+            },
+            forceClean: {
+                description: 'Force clean the target directory or files before output.',
+                type: BooleanOrModuleFormats,
+            },
             formats: {
                 alias: 'f',
                 default: 'cjs,esm',
@@ -41,7 +60,10 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
                 type: BooleanOrModuleFormats,
             },
             preserveModules: { type: BooleanOrModuleFormats },
-            preserveModulesRoots: { default: defaultOutputPreserveModulesRoot, type: String },
+            preserveModulesRoots: {
+                default: defaultOutputPreserveModulesRoot,
+                type: String,
+            },
         },
         help: { usage: `${name} <inputs...> [flags...]` },
         name,

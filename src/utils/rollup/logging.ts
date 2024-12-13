@@ -1,7 +1,12 @@
 import process from 'node:process';
 import type { RollupError } from 'rollup';
 
-import { bold, cyan, dim, red } from './colors';
+import {
+    bold,
+    cyan,
+    dim,
+    red,
+} from './colors';
 import relativeId from './relativeId';
 
 // log to stderr to keep `rollup main.js > bundle.js` from breaking

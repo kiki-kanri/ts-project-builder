@@ -1,5 +1,12 @@
 import { relative } from './browser-path';
-import { basename, dirname, extname, isAbsolute, normalize, resolve } from './path';
+import {
+    basename,
+    dirname,
+    extname,
+    isAbsolute,
+    normalize,
+    resolve,
+} from './path';
 
 export function getAliasName(id: string): string {
     const base = basename(id);
