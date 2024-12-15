@@ -1,5 +1,4 @@
 import { cli } from 'cleye';
-import { exit } from 'node:process';
 import type { ModuleFormat } from 'rollup';
 
 import {
@@ -91,6 +90,6 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
         }).build();
     } catch (error) {
         handleError(error as Error);
-        exit(1);
+        process.exit(1);
     }
 })();

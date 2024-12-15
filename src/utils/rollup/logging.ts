@@ -1,4 +1,3 @@
-import process from 'node:process';
 import type { RollupError } from 'rollup';
 
 import {
