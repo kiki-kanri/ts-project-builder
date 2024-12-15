@@ -1,5 +1,26 @@
 # Changelog
 
+## v3.3.4
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.3...v3.3.4)
+
+### 💅 Refactors
+
+- Remove process import statement ([b9f2b85](https://github.com/kiki-kanri/ts-project-builder/commit/b9f2b85))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([c59f586](https://github.com/kiki-kanri/ts-project-builder/commit/c59f586))
+- Upgrade dependencies ([32edc17](https://github.com/kiki-kanri/ts-project-builder/commit/32edc17))
+
+### 🎨 Styles
+
+- Format and lint all files ([23dcb00](https://github.com/kiki-kanri/ts-project-builder/commit/23dcb00))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.3.3
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.2...v3.3.3)
