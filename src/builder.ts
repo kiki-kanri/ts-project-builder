@@ -109,17 +109,17 @@ export class Builder {
 
         const logOutputTargetsStrings: string[] = [];
         const rollupInputPlugins: Plugin[] = [
-            ...config?.additionalInputPlugins?.beforeBuiltIns || [],
-            nodeExternals(config?.builtInInputPluginOptions?.nodeExternal),
-            nodeResolve(config?.builtInInputPluginOptions?.nodeResolve),
-            commonjs(config?.builtInInputPluginOptions?.commonjs),
-            json(config?.builtInInputPluginOptions?.json),
-            typescript(config?.builtInInputPluginOptions?.typescript),
-            ...config?.additionalInputPlugins?.afterBuiltIns || [],
+            ...config.additionalInputPlugins?.beforeBuiltIns || [],
+            nodeExternals(config.builtInInputPluginOptions?.nodeExternal),
+            nodeResolve(config.builtInInputPluginOptions?.nodeResolve),
+            commonjs(config.builtInInputPluginOptions?.commonjs),
+            json(config.builtInInputPluginOptions?.json),
+            typescript(config.builtInInputPluginOptions?.typescript),
+            ...config.additionalInputPlugins?.afterBuiltIns || [],
         ];
 
         const rollupOptions: RollupOptions = {
-            ...config?.rollupOptions,
+            ...config.rollupOptions,
             input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort(),
         };
 
@@ -128,7 +128,7 @@ export class Builder {
         const toRemovePaths = new Set<string>();
         for (const format of this.#options.output.formats) {
             if (!availableOutputFormats.has(format)) throw new Error(`Invalid output format: ${format}`);
-            const configOutputOptions = config?.outputOptions?.[format] || config?.outputOptions?.default;
+            const configOutputOptions = config.outputOptions?.[format] || config.outputOptions?.default;
             let outputOptions: SetFieldType<OutputOptions, 'plugins', OutputPlugin[]>;
             if (configOutputOptions?.processMethod === 'replace') outputOptions = configOutputOptions.options as typeof outputOptions;
             else {
@@ -149,9 +149,9 @@ export class Builder {
                     preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot,
                 };
 
-                if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins.push(minify(config?.builtInOutputPluginOptions?.minify?.[format] || config?.builtInOutputPluginOptions?.minify?.default));
-                outputOptions.plugins.push(...config?.additionalOutputPlugins?.[format]?.afterBuiltIns || config?.additionalOutputPlugins?.default?.afterBuiltIns || []);
-                outputOptions.plugins.unshift(...config?.additionalOutputPlugins?.[format]?.beforeBuiltIns || config?.additionalOutputPlugins?.default?.beforeBuiltIns || []);
+                if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins?.push(minify(config.builtInOutputPluginOptions?.minify?.[format] || config.builtInOutputPluginOptions?.minify?.default));
+                outputOptions.plugins?.push(...config.additionalOutputPlugins?.[format]?.afterBuiltIns || config.additionalOutputPlugins?.default?.afterBuiltIns || []);
+                outputOptions.plugins?.unshift(...config.additionalOutputPlugins?.[format]?.beforeBuiltIns || config.additionalOutputPlugins?.default?.beforeBuiltIns || []);
                 if (configOutputOptions?.processMethod === 'assign') Object.assign(outputOptions, configOutputOptions.options);
                 else merge(outputOptions, configOutputOptions?.options);
             }

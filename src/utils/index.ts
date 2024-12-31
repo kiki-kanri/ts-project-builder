@@ -7,7 +7,6 @@ export function parseCLIArgString<T extends Record<string, string> = Record<stri
             key,
             value,
         ] = part.replaceAll(/\s+/g, '').split('=');
-
         if (value === undefined) key !== undefined && (data.default = key);
         else if (key) data[key] = value;
     });
