@@ -1,5 +1,30 @@
 # Changelog
 
+## v3.4.0
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.4...v3.4.0)
+
+### 🚀 Enhancements
+
+- Add CLI option to enable sourcemap output ([2adbd2d](https://github.com/kiki-kanri/ts-project-builder/commit/2adbd2d))
+
+### 🩹 Fixes
+
+- Remove unnecessary ? operator and fix type errors ([e94f38d](https://github.com/kiki-kanri/ts-project-builder/commit/e94f38d))
+
+### 📦 Build
+
+- Enable sourcemap output in build process ([a772adb](https://github.com/kiki-kanri/ts-project-builder/commit/a772adb))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([bde0392](https://github.com/kiki-kanri/ts-project-builder/commit/bde0392))
+- Include src folder in the package published to npm ([2469c2d](https://github.com/kiki-kanri/ts-project-builder/commit/2469c2d))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.3.4
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.3...v3.3.4)
