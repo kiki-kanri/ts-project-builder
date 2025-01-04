@@ -27,7 +27,8 @@
   "types": "./dist/index.d.ts",
   "bin": "./dist/cli.mjs",
   "files": [
-    "./dist"
+    "./dist",
+    "./src"
   ],
   "engines": {
     "node": ">=18.12.1"
