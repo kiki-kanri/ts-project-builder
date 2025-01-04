@@ -105,6 +105,7 @@ export class Builder {
             ext: this.#options.output.exts?.default,
             file: this.#options.output.files?.default,
             preserveModulesRoot: this.#options.output.preserveModulesRoots?.default || defaultOutputPreserveModulesRoot,
+            sourcemap: this.#options.output.sourcemaps?.default,
         };
 
         const logOutputTargetsStrings: string[] = [];
@@ -147,6 +148,7 @@ export class Builder {
                     plugins: [],
                     preserveModules: this.#isOutputOptionEnabled(format, 'preserveModules'),
                     preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot,
+                    sourcemap: this.#options.output.sourcemaps?.[format] ?? baseOutputOptions.sourcemap,
                 };
 
                 if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins?.push(minify(config.builtInOutputPluginOptions?.minify?.[format] || config.builtInOutputPluginOptions?.minify?.default));

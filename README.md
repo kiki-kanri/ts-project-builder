@@ -206,6 +206,25 @@ Refer to the [Rollup documentation](https://rollupjs.org/configuration-options/#
 
 The configuration method is the same as for the [`--dirs`](#--dirs) flag.
 
+### --sourcemaps
+
+Refer to the [Rollup documentation](https://rollupjs.org/configuration-options/#output-sourcemap) for more details.
+
+The configuration method is the same as for the [`--dirs`](#--dirs) flag.
+
+However, the settings are different, using true, false, inline and hidden settings.
+
+```bash
+# All formats are enabled (use the 'true' setting).
+ts-project-builder ./src/index.ts --sourcemaps
+
+# In addition to ESM's use of inline, the rest of the format closure.
+ts-project-builder ./src/index.ts --sourcemaps false,esm=inline
+
+# Close ESM format only.
+ts-project-builder ./src/index.ts --sourcemaps esm=false
+```
+
 ## Config File
 
 If you need to pass options to built-in plugins, modify the output of specific formats, or use other options, you can use a config file.

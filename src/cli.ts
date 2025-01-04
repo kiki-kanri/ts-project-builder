@@ -17,6 +17,13 @@ import { handleError } from './utils/rollup/logging';
 
 const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim().toLowerCase()))) as boolean | Set<ModuleFormat>;
 
+function parseSourcemapFlagValue(value?: string) {
+    if (!value || value === 'true') return true;
+    if (value === 'false') return false;
+    if (value === 'hidden' || value === 'inline') return value;
+    throw new Error(`Invalid sourcemap option: '${value}'. Valid options are 'true', 'false', 'hidden', or 'inline'.`);
+}
+
 (async () => {
     const args = cli({
         flags: {
@@ -63,6 +70,10 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
                 default: defaultOutputPreserveModulesRoot,
                 type: String,
             },
+            sourcemaps: {
+                description: 'The output sourcemap options.',
+                type: String,
+            },
         },
         help: { usage: `${name} <inputs...> [flags...]` },
         name,
@@ -86,6 +97,14 @@ const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set
                 minify: args.flags.minify,
                 preserveModules: args.flags.preserveModules,
                 preserveModulesRoots: parseCLIArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots),
+                sourcemaps: (() => {
+                    if (args.flags.sourcemaps === undefined) return;
+                    const parseResult = parseCLIArgString(args.flags.sourcemaps);
+                    const sourcemaps: NonNullableBuilderOutputOptions['sourcemaps'] = {};
+                    for (const key in parseResult) sourcemaps[key as keyof NonNullableBuilderOutputOptions['sourcemaps']] = parseSourcemapFlagValue(parseResult[key]);
+                    sourcemaps.default ??= true;
+                    return sourcemaps;
+                })(),
             },
         }).build();
     } catch (error) {

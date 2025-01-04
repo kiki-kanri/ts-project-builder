@@ -30,6 +30,7 @@ export interface BuilderOptions {
         minify?: boolean | Set<ModuleFormat>;
         preserveModules?: boolean | Set<ModuleFormat>;
         preserveModulesRoots?: PartialModuleFormatWithDefaultDict<string>;
+        sourcemaps?: PartialModuleFormatWithDefaultDict<'hidden' | 'inline' | boolean>;
     };
 }
 
