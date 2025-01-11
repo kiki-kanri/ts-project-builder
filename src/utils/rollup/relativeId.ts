@@ -20,7 +20,7 @@ export default function relativeId(id: string): string {
 
 export function isPathFragment(name: string): boolean {
     // starting with "/", "./", "../", "C:/"
-    return name[0] === '/' || (name[0] === '.' && (name[1] === '/' || name[1] === '.')) || isAbsolute(name);
+    return name.startsWith('/') || (name.startsWith('.') && (name[1] === '/' || name[1] === '.')) || isAbsolute(name);
 }
 
 // eslint-disable-next-line regexp/no-unused-capturing-group
