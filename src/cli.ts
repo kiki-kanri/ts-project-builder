@@ -12,7 +12,7 @@ import Builder, {
     defaultOutputPreserveModulesRoot,
 } from './builder';
 import type { NonNullableBuilderOutputOptions } from './types';
-import { parseCLIArgString } from './utils';
+import { parseCliArgString } from './utils';
 import { handleError } from './utils/rollup/logging';
 
 const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim().toLowerCase()))) as boolean | Set<ModuleFormat>;
@@ -89,17 +89,17 @@ function parseSourcemapFlagValue(value?: string) {
             inputs,
             output: {
                 clean: args.flags.clean,
-                dirs: parseCLIArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
-                exts: parseCLIArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
-                files: parseCLIArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files || ''),
+                dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
+                exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
+                files: parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files || ''),
                 forceClean: args.flags.forceClean,
                 formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
                 minify: args.flags.minify,
                 preserveModules: args.flags.preserveModules,
-                preserveModulesRoots: parseCLIArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots),
+                preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots),
                 sourcemaps: (() => {
                     if (args.flags.sourcemaps === undefined) return;
-                    const parseResult = parseCLIArgString(args.flags.sourcemaps);
+                    const parseResult = parseCliArgString(args.flags.sourcemaps);
                     const sourcemaps: NonNullableBuilderOutputOptions['sourcemaps'] = {};
                     for (const key in parseResult) sourcemaps[key as keyof NonNullableBuilderOutputOptions['sourcemaps']] = parseSourcemapFlagValue(parseResult[key]);
                     sourcemaps.default ??= true;

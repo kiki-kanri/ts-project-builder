@@ -1,6 +1,6 @@
 import { stat } from 'node:fs/promises';
 
-export function parseCLIArgString<T extends Record<string, string> = Record<string, string>>(value: string) {
+export function parseCliArgString<T extends Record<string, string> = Record<string, string>>(value: string) {
     const data: Record<string, string> = {};
     value.split(',').forEach((part) => {
         const [
