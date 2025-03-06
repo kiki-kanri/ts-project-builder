@@ -1,5 +1,22 @@
 # Changelog
 
+## v3.4.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.0...v3.4.1)
+
+### 💅 Refactors
+
+- Replace `string[0] ===` with `string.startsWith` ([8d9e4be](https://github.com/kiki-kanri/ts-project-builder/commit/8d9e4be))
+- Rename `parseCLIArgString` to `parseCliArgString` ([81b8751](https://github.com/kiki-kanri/ts-project-builder/commit/81b8751))
+
+### 🏡 Chore
+
+- Upgrade dependencies and add `pnpm.onlyBuiltDependencies` setting to package.json ([b9d1130](https://github.com/kiki-kanri/ts-project-builder/commit/b9d1130))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.4.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.3.4...v3.4.0)
