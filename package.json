@@ -39,7 +39,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "prepack": "pnpm run build",
-    "release": "pnpm run lint && pnpm run build && changelogen --push --release && npm publish"
+    "release": "pnpm run lint && pnpm run build && changelogen --hideAuthorEmail --push --release && npm publish"
   },
   "dependencies": {
     "@rollup/plugin-commonjs": "^28.0.3",
