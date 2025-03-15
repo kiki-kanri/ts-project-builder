@@ -1,3 +1,11 @@
+import { rm } from 'node:fs/promises';
+import {
+    isAbsolute,
+    relative,
+    resolve,
+} from 'node:path';
+import { pathToFileURL } from 'node:url';
+
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
@@ -7,13 +15,6 @@ import {
     cloneDeep,
     merge,
 } from 'lodash-es';
-import { rm } from 'node:fs/promises';
-import {
-    isAbsolute,
-    relative,
-    resolve,
-} from 'node:path';
-import { pathToFileURL } from 'node:url';
 import prettyMilliseconds from 'pretty-ms';
 import { rollup } from 'rollup';
 import type {
@@ -83,7 +84,10 @@ export class Builder {
     async #getConfig() {
         if (!this.#configFilePath) return {};
         if (!await pathIsFile(this.#configFilePath)) {
-            if (relative(this.#configFilePath, resolve(defaultConfigFilePath)) !== '') throw new Error(`Config file not found: ${this.#configFilePath}`);
+            if (relative(this.#configFilePath, resolve(defaultConfigFilePath)) !== '') {
+                throw new Error(`Config file not found: ${this.#configFilePath}`);
+            }
+
             return {};
         }
 
@@ -131,11 +135,18 @@ export class Builder {
             if (!availableOutputFormats.has(format)) throw new Error(`Invalid output format: ${format}`);
             const configOutputOptions = config.outputOptions?.[format] || config.outputOptions?.default;
             let outputOptions: SetFieldType<OutputOptions, 'plugins', OutputPlugin[]>;
-            if (configOutputOptions?.processMethod === 'replace') outputOptions = configOutputOptions.options as typeof outputOptions;
-            else {
+            if (configOutputOptions?.processMethod === 'replace') {
+                outputOptions = configOutputOptions.options as typeof outputOptions;
+            } else {
+                const entryFileNames = `[name].${
+                    this.#options.output.exts?.[format]
+                    || baseOutputOptions.ext
+                    || outputFormatToExtMap[format]
+                }`;
+
                 outputOptions = {
                     dir: this.#options.output.dirs?.[format] || baseOutputOptions.dir,
-                    entryFileNames: `[name].${this.#options.output.exts?.[format] || baseOutputOptions.ext || outputFormatToExtMap[format]}`,
+                    entryFileNames,
                     exports: 'named',
                     externalLiveBindings: false,
                     file: this.#options.output.files?.[format] || baseOutputOptions.file,
@@ -151,11 +162,26 @@ export class Builder {
                     sourcemap: this.#options.output.sourcemaps?.[format] ?? baseOutputOptions.sourcemap,
                 };
 
-                if (this.#isOutputOptionEnabled(format, 'minify')) outputOptions.plugins?.push(minify(config.builtInOutputPluginOptions?.minify?.[format] || config.builtInOutputPluginOptions?.minify?.default));
-                outputOptions.plugins?.push(...config.additionalOutputPlugins?.[format]?.afterBuiltIns || config.additionalOutputPlugins?.default?.afterBuiltIns || []);
-                outputOptions.plugins?.unshift(...config.additionalOutputPlugins?.[format]?.beforeBuiltIns || config.additionalOutputPlugins?.default?.beforeBuiltIns || []);
-                if (configOutputOptions?.processMethod === 'assign') Object.assign(outputOptions, configOutputOptions.options);
-                else merge(outputOptions, configOutputOptions?.options);
+                if (this.#isOutputOptionEnabled(format, 'minify')) {
+                    const minifyOptions = config.builtInOutputPluginOptions?.minify?.[format] || config.builtInOutputPluginOptions?.minify?.default;
+                    outputOptions.plugins?.push(minify(minifyOptions));
+                }
+
+                outputOptions.plugins?.push(
+                    ...config.additionalOutputPlugins?.[format]?.afterBuiltIns
+                    || config.additionalOutputPlugins?.default?.afterBuiltIns
+                    || [],
+                );
+
+                outputOptions.plugins?.unshift(
+                    ...config.additionalOutputPlugins?.[format]?.beforeBuiltIns
+                    || config.additionalOutputPlugins?.default?.beforeBuiltIns
+                    || [],
+                );
+
+                if (configOutputOptions?.processMethod === 'assign') {
+                    Object.assign(outputOptions, configOutputOptions.options);
+                } else merge(outputOptions, configOutputOptions?.options);
             }
 
             outputOptions.format = format;
@@ -172,8 +198,14 @@ export class Builder {
                 if (outputPath) {
                     const absoluteOutputPath = resolve(outputPath);
                     const relativePath = relative(rootPath, absoluteOutputPath);
-                    if (relativePath === '') throw new Error('The directory to be cleared is the same as the running directory.');
-                    if (!(!isAbsolute(relativePath) && !relativePath.startsWith('..')) && !this.#isOutputOptionEnabled(format, 'forceClean')) {
+                    if (relativePath === '') {
+                        throw new Error('The directory to be cleared is the same as the running directory.');
+                    }
+
+                    if (
+                        !(!isAbsolute(relativePath) && !relativePath.startsWith('..'))
+                        && !this.#isOutputOptionEnabled(format, 'forceClean')
+                    ) {
                         throw new Error(`The path "${absoluteOutputPath}" to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.`);
                     }
 
