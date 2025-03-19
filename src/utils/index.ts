@@ -1,5 +1,7 @@
 import { stat } from 'node:fs/promises';
 
+export const pathIsFile = async (path: string) => (await stat(path).catch(() => {}))?.isFile();
+
 export function parseCliArgString<T extends Record<string, string> = Record<string, string>>(value: string) {
     const data: Record<string, string> = {};
     value.split(',').forEach((part) => {
@@ -12,10 +14,4 @@ export function parseCliArgString<T extends Record<string, string> = Record<stri
     });
 
     return data as T;
-}
-
-export async function pathIsFile(path: string) {
-    try {
-        return (await stat(path)).isFile();
-    } catch {}
 }
