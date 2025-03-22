@@ -216,8 +216,14 @@ export class Builder {
             rollupOutputs.push(outputOptions);
         }
 
+        const logInputFiles = [...rollupOptions.input as string[]];
+        if (logInputFiles.length > 20) {
+            logInputFiles.length = 20;
+            logInputFiles.push(`... (${logInputFiles.length - 20} more)`);
+        }
+
         const logOutputTargetsString = bold(logOutputTargetsStrings.join(', ').trim());
-        stderr(cyan(`${bold((rollupOptions.input as string[]).join(', ').trim())} → ${logOutputTargetsString}...`));
+        stderr(cyan(`${bold(logInputFiles.join(', ').trim())} → ${logOutputTargetsString}...`));
         const rollupResult = await rollup({
             ...rollupOptions,
             plugins: rollupInputPlugins,
