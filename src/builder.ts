@@ -218,8 +218,7 @@ export class Builder {
 
         const logInputFiles = [...rollupOptions.input as string[]];
         if (logInputFiles.length > 20) {
-            logInputFiles.length = 20;
-            logInputFiles.push(`... (${logInputFiles.length - 20} more)`);
+            logInputFiles.splice(20, logInputFiles.length, `... (${logInputFiles.length - 20} more)`);
         }
 
         const logOutputTargetsString = bold(logOutputTargetsStrings.join(', ').trim());
