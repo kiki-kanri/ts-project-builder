@@ -1,5 +1,17 @@
 # Changelog
 
+## v3.4.3
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.2...v3.4.3)
+
+### 🩹 Fixes
+
+- Resolve incorrect remaining file count in truncated display for many input files ([feeedfb](https://github.com/kiki-kanri/ts-project-builder/commit/feeedfb))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.4.2
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.1...v3.4.2)
