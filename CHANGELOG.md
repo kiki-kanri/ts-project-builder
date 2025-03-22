@@ -1,5 +1,26 @@
 # Changelog
 
+## v3.4.2
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.1...v3.4.2)
+
+### 💅 Refactors
+
+- Simplify `pathIsFile` definition ([6aef489](https://github.com/kiki-kanri/ts-project-builder/commit/6aef489))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([79701ad](https://github.com/kiki-kanri/ts-project-builder/commit/79701ad))
+- Set `hideAuthorEmail` arg in changelogen command ([169cce4](https://github.com/kiki-kanri/ts-project-builder/commit/169cce4))
+- Upgrade dependencies ([6e2aeb3](https://github.com/kiki-kanri/ts-project-builder/commit/6e2aeb3))
+- Format and lint codes ([b586ace](https://github.com/kiki-kanri/ts-project-builder/commit/b586ace))
+- Upgrade dependencies ([5dbb5f8](https://github.com/kiki-kanri/ts-project-builder/commit/5dbb5f8))
+- Truncate file list display when logging too many files ([b13b646](https://github.com/kiki-kanri/ts-project-builder/commit/b13b646))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.4.1
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.0...v3.4.1)
