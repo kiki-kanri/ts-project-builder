@@ -17,8 +17,9 @@ export function handleError(error: RollupError): void {
     const message = `${pluginSection}${nameSection}${error.message}`;
     const outputLines = [bold(red(`[!] ${bold(message.toString())}`))];
     if (error.url) outputLines.push(cyan(error.url));
-    if (error.loc) outputLines.push(`${relativeId((error.loc.file || error.id)!)}:${error.loc.line}:${error.loc.column}`);
-    else if (error.id) outputLines.push(relativeId(error.id));
+    if (error.loc) {
+        outputLines.push(`${relativeId((error.loc.file || error.id)!)}:${error.loc.line}:${error.loc.column}`);
+    } else if (error.id) outputLines.push(relativeId(error.id));
     if (error.frame) outputLines.push(dim(error.frame));
     if (error.stack) outputLines.push(dim(error.stack?.replace(`${nameSection}${error.message}\n`, '')));
     // ES2022: Error.prototype.cause is optional

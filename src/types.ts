@@ -53,9 +53,11 @@ export interface Config {
     /**
      * You can specify additional output plugins. The logic for handling these plugins is as follows:
      *
-     * - If a corresponding value for a format is set, only the specified value will be used for that format. Other formats that are not set will use the default value.
+     * - If a corresponding value for a format is set, only the specified value will be used for that format.
+     * Other formats that are not set will use the default value.
      *
-     * For example, when outputting CJS and ESM formats, if `default.afterBuiltIns` and `esm.afterBuiltIns` are set, ESM will use only `esm.afterBuiltIns`, while CJS will use `default.afterBuiltIns`.
+     * For example, when outputting CJS and ESM formats, if `default.afterBuiltIns` and `esm.afterBuiltIns` are set,
+     * ESM will use only `esm.afterBuiltIns`, while CJS will use `default.afterBuiltIns`.
      */
     additionalOutputPlugins?: PartialModuleFormatWithDefaultDict<{
         /**

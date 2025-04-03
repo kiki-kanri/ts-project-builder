@@ -158,11 +158,13 @@ export class Builder {
                     interop: 'compat',
                     plugins: [],
                     preserveModules: this.#isOutputOptionEnabled(format, 'preserveModules'),
+                    // eslint-disable-next-line style/max-len
                     preserveModulesRoot: this.#options.output.preserveModulesRoots?.[format] || baseOutputOptions.preserveModulesRoot,
                     sourcemap: this.#options.output.sourcemaps?.[format] ?? baseOutputOptions.sourcemap,
                 };
 
                 if (this.#isOutputOptionEnabled(format, 'minify')) {
+                    // eslint-disable-next-line style/max-len
                     const minifyOptions = config.builtInOutputPluginOptions?.minify?.[format] || config.builtInOutputPluginOptions?.minify?.default;
                     outputOptions.plugins?.push(minify(minifyOptions));
                 }
@@ -206,6 +208,7 @@ export class Builder {
                         !(!isAbsolute(relativePath) && !relativePath.startsWith('..'))
                         && !this.#isOutputOptionEnabled(format, 'forceClean')
                     ) {
+                        // eslint-disable-next-line style/max-len
                         throw new Error(`The path "${absoluteOutputPath}" to be cleaned is not under the running directory. To force clean, please add the --force-clean parameter.`);
                     }
 

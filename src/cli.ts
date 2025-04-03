@@ -15,7 +15,10 @@ import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCliArgString } from './utils';
 import { handleError } from './utils/rollup/logging';
 
-const BooleanOrModuleFormats = (value: string) => (value === '' ? true : new Set(value.split(',').map((value) => value.trim().toLowerCase()))) as boolean | Set<ModuleFormat>;
+function BooleanOrModuleFormats(value: string): boolean | Set<ModuleFormat> {
+    if (value === '') return true;
+    return new Set(value.split(',').map((value) => value.trim().toLowerCase())) as Set<ModuleFormat>;
+}
 
 function parseSourcemapFlagValue(value?: string) {
     if (!value || value === 'true') return true;
@@ -96,12 +99,17 @@ function parseSourcemapFlagValue(value?: string) {
                 formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
                 minify: args.flags.minify,
                 preserveModules: args.flags.preserveModules,
+                // eslint-disable-next-line style/max-len
                 preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots),
                 sourcemaps: (() => {
                     if (args.flags.sourcemaps === undefined) return;
                     const parseResult = parseCliArgString(args.flags.sourcemaps);
                     const sourcemaps: NonNullableBuilderOutputOptions['sourcemaps'] = {};
-                    for (const key in parseResult) sourcemaps[key as keyof NonNullableBuilderOutputOptions['sourcemaps']] = parseSourcemapFlagValue(parseResult[key]);
+                    for (const key in parseResult) {
+                        // eslint-disable-next-line style/max-len
+                        sourcemaps[key as keyof NonNullableBuilderOutputOptions['sourcemaps']] = parseSourcemapFlagValue(parseResult[key]);
+                    }
+
                     sourcemaps.default ??= true;
                     return sourcemaps;
                 })(),

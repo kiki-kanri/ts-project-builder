@@ -26,7 +26,12 @@ export function isPathFragment(name: string): boolean {
 // eslint-disable-next-line regexp/no-unused-capturing-group
 const UPPER_DIR_REGEX = /^(\.\.\/)*\.\.$/;
 
-export function getImportPath(importerId: string, targetPath: string, stripJsExtension: boolean, ensureFileName: boolean): string {
+export function getImportPath(
+    importerId: string,
+    targetPath: string,
+    stripJsExtension: boolean,
+    ensureFileName: boolean,
+): string {
     while (targetPath.startsWith('../')) {
         targetPath = targetPath.slice(3);
         importerId = `_/${importerId}`;
