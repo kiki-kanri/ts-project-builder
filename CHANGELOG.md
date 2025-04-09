@@ -1,5 +1,24 @@
 # Changelog
 
+## v3.4.4
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.3...v3.4.4)
+
+### 💅 Refactors
+
+- Replace `globSync` with native node:fs functionality ([1e56a53](https://github.com/kiki-kanri/ts-project-builder/commit/1e56a53))
+- Update import style for some modules ([5789fba](https://github.com/kiki-kanri/ts-project-builder/commit/5789fba))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([fddcb35](https://github.com/kiki-kanri/ts-project-builder/commit/fddcb35))
+- Format and lint code ([d81d425](https://github.com/kiki-kanri/ts-project-builder/commit/d81d425))
+- Upgrade dependencies ([4935add](https://github.com/kiki-kanri/ts-project-builder/commit/4935add))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.4.3
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.2...v3.4.3)
