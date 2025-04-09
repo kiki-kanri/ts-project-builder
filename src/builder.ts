@@ -9,7 +9,7 @@ import { pathToFileURL } from 'node:url';
 
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
-import nodeResolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import {
     cloneDeep,
@@ -25,7 +25,7 @@ import type {
     RollupOptions,
 } from 'rollup';
 import { minify } from 'rollup-plugin-esbuild';
-import nodeExternals from 'rollup-plugin-node-externals';
+import { nodeExternals } from 'rollup-plugin-node-externals';
 import type { SetFieldType } from 'type-fest';
 
 import type {
