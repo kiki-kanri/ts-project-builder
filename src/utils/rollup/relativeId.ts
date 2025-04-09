@@ -13,7 +13,7 @@ export function getAliasName(id: string): string {
     return base.slice(0, Math.max(0, base.length - extname(id).length));
 }
 
-export default function relativeId(id: string): string {
+export function relativeId(id: string): string {
     if (!isAbsolute(id)) return id;
     return relative(resolve(), id);
 }

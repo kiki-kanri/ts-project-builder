@@ -245,5 +245,3 @@ export class Builder {
         stderr(green(`Created ${logOutputTargetsString} in ${bold(prettyMilliseconds(Date.now() - startAt))}`));
     }
 }
-
-export default Builder;

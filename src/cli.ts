@@ -6,7 +6,8 @@ import {
     version,
 } from '../package.json';
 
-import Builder, {
+import {
+    Builder,
     defaultConfigFilePath,
     defaultOutputDir,
     defaultOutputPreserveModulesRoot,

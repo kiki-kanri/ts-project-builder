@@ -6,7 +6,7 @@ import {
     dim,
     red,
 } from './colors';
-import relativeId from './relativeId';
+import { relativeId } from './relativeId';
 
 // log to stderr to keep `rollup main.js > bundle.js` from breaking
 export const stderr = (...parameters: readonly unknown[]) => process.stderr.write(`${parameters.join('')}\n`);
