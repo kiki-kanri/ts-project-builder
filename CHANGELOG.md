@@ -1,5 +1,21 @@
 # Changelog
 
+## v4.0.0
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.4...v4.0.0)
+
+### 💅 Refactors
+
+- ⚠️ Remove all default export ([8f3de1a](https://github.com/kiki-kanri/ts-project-builder/commit/8f3de1a))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️ Remove all default export ([8f3de1a](https://github.com/kiki-kanri/ts-project-builder/commit/8f3de1a))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v3.4.4
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.3...v3.4.4)
