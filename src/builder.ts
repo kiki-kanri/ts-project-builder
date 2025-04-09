@@ -1,3 +1,4 @@
+import { globSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
 import {
     isAbsolute,
@@ -10,7 +11,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import { globSync } from 'glob';
 import {
     cloneDeep,
     merge,
