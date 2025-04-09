@@ -1,5 +1,17 @@
 # Changelog
 
+## v4.0.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v4.0.0...v4.0.1)
+
+### 🏡 Chore
+
+- Remove `resolveJsonModule` from `tsconfig.json` ([38080dd](https://github.com/kiki-kanri/ts-project-builder/commit/38080dd))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v4.0.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v3.4.4...v4.0.0)
