@@ -56,7 +56,7 @@ const availableOutputFormats = new Set<ModuleFormat>([
 export const defaultConfigFilePath = './ts-project-builder.config.mjs' as const;
 export const defaultOutputDir = './dist' as const;
 export const defaultOutputPreserveModulesRoot = './src' as const;
-const outputFormatToExtMap = Object.freeze<Record<ModuleFormat, string>>({
+const outputFormatToExtMap: Readonly<Record<ModuleFormat, string>> = {
     amd: 'amd.js',
     cjs: 'cjs',
     commonjs: 'cjs',
@@ -67,7 +67,7 @@ const outputFormatToExtMap = Object.freeze<Record<ModuleFormat, string>>({
     system: 'system.js',
     systemjs: 'system.js',
     umd: 'umd.js',
-});
+};
 
 export class Builder {
     #configFilePath: string;
