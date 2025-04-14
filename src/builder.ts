@@ -100,6 +100,32 @@ export class Builder {
         return this.#options.output[optionKey] === true || this.#options.output[optionKey].has(format);
     }
 
+    #prepareInputPlugins(config: Config) {
+        const plugins: Plugin[] = config.additionalInputPlugins?.beforeBuiltIns || [];
+        if (config.enableBuiltInInputPlugins?.nodeExternal !== false) {
+            plugins.push(nodeExternals(config.builtInInputPluginOptions?.nodeExternal));
+        }
+
+        if (config.enableBuiltInInputPlugins?.nodeResolve !== false) {
+            plugins.push(nodeResolve(config.builtInInputPluginOptions?.nodeResolve));
+        }
+
+        if (config.enableBuiltInInputPlugins?.commonjs !== false) {
+            plugins.push(commonjs(config.builtInInputPluginOptions?.commonjs));
+        }
+
+        if (config.enableBuiltInInputPlugins?.json !== false) {
+            plugins.push(json(config.builtInInputPluginOptions?.json));
+        }
+
+        if (config.enableBuiltInInputPlugins?.typescript !== false) {
+            plugins.push(typescript(config.builtInInputPluginOptions?.typescript));
+        }
+
+        plugins.push(...config.additionalInputPlugins?.afterBuiltIns || []);
+        return plugins;
+    }
+
     async build() {
         stderr(cyan('Starting build...'));
         const startAt = Date.now();
@@ -113,28 +139,7 @@ export class Builder {
         };
 
         const logOutputTargetsStrings: string[] = [];
-        const rollupInputPlugins: Plugin[] = config.additionalInputPlugins?.beforeBuiltIns || [];
-        if (config.enableBuiltInInputPlugins?.nodeExternal !== false) {
-            rollupInputPlugins.push(nodeExternals(config.builtInInputPluginOptions?.nodeExternal));
-        }
-
-        if (config.enableBuiltInInputPlugins?.nodeResolve !== false) {
-            rollupInputPlugins.push(nodeResolve(config.builtInInputPluginOptions?.nodeResolve));
-        }
-
-        if (config.enableBuiltInInputPlugins?.commonjs !== false) {
-            rollupInputPlugins.push(commonjs(config.builtInInputPluginOptions?.commonjs));
-        }
-
-        if (config.enableBuiltInInputPlugins?.json !== false) {
-            rollupInputPlugins.push(json(config.builtInInputPluginOptions?.json));
-        }
-
-        if (config.enableBuiltInInputPlugins?.typescript !== false) {
-            rollupInputPlugins.push(typescript(config.builtInInputPluginOptions?.typescript));
-        }
-
-        rollupInputPlugins.push(...config.additionalInputPlugins?.afterBuiltIns || []);
+        const rollupInputPlugins = this.#prepareInputPlugins(config);
         const rollupOptions: RollupOptions = {
             ...config.rollupOptions,
             input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort(),
