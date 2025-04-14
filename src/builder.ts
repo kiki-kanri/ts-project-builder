@@ -113,16 +113,28 @@ export class Builder {
         };
 
         const logOutputTargetsStrings: string[] = [];
-        const rollupInputPlugins: Plugin[] = [
-            ...config.additionalInputPlugins?.beforeBuiltIns || [],
-            nodeExternals(config.builtInInputPluginOptions?.nodeExternal),
-            nodeResolve(config.builtInInputPluginOptions?.nodeResolve),
-            commonjs(config.builtInInputPluginOptions?.commonjs),
-            json(config.builtInInputPluginOptions?.json),
-            typescript(config.builtInInputPluginOptions?.typescript),
-            ...config.additionalInputPlugins?.afterBuiltIns || [],
-        ];
+        const rollupInputPlugins: Plugin[] = config.additionalInputPlugins?.beforeBuiltIns || [];
+        if (config.enableBuiltInInputPlugins?.nodeExternal !== false) {
+            rollupInputPlugins.push(nodeExternals(config.builtInInputPluginOptions?.nodeExternal));
+        }
 
+        if (config.enableBuiltInInputPlugins?.nodeResolve !== false) {
+            rollupInputPlugins.push(nodeResolve(config.builtInInputPluginOptions?.nodeResolve));
+        }
+
+        if (config.enableBuiltInInputPlugins?.commonjs !== false) {
+            rollupInputPlugins.push(commonjs(config.builtInInputPluginOptions?.commonjs));
+        }
+
+        if (config.enableBuiltInInputPlugins?.json !== false) {
+            rollupInputPlugins.push(json(config.builtInInputPluginOptions?.json));
+        }
+
+        if (config.enableBuiltInInputPlugins?.typescript !== false) {
+            rollupInputPlugins.push(typescript(config.builtInInputPluginOptions?.typescript));
+        }
+
+        rollupInputPlugins.push(...config.additionalInputPlugins?.afterBuiltIns || []);
         const rollupOptions: RollupOptions = {
             ...config.rollupOptions,
             input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort(),

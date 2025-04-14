@@ -72,6 +72,36 @@ export interface Config {
     }>;
 
     /**
+     * Whether to enable built-in input plugins.
+     */
+    enableBuiltInInputPlugins?: {
+        /**
+         * @default true
+         */
+        commonjs?: boolean;
+
+        /**
+         * @default true
+         */
+        json?: boolean;
+
+        /**
+         * @default true
+         */
+        nodeExternal?: boolean;
+
+        /**
+         * @default true
+         */
+        nodeResolve?: boolean;
+
+        /**
+         * @default true
+         */
+        typescript?: boolean;
+    };
+
+    /**
      * Options for built-in input plugins.
      */
     builtInInputPluginOptions?: {
