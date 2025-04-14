@@ -1011,6 +1011,8 @@
 
 ## v0.0.1
 
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/3cf5013...v0.0.1)
+
 ### 🏡 Chore
 
 - Add gitignore and package.json ([3f8b2bc](https://github.com/kiki-kanri/ts-project-builder/commit/3f8b2bc))
