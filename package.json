@@ -28,7 +28,9 @@
     }
   },
   "types": "./dist/index.d.ts",
-  "bin": "./dist/cli.mjs",
+  "bin": {
+    "ts-project-builder": "dist/cli.mjs"
+  },
   "files": [
     "./dist",
     "./src"
