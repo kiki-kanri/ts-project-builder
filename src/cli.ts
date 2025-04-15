@@ -100,8 +100,9 @@ function parseSourcemapFlagValue(value?: string) {
                 formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
                 minify: args.flags.minify,
                 preserveModules: args.flags.preserveModules,
-                // eslint-disable-next-line style/max-len
-                preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(args.flags.preserveModulesRoots),
+                preserveModulesRoots: parseCliArgString<NonNullableBuilderOutputOptions['preserveModulesRoots']>(
+                    args.flags.preserveModulesRoots,
+                ),
                 sourcemaps: (() => {
                     if (args.flags.sourcemaps === undefined) return;
                     const parseResult = parseCliArgString(args.flags.sourcemaps);
