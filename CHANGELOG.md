@@ -1,5 +1,46 @@
 # Changelog
 
+## v5.0.0
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v4.0.1...v5.0.0)
+
+### 🚀 Enhancements
+
+- Add `enableBuiltInInputPlugins` option to toggle built-in plugin activation ([b9b2fc9](https://github.com/kiki-kanri/ts-project-builder/commit/b9b2fc9))
+
+### 🩹 Fixes
+
+- Avoid applying glob to non-glob input paths to properly detect invalid paths ([f89c470](https://github.com/kiki-kanri/ts-project-builder/commit/f89c470))
+
+### 💅 Refactors
+
+- Replace `Object.freeze` with readonly type definitions for constants and variables ([5ac0627](https://github.com/kiki-kanri/ts-project-builder/commit/5ac0627))
+- Extract `rollupInputPlugins` creation to a separate method ([06861fd](https://github.com/kiki-kanri/ts-project-builder/commit/06861fd))
+- Remove explicit return types from some functions ([ed5761b](https://github.com/kiki-kanri/ts-project-builder/commit/ed5761b))
+- ⚠️ Rename CLI flags ([dde1bfd](https://github.com/kiki-kanri/ts-project-builder/commit/dde1bfd))
+
+### 📖 Documentation
+
+- Update CHANGELOG ([783ad48](https://github.com/kiki-kanri/ts-project-builder/commit/783ad48))
+- Update README, package description and keywords ([199e37b](https://github.com/kiki-kanri/ts-project-builder/commit/199e37b))
+
+### 🏡 Chore
+
+- Upgrade dependencies ([bd6b2b0](https://github.com/kiki-kanri/ts-project-builder/commit/bd6b2b0))
+- Remove unused code ([cb2803d](https://github.com/kiki-kanri/ts-project-builder/commit/cb2803d))
+- Set "sideEffects" field in package.json ([4c50b07](https://github.com/kiki-kanri/ts-project-builder/commit/4c50b07))
+- Update `bin` field configuration in package.json ([0fe36e4](https://github.com/kiki-kanri/ts-project-builder/commit/0fe36e4))
+- Format code ([5734074](https://github.com/kiki-kanri/ts-project-builder/commit/5734074))
+- Upgrade dependencies ([5d5e123](https://github.com/kiki-kanri/ts-project-builder/commit/5d5e123))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️ Rename CLI flags ([dde1bfd](https://github.com/kiki-kanri/ts-project-builder/commit/dde1bfd))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v4.0.1
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v4.0.0...v4.0.1)

@@ -1,7 +1,7 @@
 {
   "name": "ts-project-builder",
   "type": "module",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Rollup-based TypeScript builder with multi-format output and built-in common plugins.",
   "author": "kiki-kanri",
   "license": "MIT",
