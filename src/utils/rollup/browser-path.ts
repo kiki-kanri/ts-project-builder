@@ -1,6 +1,6 @@
 const ANY_SLASH_REGEX = /[/\\]/;
 
-export function relative(from: string, to: string) {
+export function relative(from: string, to: string): string {
     const fromParts = from.split(ANY_SLASH_REGEX).filter(Boolean);
     const toParts = to.split(ANY_SLASH_REGEX).filter(Boolean);
 
