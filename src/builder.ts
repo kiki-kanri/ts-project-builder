@@ -1,5 +1,7 @@
-import { globSync } from 'node:fs';
-import { rm } from 'node:fs/promises';
+import {
+    glob,
+    rm,
+} from 'node:fs/promises';
 import {
     isAbsolute,
     relative,
@@ -11,6 +13,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+// @ts-expect-error Ignore this error.
+import isGlob from 'is-glob';
 import {
     cloneDeep,
     merge,
@@ -138,11 +142,21 @@ export class Builder {
             sourcemap: this.#options.output.sourcemaps?.default,
         };
 
+        const inputFiles = await Promise.all(
+            [...new Set(this.#options.inputs)].map(async (input) => {
+                if (!isGlob(input, { strict: false })) return input;
+                const files = [];
+                for await (const file of glob(input)) files.push(file);
+                if (!files.length) console.warn(`⚠️  No files matched for glob pattern: ${input}`);
+                return files;
+            }),
+        );
+
         const logOutputTargetsStrings: string[] = [];
         const rollupInputPlugins = this.#prepareInputPlugins(config);
         const rollupOptions: RollupOptions = {
             ...config.rollupOptions,
-            input: [...new Set(this.#options.inputs)].map((input) => globSync(input)).flat().sort(),
+            input: [...new Set(inputFiles.flat())].sort(),
         };
 
         const rollupOutputs: OutputOptions[] = [];
