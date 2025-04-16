@@ -63,12 +63,12 @@
     "rollup": "^4.40.0",
     "rollup-plugin-esbuild": "^6.2.1",
     "rollup-plugin-node-externals": "^8.0.0",
-    "type-fest": "^4.39.1"
+    "type-fest": "^4.40.0"
   },
   "devDependencies": {
     "@kikiutils/changelogen": "^0.8.0",
     "@kikiutils/eslint-config": "^0.12.2",
-    "@kikiutils/tsconfigs": "^4.1.0",
+    "@kikiutils/tsconfigs": "^4.1.1",
     "@types/is-glob": "^4.0.4",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.14.1",
