@@ -4,7 +4,7 @@
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 
-A powerful TypeScript project builder supporting multiple output formats, automatic cleaning, and customizable plugins.
+Rollup-based TypeScript builder with multi-format output and built-in common plugins.
 
 - [✨ Release Notes](./CHANGELOG.md)
 
@@ -20,55 +20,57 @@ A powerful TypeScript project builder supporting multiple output formats, automa
 - 📜 Customizable Rollup plugins for input and output
 - 🔄 Merges or replaces configurations for flexible build setups
 
-## Environment Requirements
+## Requirements
 
-- Node.js version 18.12 or higher
+- **Node.js** `>= 18.12.1`
 
 ## Installation
 
-Add dependency (example using pnpm).
+Using [pnpm](https://pnpm.io):
 
 ```bash
 pnpm add -D ts-project-builder
 ```
 
-You can also use yarn, npm, or bun to add the dependency.
-
-That's it! You're ready to use this package for your project. Check out the [usage instructions](#usage) below ✨.
+You can also use `yarn`, `npm`, or `bun`.
 
 ## Usage
 
-Use the `-h` flag to view usage and all available flags:
+Use the `-h` flag to view usage and all available options:
 
 ```bash
-ts-project-builder -h # package.json script
-npx ts-project-builder -h # terminal
+ts-project-builder -h       # from package.json script
+npx ts-project-builder -h   # directly from terminal
 ```
 
-Here is the most basic usage, using `./src/index.ts` as the entry point:
+### Basic Usage
+
+Run the builder with a single entry file:
 
 ```bash
 ts-project-builder ./src/index.ts
 ```
 
-By default, it will generate files in both CJS and ESM formats. The output directory is `./dist`, with file extensions `cjs` and `mjs` respectively.
+By default, it outputs both CommonJS (`.cjs`) and ESM (`.mjs`) formats to the `./dist` directory.
 
-The input path supports Glob Patterns. Before building, the paths will be processed using glob. Please use quotation marks when specifying the paths.
+### Multiple Inputs and Format Control
 
-You can also specify multiple inputs simultaneously and designate the output formats:
+You can pass multiple inputs and specify desired output formats:
 
 ```bash
-# amd, cjs, esm
+# Output as amd, cjs, and esm
 ts-project-builder ./src/cli.ts ./src/index.ts -f amd,cjs,esm
 
-# cjs
+# Use glob patterns (wrap in quotes!)
 ts-project-builder './src/**/*.ts' -f cjs
 ```
 
 > [!IMPORTANT]
-> Ensure that input parameters are specified before any other flags to avoid incorrect parsing.
+> Input files must be listed **before** any flags to ensure correct parsing.
 
-By default, different formats will generate files with different extensions, as shown in the table below:
+### Format Extensions
+
+Each format will generate files with the following extensions:
 
 | Format   | Extension |
 | -------- | --------- |
@@ -83,7 +85,9 @@ By default, different formats will generate files with different extensions, as 
 | systemjs | system.js |
 | umd      | umd.js    |
 
-This builder includes the following Rollup input plugins (listed in execution order):
+### Built-in Rollup Plugins
+
+This builder uses the following Rollup input plugins (in order):
 
 - [rollup-plugin-node-externals](https://github.com/Septh/rollup-plugin-node-externals)
 - [@rollup/plugin-node-resolve](https://github.com/rollup/plugins/tree/master/packages/node-resolve)
@@ -91,159 +95,189 @@ This builder includes the following Rollup input plugins (listed in execution or
 - [@rollup/plugin-json](https://github.com/rollup/plugins/tree/master/packages/json)
 - [@rollup/plugin-typescript](https://github.com/rollup/plugins/tree/master/packages/typescript)
 
-For more flags and usage details, please refer to [flags](#flags).
+For more options and advanced configuration, see the [CLI Flags](#cli-flags) section.
 
-## Flags
+## CLI Flags
 
-### --clean
+### `--clean`
 
-Clean the target directory or files before output.
+Cleans the output directory or files **right before writing output files**.
 
-If the flag is used without any value, all formats will be enabled. If specific formats are provided, only the specified formats will be enabled.
+- If used without a value, **all formats** will be cleaned.
+- If specific formats are provided, only output files for the specified formats will be cleaned.
+- If the build fails, nothing will be cleaned.
+- Files or folders to be cleaned are determined by their output paths.
+
+  👉 If multiple formats (e.g. CJS and ESM) share the same output directory (like `./dist`), using `--clean cjs` will still clean the **entire directory**.
 
 ```bash
-# All formats will clean the target directory or files before output
+# Clean all formats before output
 ts-project-builder ./src/index.ts --clean
 
-# Only the CJS format will clean the target directory or files before output
+# Clean only CJS format before output
 ts-project-builder ./src/index.ts --clean cjs
 ```
 
 > [!IMPORTANT]
-> An error will be thrown if the path to be cleaned is not under the directory where the builder is running. To force cleaning, please use [this flag](#--force-clean).
+> An error will be thrown if the path to be cleaned is outside the current working directory.
+>
+> To bypass this check, use [`--force-clean`](#--force-clean).
 
-### -c, --config
+### `-c`, `--config`
 
-The path to the config file. Only `.mjs` files are accepted.
+Specifies the path to the config file.
+
+Only `.mjs` files are supported — the file must be an **ES module**, as it is loaded using `await import`.
 
 **Default**: `./ts-project-builder.config.mjs`
 
-### --dirs
+### `--dirs`
 
-The output directory paths. Refer to the [Rollup documentation](https://rollupjs.org/configuration-options/#output-dir) for more details.
+Specifies the output directory path(s).
+
+See [Rollup's `output.dir` documentation](https://rollupjs.org/configuration-options/#output-dir) for more details.
 
 **Default**: `./dist`
 
-You can specify different output paths for different formats, separated by commas and designated using the `<format>=[path]` method. If there is no `<format>=` and only a path is provided, that path will be used as the common value for all formats.
+You can define separate output directories for different formats using `<format>=<path>`, separated by commas.
+
+- If only a path is provided (e.g. `./dist`), it will be used for **all formats**.
+- If format-specific paths are provided, those formats will output to the corresponding directories.
 
 ```bash
-# All formats are output to ./dist
+# All formats output to ./dist
 ts-project-builder ./src/index.ts --dirs ./dist
 
-# CJS output to ./cjs, others output to ./dist
+# CJS outputs to ./cjs, all others use default ./dist
 ts-project-builder ./src/index.ts --dirs cjs=./cjs
 
-# ESM output to ./dist, others output to ./output
+# ESM outputs to ./dist, all others to ./output
 ts-project-builder ./src/index.ts --dirs ./output,esm=./dist
 ```
 
-### --exts
+### `--exts`
 
-The output file extensions.
+Specifies the output file extensions for each format.
 
-If not set, or if the corresponding format is not specified, the default file extension from the table above will be used.
-
-The priority is: specified value > specified common value > table value.
-
-The configuration method is the same as for the [`--dirs`](#--dirs) flag.
+- If not set, or if a specific format is not listed, the default extension from the [format table](#format-extensions) will be used.
+- The priority order is **explicit per-format value > common extension value > default table value**.
+- The syntax is the same as [`--dirs`](#--dirs), using `<format>=<ext>` and separating multiple values with commas.
 
 ```bash
-# CJS uses cjs, others use js
+# CJS uses `.cjs`, others use `.js`
 ts-project-builder ./src/index.ts --exts cjs=cjs,js
 
-# ESM uses js, others use the corresponding values from the table
+# ESM uses `.js`, others use default extensions from the format table
 ts-project-builder ./src/index.ts --exts esm=js
 ```
 
-### --files
+### `--files`
 
-The output file paths. Refer to the [Rollup documentation](https://rollupjs.org/configuration-options/#output-file) for more details.
+Specifies exact output file paths.
 
-If this flag is set, it will override the [`--dirs`](#--dirs) flag.
+See the [Rollup documentation](https://rollupjs.org/configuration-options/#output-file) for more details.
 
-The configuration method is the same as for the [`--dirs`](#--dirs) flag.
+- If this flag is set, it will override the [`--dirs`](#--dirs) flag.
+- The format and syntax are the same as [`--dirs`](#--dirs), using `<format>=<path>`.
 
 ```bash
-# CJS output to ./cjs.cjs, others output to the ./dist directory
+# CJS outputs to ./cjs.cjs, all other formats use ./dist
 ts-project-builder ./src/index.ts --files cjs=./cjs.cjs
 
-# CJS output to ./cjs/index.cjs, ESM output to the ./esm directory, others output to the ./dist directory
+# - CJS outputs to ./cjs/index.cjs (from --files)
+# - ESM outputs to ./esm (from --dirs)
+# - All others output to ./dist (default)
 ts-project-builder ./src/index.ts --dirs cjs=./cjs-dist,esm=./esm --files cjs=./cjs/index.cjs
 ```
 
-### --force-clean
+### `--force-clean`
 
-Force clean the target directory or files before output. Must be used together with the [`--clean`](#--clean) flag.
+Forcibly cleans the target directory or files **before output**, even if they are outside the current working directory.
 
-The configuration method is the same as for the [`--clean`](#--clean) flag.
+- Must be used **together with** the [`--clean`](#--clean) flag.
+- Uses the same syntax and format as [`--clean`](#--clean).
 
 > [!CAUTION]
-> Use this flag with caution.
+>
+> Use this flag with caution — it can delete files outside your project folder.
 
-### -f, --formats
+### `-f`, `--formats`
 
-The output formats. Can accept multiple formats, but duplicates will only be considered once.
+Specifies the output formats.
+
+Multiple formats can be provided, separated by commas. Duplicate entries will be ignored.
 
 **Default**: `cjs,esm`
 
-### -m, --minify
+### `-m`, `--minify`
 
-Minify the code using the `minify` feature provided by [`rollup-plugin-esbuild`](https://github.com/egoist/rollup-plugin-esbuild) before the final output.
+Minifies the output using the `minify` option from [`rollup-plugin-esbuild`](https://github.com/egoist/rollup-plugin-esbuild).
 
-The configuration method is the same as for the [`--clean`](#--clean) flag.
+- Uses the same configuration syntax as [`--clean`](#--clean).
 
-### --preserve-modules
+### `--preserve-modules`
 
-Refer to the [Rollup documentation](https://rollupjs.org/configuration-options/#output-preservemodules) for more details.
+Preserves the module structure in the output (i.e., does not bundle into a single file).
 
-The configuration method is the same as for the [`--clean`](#--clean) flag.
+See [Rollup documentation](https://rollupjs.org/configuration-options/#output-preservemodules) for details.
 
-### --preserve-modules-roots
+- Uses the same configuration syntax as [`--clean`](#--clean).
 
-Refer to the [Rollup documentation](https://rollupjs.org/configuration-options/#output-preservemodulesroot) for more details.
+### `--preserve-modules-roots`
 
-**Default**: `./src`
+Specifies the root directory for preserved modules.
 
-The configuration method is the same as for the [`--dirs`](#--dirs) flag.
+See [Rollup documentation](https://rollupjs.org/configuration-options/#output-preservemodulesroot) for details.
 
-### --sourcemaps
+- **Default**: `./src`
+- Uses the same configuration syntax as [`--dirs`](#--dirs).
 
-Refer to the [Rollup documentation](https://rollupjs.org/configuration-options/#output-sourcemap) for more details.
+### `--sourcemaps`
 
-The configuration method is the same as for the [`--dirs`](#--dirs) flag.
+Enables or configures sourcemap output.
 
-However, the settings are different, using true, false, inline and hidden settings.
+See the [Rollup documentation](https://rollupjs.org/configuration-options/#output-sourcemap) for more details.
+
+- Supports values: `true`, `false`, `inline`, and `hidden`.
+- Uses the same configuration syntax as [`--dirs`](#--dirs).
+- If no format is specified, the setting applies to **all formats**.
 
 ```bash
-# All formats are enabled (use the 'true' setting).
+# All formats use the 'true' setting (sourcemaps enabled)
 ts-project-builder ./src/index.ts --sourcemaps
 
-# In addition to ESM's use of inline, the rest of the format closure.
+# ESM format uses 'inline', all others use 'false' (sourcemaps disabled)
 ts-project-builder ./src/index.ts --sourcemaps false,esm=inline
 
-# Close ESM format only.
+# Only disable sourcemaps for the ESM format
 ts-project-builder ./src/index.ts --sourcemaps esm=false
 ```
 
 ## Config File
 
-If you need to pass options to built-in plugins, modify the output of specific formats, or use other options, you can use a config file.
+If you need to customize plugin behavior, modify per-format output, or access advanced options, you can use a configuration file.
 
-By default, the build process will attempt to read the `./ts-project-builder.config.mjs` file. You can use the [`-c`](#-c---config) flag to specify the config file path.
+By default, the builder looks for `./ts-project-builder.config.mjs`.
 
-After creating the file, fill in the following code:
+You can override this using the [`-c`](#-c---config) flag.
 
-```javascript
+### Example
+
+Create a config file and start with the following template:
+
+```js
 import { defineConfig } from 'ts-project-builder';
 
 export default defineConfig({});
 ```
 
-For detailed config instructions, please refer to the `Config` interface in [this file](./src/types.ts).
+For full type definitions and configuration options, refer to the `Config` interface in [./src/types.ts](./src/types.ts).
 
 ## Direct Import Usage
 
-You can also directly import the `Builder` class in your code, create a builder instance, and execute the `builder.build` method.
+You can also use `ts-project-builder` as a library by directly importing the `Builder` class.
+
+Create a builder instance and call the `build()` method:
 
 ```typescript
 import { Builder } from 'ts-project-builder';
@@ -254,8 +288,8 @@ const builder = new Builder({
         formats: new Set([
             'cjs',
             'esm'
-        ])
-    }
+        ]),
+    },
 });
 
 await builder.build();

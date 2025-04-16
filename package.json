@@ -2,7 +2,7 @@
   "name": "ts-project-builder",
   "type": "module",
   "version": "4.0.1",
-  "description": "A powerful TypeScript project builder supporting multiple output formats, automatic cleaning, and customizable plugins.",
+  "description": "Rollup-based TypeScript builder with multi-format output and built-in common plugins.",
   "author": "kiki-kanri",
   "license": "MIT",
   "repository": {
@@ -10,11 +10,15 @@
     "url": "git+https://github.com/kiki-kanri/ts-project-builder.git"
   },
   "keywords": [
-    "build tool",
+    "build-tool",
     "builder",
-    "customizable",
-    "minification",
-    "module formats",
+    "bundler",
+    "cjs",
+    "declaration",
+    "esm",
+    "multi-format",
+    "package-builder",
+    "plugin",
     "rollup",
     "typescript"
   ],
