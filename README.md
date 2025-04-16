@@ -131,65 +131,6 @@ Only `.mjs` files are supported — the file must be an **ES module**, as it is 
 
 **Default**: `./ts-project-builder.config.mjs`
 
-### `--dirs`
-
-Specifies the output directory path(s).
-
-See [Rollup's `output.dir` documentation](https://rollupjs.org/configuration-options/#output-dir) for more details.
-
-**Default**: `./dist`
-
-You can define separate output directories for different formats using `<format>=<path>`, separated by commas.
-
-- If only a path is provided (e.g. `./dist`), it will be used for **all formats**.
-- If format-specific paths are provided, those formats will output to the corresponding directories.
-
-```bash
-# All formats output to ./dist
-ts-project-builder ./src/index.ts --dirs ./dist
-
-# CJS outputs to ./cjs, all others use default ./dist
-ts-project-builder ./src/index.ts --dirs cjs=./cjs
-
-# ESM outputs to ./dist, all others to ./output
-ts-project-builder ./src/index.ts --dirs ./output,esm=./dist
-```
-
-### `--exts`
-
-Specifies the output file extensions for each format.
-
-- If not set, or if a specific format is not listed, the default extension from the [format table](#format-extensions) will be used.
-- The priority order is **explicit per-format value > common extension value > default table value**.
-- The syntax is the same as [`--dirs`](#--dirs), using `<format>=<ext>` and separating multiple values with commas.
-
-```bash
-# CJS uses `.cjs`, others use `.js`
-ts-project-builder ./src/index.ts --exts cjs=cjs,js
-
-# ESM uses `.js`, others use default extensions from the format table
-ts-project-builder ./src/index.ts --exts esm=js
-```
-
-### `--files`
-
-Specifies exact output file paths.
-
-See the [Rollup documentation](https://rollupjs.org/configuration-options/#output-file) for more details.
-
-- If this flag is set, it will override the [`--dirs`](#--dirs) flag.
-- The format and syntax are the same as [`--dirs`](#--dirs), using `<format>=<path>`.
-
-```bash
-# CJS outputs to ./cjs.cjs, all other formats use ./dist
-ts-project-builder ./src/index.ts --files cjs=./cjs.cjs
-
-# - CJS outputs to ./cjs/index.cjs (from --files)
-# - ESM outputs to ./esm (from --dirs)
-# - All others output to ./dist (default)
-ts-project-builder ./src/index.ts --dirs cjs=./cjs-dist,esm=./esm --files cjs=./cjs/index.cjs
-```
-
 ### `--force-clean`
 
 Forcibly cleans the target directory or files **before output**, even if they are outside the current working directory.
@@ -215,6 +156,65 @@ Minifies the output using the `minify` option from [`rollup-plugin-esbuild`](htt
 
 - Uses the same configuration syntax as [`--clean`](#--clean).
 
+### `--out-dirs`
+
+Specifies the output directory path(s).
+
+See [Rollup's `output.dir` documentation](https://rollupjs.org/configuration-options/#output-dir) for more details.
+
+**Default**: `./dist`
+
+You can define separate output directories for different formats using `<format>=<path>`, separated by commas.
+
+- If only a path is provided (e.g. `./dist`), it will be used for **all formats**.
+- If format-specific paths are provided, those formats will output to the corresponding directories.
+
+```bash
+# All formats output to ./dist
+ts-project-builder ./src/index.ts --out-dirs ./dist
+
+# CJS outputs to ./cjs, all others use default ./dist
+ts-project-builder ./src/index.ts --out-dirs cjs=./cjs
+
+# ESM outputs to ./dist, all others to ./output
+ts-project-builder ./src/index.ts --out-dirs ./output,esm=./dist
+```
+
+### `--out-exts`
+
+Specifies the output file extensions for each format.
+
+- If not set, or if a specific format is not listed, the default extension from the [format table](#format-extensions) will be used.
+- The priority order is **explicit per-format value > common extension value > default table value**.
+- The syntax is the same as [`--out-dirs`](#--out-dirs), using `<format>=<ext>` and separating multiple values with commas.
+
+```bash
+# CJS uses `.cjs`, others use `.js`
+ts-project-builder ./src/index.ts --out-exts cjs=cjs,js
+
+# ESM uses `.js`, others use default extensions from the format table
+ts-project-builder ./src/index.ts --out-exts esm=js
+```
+
+### `--out-files`
+
+Specifies exact output file paths.
+
+See the [Rollup documentation](https://rollupjs.org/configuration-options/#output-file) for more details.
+
+- If this flag is set, it will override the [`--out-dirs`](#--out-dirs) flag.
+- The format and syntax are the same as [`--out-dirs`](#--out-dirs), using `<format>=<path>`.
+
+```bash
+# CJS outputs to ./cjs.cjs, all other formats use ./dist
+ts-project-builder ./src/index.ts --out-files cjs=./cjs.cjs
+
+# - CJS outputs to ./cjs/index.cjs (from --out-files)
+# - ESM outputs to ./esm (from --out-dirs)
+# - All others output to ./dist (default)
+ts-project-builder ./src/index.ts --out-dirs cjs=./cjs-dist,esm=./esm --out-files cjs=./cjs/index.cjs
+```
+
 ### `--preserve-modules`
 
 Preserves the module structure in the output (i.e., does not bundle into a single file).
@@ -230,7 +230,7 @@ Specifies the root directory for preserved modules.
 See [Rollup documentation](https://rollupjs.org/configuration-options/#output-preservemodulesroot) for details.
 
 - **Default**: `./src`
-- Uses the same configuration syntax as [`--dirs`](#--dirs).
+- Uses the same configuration syntax as [`--out-dirs`](#--out-dirs).
 
 ### `--sourcemaps`
 
@@ -239,7 +239,7 @@ Enables or configures sourcemap output.
 See the [Rollup documentation](https://rollupjs.org/configuration-options/#output-sourcemap) for more details.
 
 - Supports values: `true`, `false`, `inline`, and `hidden`.
-- Uses the same configuration syntax as [`--dirs`](#--dirs).
+- Uses the same configuration syntax as [`--out-dirs`](#--out-dirs).
 - If no format is specified, the setting applies to **all formats**.
 
 ```bash

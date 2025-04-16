@@ -41,19 +41,6 @@ function parseSourcemapFlagValue(value?: string) {
                 description: 'The path to the config file.',
                 type: String,
             },
-            dirs: {
-                default: defaultOutputDir,
-                description: 'The output directory paths.',
-                type: String,
-            },
-            exts: {
-                description: 'The output file extensions.',
-                type: String,
-            },
-            files: {
-                description: 'The output file paths.',
-                type: String,
-            },
             forceClean: {
                 description: 'Force clean the target directory or files before output.',
                 type: BooleanOrModuleFormats,
@@ -68,6 +55,19 @@ function parseSourcemapFlagValue(value?: string) {
                 alias: 'm',
                 description: 'Enable minify output.',
                 type: BooleanOrModuleFormats,
+            },
+            outDirs: {
+                default: defaultOutputDir,
+                description: 'The output directory paths.',
+                type: String,
+            },
+            outExts: {
+                description: 'The output file extensions.',
+                type: String,
+            },
+            outFiles: {
+                description: 'The output file paths.',
+                type: String,
             },
             preserveModules: { type: BooleanOrModuleFormats },
             preserveModulesRoots: {
@@ -93,9 +93,9 @@ function parseSourcemapFlagValue(value?: string) {
             inputs,
             output: {
                 clean: args.flags.clean,
-                dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.dirs),
-                exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.exts || ''),
-                files: parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.files || ''),
+                dirs: parseCliArgString<NonNullableBuilderOutputOptions['dirs']>(args.flags.outDirs),
+                exts: parseCliArgString<NonNullableBuilderOutputOptions['exts']>(args.flags.outExts || ''),
+                files: parseCliArgString<NonNullableBuilderOutputOptions['files']>(args.flags.outFiles || ''),
                 forceClean: args.flags.forceClean,
                 formats: new Set(args.flags.formats.split(',') as ModuleFormat[]),
                 minify: args.flags.minify,
