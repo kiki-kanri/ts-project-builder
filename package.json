@@ -68,7 +68,7 @@
   "devDependencies": {
     "@kikiutils/changelogen": "^0.8.0",
     "@kikiutils/eslint-config": "^0.12.2",
-    "@kikiutils/tsconfigs": "^4.1.1",
+    "@kikiutils/tsconfigs": "^5.0.1",
     "@types/is-glob": "^4.0.4",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.14.1",
