@@ -16,7 +16,7 @@ import type { NonNullableBuilderOutputOptions } from './types';
 import { parseCliArgString } from './utils';
 import { handleError } from './utils/rollup/logging';
 
-function BooleanOrModuleFormats(value: string): boolean | Set<ModuleFormat> {
+function BooleanOrModuleFormats(value: string) {
     if (value === '') return true;
     return new Set(value.split(',').map((value) => value.trim().toLowerCase())) as Set<ModuleFormat>;
 }

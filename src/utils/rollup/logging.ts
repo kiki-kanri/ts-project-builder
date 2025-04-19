@@ -9,8 +9,8 @@ import {
 import { relativeId } from './relativeId';
 
 // log to stderr to keep `rollup main.js > bundle.js` from breaking
-export const stderr = (...parameters: readonly unknown[]): boolean => process.stderr.write(`${parameters.join('')}\n`);
-export function handleError(error: RollupError): void {
+export const stderr = (...parameters: readonly unknown[]) => process.stderr.write(`${parameters.join('')}\n`);
+export function handleError(error: RollupError) {
     const name = error.name || (error.cause as Error)?.name;
     const nameSection = name ? `${name}: ` : '';
     const pluginSection = error.plugin ? `(plugin ${error.plugin}) ` : '';

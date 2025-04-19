@@ -130,7 +130,7 @@ export class Builder {
         return plugins;
     }
 
-    async build(): Promise<void> {
+    async build() {
         stderr(cyan('Starting build...'));
         const startAt = Date.now();
         const config = await this.#getConfig();
