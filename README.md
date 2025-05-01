@@ -302,13 +302,13 @@ await builder.build();
 
 <!-- Badges -->
 [npm-version-href]: https://npmjs.com/package/ts-project-builder
-[npm-version-src]: https://img.shields.io/npm/v/ts-project-builder/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-src]: https://img.shields.io/npm/v/ts-project-builder/latest.svg?colorA=18181b&colorB=28cf8d&style=flat
 
 [npm-downloads-href]: https://npmjs.com/package/ts-project-builder
-[npm-downloads-src]: https://img.shields.io/npm/dm/ts-project-builder.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-src]: https://img.shields.io/npm/dm/ts-project-builder.svg?colorA=18181b&colorB=28cf8d&style=flat
 
 <!-- [codecov-href]: https://codecov.io/gh/kiki-kanri/ts-project-builder
-[codecov-src]: https://codecov.io/gh/kiki-kanri/ts-project-builder/graph/badge.svg?token=RNU7FNG8HD -->
+[codecov-src]: https://codecov.io/gh/kiki-kanri/ts-project-builder/graph/badge.svg?token= -->
 
 [license-href]: https://github.com/kiki-kanri/ts-project-builder/blob/main/LICENSE
-[license-src]: https://img.shields.io/npm/l/ts-project-builder.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-src]: https://img.shields.io/github/license/kiki-kanri/ts-project-builder?colorA=18181b&colorB=28cf8d&style=flat
