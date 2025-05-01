@@ -263,7 +263,7 @@ export class Builder {
         });
 
         await Promise.all(
-            [...toRemovePaths].map(async (path) => rm(
+            [...toRemovePaths].map((path) => rm(
                 path,
                 {
                     force: true,
