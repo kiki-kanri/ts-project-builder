@@ -62,19 +62,19 @@
     "is-glob": "^4.0.3",
     "lodash-es": "^4.17.21",
     "pretty-ms": "^9.2.0",
-    "rollup": "^4.40.0",
+    "rollup": "^4.40.1",
     "rollup-plugin-esbuild": "^6.2.1",
     "rollup-plugin-node-externals": "^8.0.0",
-    "type-fest": "^4.40.0"
+    "type-fest": "^4.40.1"
   },
   "devDependencies": {
     "@kikiutils/changelogen": "^0.8.0",
-    "@kikiutils/eslint-config": "^0.12.4",
+    "@kikiutils/eslint-config": "^1.0.1",
     "@kikiutils/tsconfigs": "^5.0.1",
     "@types/is-glob": "^4.0.4",
     "@types/jest": "^29.5.14",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.15.3",
     "jest": "^29.7.0",
     "jiti": "^2.4.2",
     "ts-jest": "^29.3.2",
@@ -83,7 +83,8 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild"
+      "esbuild",
+      "unrs-resolver"
     ]
   }
 }
