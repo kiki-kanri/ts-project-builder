@@ -1,5 +1,54 @@
 # Changelog
 
+## v5.0.1
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v5.0.0...v5.0.1)
+
+### 🩹 Fixes
+
+- Resolve lint-reported errors ([b16dafc](https://github.com/kiki-kanri/ts-project-builder/commit/b16dafc))
+
+### 💅 Refactors
+
+- Simplify code after disabling `isolatedDeclarations` in tsconfig ([69f796e](https://github.com/kiki-kanri/ts-project-builder/commit/69f796e))
+- Remove IIFE in `cli.ts` and execute logic at top level ([04ea58e](https://github.com/kiki-kanri/ts-project-builder/commit/04ea58e))
+
+### 📖 Documentation
+
+- Update README badges urls ([499bc71](https://github.com/kiki-kanri/ts-project-builder/commit/499bc71))
+- Replace `%2F` with `/` in badge URLs in README ([4aaf916](https://github.com/kiki-kanri/ts-project-builder/commit/4aaf916))
+
+### 🏡 Chore
+
+- Enable `isolatedDeclarations` in tsconfig and update code ([b01f410](https://github.com/kiki-kanri/ts-project-builder/commit/b01f410))
+- Upgrade dependencies ([ca334df](https://github.com/kiki-kanri/ts-project-builder/commit/ca334df))
+- Format script ([16ca049](https://github.com/kiki-kanri/ts-project-builder/commit/16ca049))
+- Update file permissions after installing or updating dependencies ([d141f76](https://github.com/kiki-kanri/ts-project-builder/commit/d141f76))
+- Add `--hideAuthorEmail` flag to bumplog command ([382091b](https://github.com/kiki-kanri/ts-project-builder/commit/382091b))
+- Add typecheck command to package.json scripts ([2a1f7e0](https://github.com/kiki-kanri/ts-project-builder/commit/2a1f7e0))
+- Rename `jest.config.js` to `jest.config.mjs` ([76371a1](https://github.com/kiki-kanri/ts-project-builder/commit/76371a1))
+- Reorder lint, test, and build steps in release command ([b63dcb4](https://github.com/kiki-kanri/ts-project-builder/commit/b63dcb4))
+- Add and update configurations for future test setups ([4f068d3](https://github.com/kiki-kanri/ts-project-builder/commit/4f068d3))
+- Disable `isolatedDeclarations` in tsconfig ([ed1636f](https://github.com/kiki-kanri/ts-project-builder/commit/ed1636f))
+- Update `modify-files-permissions.sh` ([89f72e3](https://github.com/kiki-kanri/ts-project-builder/commit/89f72e3))
+- Upgrade dependencies and format code ([32e92f6](https://github.com/kiki-kanri/ts-project-builder/commit/32e92f6))
+- Add option to `upgrade-dependencies.sh` to clean `node_modules` and `pnpm-lock.yaml` before upgrading ([e542b14](https://github.com/kiki-kanri/ts-project-builder/commit/e542b14))
+- Upgrade dependencies ([d3ee5a7](https://github.com/kiki-kanri/ts-project-builder/commit/d3ee5a7))
+- Ensure all scripts change to their own directory before execution ([9be5fbf](https://github.com/kiki-kanri/ts-project-builder/commit/9be5fbf))
+- Upgrade dependencies ([44a496d](https://github.com/kiki-kanri/ts-project-builder/commit/44a496d))
+
+### ✅ Tests
+
+- Add pass test unit ([d7b98bd](https://github.com/kiki-kanri/ts-project-builder/commit/d7b98bd))
+
+### 🤖 CI
+
+- Add test github workflow config file ([dd421d1](https://github.com/kiki-kanri/ts-project-builder/commit/dd421d1))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v5.0.0
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v4.0.1...v5.0.0)
