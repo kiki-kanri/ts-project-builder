@@ -1,5 +1,36 @@
 # Changelog
 
+## v5.0.2
+
+[compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v5.0.1...v5.0.2)
+
+### 📖 Documentation
+
+- Update README ([1c7b397](https://github.com/kiki-kanri/ts-project-builder/commit/1c7b397))
+
+### 🏡 Chore
+
+- Update ignore files ([c81c294](https://github.com/kiki-kanri/ts-project-builder/commit/c81c294))
+- **scripts:** Ensure all scripts `cd` to their current directory correctly ([5362c3b](https://github.com/kiki-kanri/ts-project-builder/commit/5362c3b))
+- Set `--max-warnings=0` for `lint` and `lint:fix` ([bffe476](https://github.com/kiki-kanri/ts-project-builder/commit/bffe476))
+- Set eslint config to enable `lib` mode ([59e03e4](https://github.com/kiki-kanri/ts-project-builder/commit/59e03e4))
+- Disable `ts/explicit-function-return-type` eslint rule ([5190f6b](https://github.com/kiki-kanri/ts-project-builder/commit/5190f6b))
+- Lint code ([f8f0974](https://github.com/kiki-kanri/ts-project-builder/commit/f8f0974))
+- Upgrade dependencies ([e6bb6fd](https://github.com/kiki-kanri/ts-project-builder/commit/e6bb6fd))
+- **test:** Migrate from `jest` to `vitest` ([9a9d869](https://github.com/kiki-kanri/ts-project-builder/commit/9a9d869))
+- Split `tsconfig` and create build-specific config for production builds ([564b6d2](https://github.com/kiki-kanri/ts-project-builder/commit/564b6d2))
+- **vitest:** Configure coverage to collect files only under `src/` ([e2c7f65](https://github.com/kiki-kanri/ts-project-builder/commit/e2c7f65))
+- Lint code ([86f373a](https://github.com/kiki-kanri/ts-project-builder/commit/86f373a))
+
+### 🤖 CI
+
+- Update test workflow ([1519e46](https://github.com/kiki-kanri/ts-project-builder/commit/1519e46))
+- Update condition for uploading to Codecov in workflow job ([39851ac](https://github.com/kiki-kanri/ts-project-builder/commit/39851ac))
+
+### ❤️ Contributors
+
+- kiki-kanri
+
 ## v5.0.1
 
 [compare changes](https://github.com/kiki-kanri/ts-project-builder/compare/v5.0.0...v5.0.1)
