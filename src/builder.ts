@@ -13,8 +13,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-// @ts-expect-error Ignore this error.
-import isGlob from 'is-glob';
+import * as _isGlob from 'is-glob';
 import {
     cloneDeep,
     merge,
@@ -60,6 +59,7 @@ const availableOutputFormats = new Set<ModuleFormat>([
 export const defaultConfigFilePath = './ts-project-builder.config.mjs' as const;
 export const defaultOutputDir = './dist' as const;
 export const defaultOutputPreserveModulesRoot = './src' as const;
+const isGlob = 'default' in _isGlob ? _isGlob.default as typeof _isGlob : _isGlob;
 const outputFormatToExtMap: Readonly<Record<ModuleFormat, string>> = {
     amd: 'amd.js',
     cjs: 'cjs',
