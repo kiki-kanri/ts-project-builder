@@ -1,7 +1,7 @@
 import { defineConfig } from './src';
 
 export default defineConfig({
-    builtInInputPluginOptions:{typescript:{tsconfig: './tsconfig.build.json'}},
+    builtInInputPluginOptions: { typescript: { tsconfig: './tsconfig.build.json' } },
     outputOptions: {
         default: {
             options: {
