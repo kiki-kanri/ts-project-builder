@@ -2,7 +2,7 @@
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
-<!-- [![codecov][codecov-src]][codecov-href] -->
+[![codecov][codecov-src]][codecov-href]
 [![License][license-src]][license-href]
 
 Rollup-based TypeScript builder with multi-format output and built-in common plugins.
@@ -307,8 +307,8 @@ await builder.build();
 [npm-downloads-href]: https://npmjs.com/package/ts-project-builder
 [npm-downloads-src]: https://img.shields.io/npm/dm/ts-project-builder.svg?colorA=18181b&colorB=28cf8d&style=flat
 
-<!-- [codecov-href]: https://codecov.io/gh/kiki-kanri/ts-project-builder
-[codecov-src]: https://codecov.io/gh/kiki-kanri/ts-project-builder/graph/badge.svg?token= -->
+[codecov-href]: https://codecov.io/gh/kiki-kanri/ts-project-builder
+[codecov-src]: https://codecov.io/gh/kiki-kanri/ts-project-builder/graph/badge.svg?token=GAQOSKZ5XP
 
 [license-href]: https://github.com/kiki-kanri/ts-project-builder/blob/main/LICENSE
 [license-src]: https://img.shields.io/github/license/kiki-kanri/ts-project-builder?colorA=18181b&colorB=28cf8d&style=flat
