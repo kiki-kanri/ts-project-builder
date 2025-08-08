@@ -23,7 +23,7 @@ Rollup-based TypeScript builder with multi-format output and built-in common plu
 
 ## Requirements
 
-- **Node.js** `>= 18.12.1`
+- **Node.js** `>= 20.0.0`
 
 ## Installation
 

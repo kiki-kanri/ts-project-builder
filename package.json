@@ -40,45 +40,49 @@
     "./src"
   ],
   "engines": {
-    "node": ">=18.12.1"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "jiti ./src/cli.ts ./src/cli.ts ./src/index.ts -f esm --clean --preserve-modules --sourcemaps",
     "bumplog": "changelogen --bump --hideAuthorEmail",
+    "depcheck": "depcheck",
     "lint": "eslint --max-warnings 0",
     "lint:fix": "eslint --fix --max-warnings 0",
     "prepack": "pnpm run build",
     "release": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build && changelogen --hideAuthorEmail --push --release && npm publish",
     "test": "vitest run --coverage",
     "test:watch": "vitest watch --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "unused-exports": "ts-unused-exports ./tsconfig.json"
   },
   "dependencies": {
-    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.2",
+    "@rollup/plugin-typescript": "^12.1.4",
     "cleye": "^1.3.4",
     "colorette": "^2.0.20",
     "is-glob": "^4.0.3",
     "lodash-es": "^4.17.21",
     "pretty-ms": "^9.2.0",
-    "rollup": "^4.41.0",
+    "rollup": "^4.46.2",
     "rollup-plugin-esbuild": "^6.2.1",
-    "rollup-plugin-node-externals": "^8.0.0",
+    "rollup-plugin-node-externals": "^8.0.1",
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
-    "@kikiutils/changelogen": "^0.8.0",
-    "@kikiutils/eslint-config": "^1.2.1",
+    "@kikiutils/changelogen": "^0.8.1",
+    "@kikiutils/eslint-config": "^2.0.0",
     "@kikiutils/tsconfigs": "^5.0.4",
     "@types/is-glob": "^4.0.4",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^22.15.21",
-    "@vitest/coverage-v8": "^3.1.4",
+    "@types/node": "^24.2.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "depcheck": "^1.4.7",
+    "ts-unused-exports": "^11.0.1",
     "tslib": "^2.8.1",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
