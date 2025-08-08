@@ -72,6 +72,24 @@ export interface Config {
     }>;
 
     /**
+     * Options for built-in input plugins.
+     */
+    builtInInputPluginOptions?: {
+        commonjs?: RollupCommonJSOptions;
+        json?: RollupJsonOptions;
+        nodeExternal?: ExternalsOptions;
+        nodeResolve?: RollupNodeResolveOptions;
+        typescript?: RollupTypescriptOptions;
+    };
+
+    /**
+     * Options for built-in output plugins.
+     *
+     * The same handling logic applies to `additionalOutputPlugins`.
+     */
+    builtInOutputPluginOptions?: { minify?: PartialModuleFormatWithDefaultDict<MinifyOptions> };
+
+    /**
      * Whether to enable built-in input plugins.
      */
     enableBuiltInInputPlugins?: {
@@ -100,24 +118,6 @@ export interface Config {
          */
         typescript?: boolean;
     };
-
-    /**
-     * Options for built-in input plugins.
-     */
-    builtInInputPluginOptions?: {
-        commonjs?: RollupCommonJSOptions;
-        json?: RollupJsonOptions;
-        nodeExternal?: ExternalsOptions;
-        nodeResolve?: RollupNodeResolveOptions;
-        typescript?: RollupTypescriptOptions;
-    };
-
-    /**
-     * Options for built-in output plugins.
-     *
-     * The same handling logic applies to `additionalOutputPlugins`.
-     */
-    builtInOutputPluginOptions?: { minify?: PartialModuleFormatWithDefaultDict<MinifyOptions> };
 
     /**
      * Output options for different formats.
